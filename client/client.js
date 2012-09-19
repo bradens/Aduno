@@ -60,7 +60,6 @@ Template.main.workitems = function() {
 /** FUCK i hate DnD in meteor. **/
 $(function() {
 	$('body').on('dragstop', '.workItem', function (e) {
-	    console.log(e);
 	    var position = $(e.target).position();
 	    WorkItems.update(e.currentTarget.id.substring(3), {$set: {
 	    	top: position.top,
@@ -73,15 +72,11 @@ Template.workitem.title = function() {
 	return "New WorkItem";
 }
 Template.workitem.events = {
-	'click input.details' : function () {
-		alert("Workitem details");
+	'click .details' : function (e) {
+		alert("Details for item: " + e.currentTarget.parentNode.id);
 	},
 	'mouseover .workItem' : function() {
 		$('#wi_'+this._id).draggable();
-	},
-	'dragstop .workItem' : function (e) {
-		var position = $(e.target).position();
-		WorkItems.update(this._id, {$set :{top: position.top, left: position.left}});
 	}
 };
 Template.main.events = {

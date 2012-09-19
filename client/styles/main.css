@@ -6,6 +6,15 @@ a {
 	-webkit-transition: all .25s;
 	-moz-transition: all .25s;
 }
+a.wiDelete {
+	position: absolute;
+	top: 0;
+	right: 0;	
+	opacity:.6;	
+}
+a.wiDelete:hover {
+	opacity:1;
+}
 a.darkLink {
 	color:lightgrey;
 }

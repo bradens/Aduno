@@ -72,8 +72,10 @@
 
 <template name="workitem">
 	<div class="workItem" id="wi_{{ _id }}" style="top: {{ top }}px; left: {{ left }}px;">
-		<h3 class="workItemTitle">{{ name }}</h3> 
+		<h3 class="workItemTitle">{{ name }}</h3>
+		<a class="btn btn-danger wiDelete">x</a> 
 		<div class="sep"></div>
+		<a class="btn details">Details</a>
 		<span class="workItemID">{{ _id }}</span>
 	</div>
 </template>
