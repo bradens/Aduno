@@ -28,6 +28,7 @@
   </div>  
 </div>  
 {{> main }}
+{{> about}}
     <!--[if lt IE 7]>
         <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -90,11 +91,11 @@
 	        </div>
 	    </div>
 	</div>
-	<div class="canvas">	        
-		{{#each workitems}}
-		 	{{> workitem}}
-		{{/each}}
-	</div>
+	<canvas class="well canvas">	        
+	</canvas>
+	{{#each workitems}}
+ 		{{> workitem}}
+	{{/each}}
 </template>
 <template name="person">
 	<li>
@@ -134,3 +135,8 @@
 	</div>
 </template>
 
+<template name="about">
+<div class="about">
+	<h1>About</h1>
+</div>
+</template>

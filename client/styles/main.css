@@ -48,13 +48,13 @@ a:hover {
 }
 /* WorkItem Styles */
 .workItem {
+	top:0px;
+	left:0px;
 	padding: 10px;
 	cursor: pointer;
 	background-color: lightgrey;
 	border-radius:4px;
 	box-shadow: 0 0 5px 1px rgb(180, 180, 250);
-	margin-bottom:10px;
-	margin-top:10px;
 	border: thin solid darkgrey;
 	position:absolute;
 }
@@ -80,11 +80,23 @@ a:hover {
 	display:none;
 }
 .canvas {
-	position:absolute;
-	height: 80%;
+	height: 800px;
 	width: 90%;
-	margin: 0 5%;
+	margin: 0 50px;
 }
+
+.about {
+	background: url('/assault.png');
+	border-top:1px solid white;
+	height:500px;
+	width:100%;
+	margin-top:50px;
+}
+
+.about h1, .about h2, .about h3 {
+	color:white;
+}
+
 .sep {
 	background-size: 100% 1px, 100% 1px, auto;
     background-position: 50% 100%, 50% 100%, 50% 0;

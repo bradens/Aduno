@@ -21,8 +21,8 @@
 		 */
 		function GetNewItemPos() {
 			var $mat = $(".canvas");
-			var top = $mat.height() / 2 - 100 + Math.floor(Math.random() * 31) - 15;
-			var left = $mat.width() / 2 - 72 + Math.floor(Math.random() * 31) - 15;
+			var top = $mat.offset().top + $mat.height() / 2 - 100 + Math.floor(Math.random() * 31) - 15;
+			var left = $mat.offset().left + $mat.width() / 2 - 72 + Math.floor(Math.random() * 31) - 15;
 			return { top: top, left: left };
 		}
 	}
@@ -102,7 +102,9 @@ Template.workitem.events = {
 		WorkItems.remove({_id: $(e.currentTarget).closest(".workItem").attr('data-wi-id')});
 	},
 	'mouseover .workItem' : function() {
-		$('#wi_'+this._id).draggable();
+		$('#wi_'+this._id).draggable({
+			containment: '.canvas'
+		});
 	}
 };
 
