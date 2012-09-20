@@ -48,7 +48,7 @@ a:hover {
 }
 /* WorkItem Styles */
 .workItem {
-	min-width: 215px;
+	width: 215px;
 	min-height: 143px;
 	top:0px;
 	left:0px;

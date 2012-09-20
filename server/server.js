@@ -14,7 +14,7 @@ var base = path.resolve('.');
 if (base == '/'){
   base = path.dirname(global.require.main.filename);   
 }
-base = base + '/bundle';
+
 var publicPath = path.resolve(base+'/public/'+gitPath);
 var staticPath = path.resolve(base+'/static/'+gitPath);
 
