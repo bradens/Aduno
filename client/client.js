@@ -169,6 +169,12 @@ Template.workitem.events = {
 			});
 		}
 	},
+	'click .postIssue' : function(e) {
+		if (!People.findOne({_id: Session.get('user_id')}).is_authenticated)
+			$("#authDialog").modal();
+		else
+			Meteor.call('postWorkItemAsIssue', $(e.currentTarget).closest(".workItem").attr('data-wi-id'));
+	},
 	'mouseover .workItem' : function() {
 		$('#wi_'+this._id).draggable({
 			containment: '#myCanvas'
@@ -192,6 +198,17 @@ Template.main.events = {
 		});
 	}
 }
+
+Template.authDialog.events = {
+	'click .authDialogOK' : function(e) {
+		dialog = $("#authDialog");
+		usr = dialog.find("#authUsername").val();
+		pwd = dialog.find("#authPass").val();
+		Meteor.call('auth', Session.get('user_id'), usr, pwd);
+		$('#authDialog input, #wiDetailsDialog textarea').html('');
+		$('#authDialog').modal("hide");
+	}
+};
 
 Template.wiDialog.events = {
 		'click .wiDialogCancel' : function (e) {

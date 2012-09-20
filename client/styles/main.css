@@ -78,7 +78,7 @@ a:hover {
 	font-size:10px;
 	color:darkgrey;
 }
-#wiDetailsDialog {
+#wiDetailsDialog, #authDialog {
 	display:none;
 }
 .canvas-container {
