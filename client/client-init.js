@@ -14,11 +14,15 @@ Meteor.startup(function() {
 	});
 	Session.set('user_id', user_id);
 
-	Meteor.setInterval(function() {
-    if (Meteor.status().connected)
-    	Meteor.call('keepalive', Session.get('user_id'));
-  	}, 20*1000);
+	function clientKeepalive() {	
+		if (Meteor.status().connected)
+			Meteor.call('keepalive', Session.get('user_id'));
+	}
 	
+	// Hack to make a keepalive as soon as meteor connects
+	$(window).load(clientKeepalive);
+	
+	Meteor.setInterval(clientKeepalive, 20*1000);
 	Meteor.autosubscribe(function() {
 		Meteor.subscribe('workitems');
 		Meteor.subscribe('people');
