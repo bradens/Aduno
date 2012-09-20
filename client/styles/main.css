@@ -84,7 +84,7 @@ a:hover {
 .canvas-container {
 	padding:20px;
 	display:inline-block;
-	width:100%;
+	width:90%;
 }
 
 .canvas-container > canvas {

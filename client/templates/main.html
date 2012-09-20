@@ -1,0 +1,32 @@
+<template name="main">
+	<div class="container" style="margin-top:50px">
+	    <div class="mainBanner hero-unit">
+	        <h1>Welcome to <span class="adunoTitle">Aduno</span></h1>
+	        <h2 style="font-weight:lighter"><i style="color:grey">To Unite, Make <span style="color:orange"> One</span></i></h2>
+	        <div class="topForm">
+		        <form class="form-inline">
+		        	<input type="text" id="usernameInput" placeholder="Type your name"/>
+		        </form>
+				<div class="well peopleList">
+					<h3 style="color:grey">People Present</h3>
+					<div class="sep"></div>
+					<ul>
+						{{#each people}}
+							{{> person}}
+						{{/each}}
+					</ul>
+				</div>
+	        </div>
+     	 </div>
+	</div>
+	<div class="canvas-container well">
+		<div>
+			<a id="newWorkItem" class="btn" style="margin-bottom:10px;">Create Workitem</a>
+		</div>
+		<canvas width="1000px" height="1000px" id="myCanvas">	        
+		</canvas>
+		{{#each workitems}}
+	 		{{> workitem}}
+		{{/each}}
+	</div>
+</template>

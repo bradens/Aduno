@@ -1,0 +1,28 @@
+<template name="wiDialog">
+	<div class="modal" id="wiDetailsDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="wiDialogLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="detailsTitle">Workitem Details</h3>
+		</div>
+		<div class="modal-body">
+		<form class="form-horizontal" onkeypress="return event.keyCode != 13;">
+			<div class="control-group">
+				<label class="control-label" for="wiNameDetails">Name: </label>
+				<div class="controls">
+					<input type="text" id="wiNameDetails"></input>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="wiDescDetails">Description: </label>
+				<div class="controls">
+					<textarea id="wiDescDetails"></textarea>
+				</div>
+			</div>
+		</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-primary wiDialogSave">Save changes</button>
+		</div>
+	</div>
+</template>
