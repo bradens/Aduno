@@ -13,12 +13,17 @@ $(window).load(function() {
 	 * drag event on the body and update the Meteor.Collection accordingly.
 	 */
 	$('body').on('dragstop', '.workItem', function (e) {
+		workboard.IS_DRAGGING = false;
 	    var position = $(e.target).position();
 	    WorkItems.update($(e.currentTarget).attr('data-wi-id'), {$set: {
 	    	top: position.top,
 	    	left: position.left
 	    }});
 	    workboard.draw();
+	});
+	$('body').on('drag', '.workItem', function (e) {
+		workboard.IS_DRAGGING = true;
+		workboard.draw();
 	});
 	if (window.workboard == undefined)
 	{
@@ -31,6 +36,7 @@ $(window).load(function() {
 	
 	function WorkBoard() {
 		this.currentLineID = '';
+		this.IS_DRAGGING = false;
 		this.createNewWorkItem = function () {
 			var position = GetNewItemPos();
 			var id = WorkItems.insert({
@@ -46,10 +52,26 @@ $(window).load(function() {
 				workboard.ctx.beginPath();
 				wi = WorkItems.findOne({_id: Link.parentID});
 				wiChild = WorkItems.findOne({_id: Link.childID});
+				
+				// If either of the WorkItems don't exist, delete our link and return.
+				if (wi == undefined || wiChild == undefined)
+				{
+					Links.remove(Link._id);
+					return;
+				}
+				
 				$wi = $("[data-wi-id="+Link.parentID+"]");
 				$wiChild = $("[data-wi-id="+Link.childID+"]");
-			    workboard.ctx.moveTo(wi.left - $(workboard.canvas).offset().left + $wi.width()/2,wi.top - $(workboard.canvas).offset().top);
-				workboard.ctx.lineTo(wiChild.left - $(workboard.canvas).offset().left + $wiChild.width()/2,wiChild.top - $(workboard.canvas).offset().top);
+				
+				if (workboard.IS_DRAGGING) {
+					// Use the temp position specified by the position of the 'dragging' workitem
+					workboard.ctx.moveTo($wi.position().left - $(workboard.canvas).offset().left + $wi.width()/2,$wi.position().top - $(workboard.canvas).offset().top);
+					workboard.ctx.lineTo($wiChild.position().left - $(workboard.canvas).offset().left + $wiChild.width()/2,$wiChild.position().top - $(workboard.canvas).offset().top);
+				}
+				else {
+					workboard.ctx.moveTo(wi.left - $(workboard.canvas).offset().left + $wi.width()/2,wi.top - $(workboard.canvas).offset().top);
+					workboard.ctx.lineTo(wiChild.left - $(workboard.canvas).offset().left + $wiChild.width()/2,wiChild.top - $(workboard.canvas).offset().top);
+				}
 			    workboard.ctx.stroke();
 			});
 		};

@@ -24,7 +24,12 @@ Template.workitem.events = {
 		showWiDialog($(e.currentTarget).closest(".workItem").attr('data-wi-id'));
 	},
 	'click .wiDelete' : function (e) {
-		WorkItems.remove({_id: $(e.currentTarget).closest(".workItem").attr('data-wi-id')});
+		var wiID = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+		// Remove the WorkItem
+		WorkItems.remove({_id: wiID});
+		// Remove the Links
+		Links.remove({parentID: wiID});
+		Links.remove({childID: wiID});
 	},
 	'click .linkWI' : function(e) {
 		workboard.is_Linking = true;
