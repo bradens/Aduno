@@ -34,6 +34,39 @@ var github = new GitHubApi({
     version: "3.0.0"
 });
 
+Meteor.startup(function() {
+	var canModify = function(userId, tasks) {
+		return _.all(tasks, function(task) {
+			return !task.privateTo || task.privateTo === userId;
+		});
+	};
+	WorkItems.allow({
+		insert: function () { return true; },
+	    update: function () { return true; },
+	    remove: function () { return true; },
+	    fetch: function () { return true; }
+	});
+	Links.allow({
+		insert: function () { return true; },
+	    update: function () { return true; },
+	    remove: function () { return true; },
+	    fetch: function () { return true; }
+	});
+	People.allow({
+		insert: function () { return true; },
+	    update: function () { return true; },
+	    remove: function () { return true; },
+	    fetch: function () { return true; }
+	});
+	Meteor.accounts.configuration.allow({
+		insert: function () { return true; },
+	    update: function () { return true; },
+	    remove: function () { return true; },
+	    fetch: function () { return true; }
+	});
+})
+
+
 //server code: clean up dead clients after 5 seconds
 Meteor.setInterval(function () {
   var now = (new Date()).getTime();

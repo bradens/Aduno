@@ -46,8 +46,8 @@ Template.main.links = function() {
 	});
 };
 Template.main.people = function() {
-	return People.find({
-		name : {
+	return Meteor.users.find({
+		_id : {
 			$ne: ""
 		}
 	}, {
@@ -56,3 +56,6 @@ Template.main.people = function() {
 		}
 	});
 };
+Template.person.get_new_badge = function() {
+	return randomLabel();
+}
