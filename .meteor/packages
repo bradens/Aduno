@@ -7,3 +7,7 @@ bootstrap
 jquery
 underscore
 less
+accounts-ui
+accounts-password
+accounts-github
+accounts-base

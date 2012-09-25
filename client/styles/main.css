@@ -6,6 +6,7 @@
 a {
 	-webkit-transition: all .25s;
 	-moz-transition: all .25s;
+	text-decoration: none !important;
 }
 a.wiDelete {
 	position: absolute;
@@ -27,9 +28,22 @@ a.lightLink {
 a:hover {
 	color:orange;
 }
-.loginLink {
-	margin-right:150px; /* Make room to fork me */
+.loginButton {
+	margin: -10px 0 0 40px;
 }
+.btn .login-link-text {
+	font-size:30px;
+	line-height:40px;
+	color:white;
+	text-rendering: optimizelegibility;
+	font-weight:bold;
+	letter-spacing:-1px
+}
+.accounts-dialog {
+	color:black;
+	text-shadow:none;
+}
+
 .mainBanner {
 	padding-bottom:30px;
 	min-width:660px;
@@ -41,7 +55,7 @@ a:hover {
 }
 .peopleList {
 	width: 400px;
-	float:right;
+	float:left;
 }
 .peopleList li {
 	list-style-type:none;
@@ -149,6 +163,11 @@ a:hover {
 }
 
 /** Bootstrap overrides **/
+
+.accounts-dialog input[type='text'], .accounts-dialog input[type='password'] {
+	width: 174px;
+}
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,

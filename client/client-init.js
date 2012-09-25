@@ -20,7 +20,9 @@ Meteor.startup(function() {
 	}
 	
 	// Hack to make a keepalive as soon as meteor connects
-	$(window).load(clientKeepalive);
+	$(window).load(function() {
+		clientKeepalive();
+	});
 	
 	Meteor.setInterval(clientKeepalive, 20*1000);
 	Meteor.autosubscribe(function() {

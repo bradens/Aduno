@@ -1,11 +1,11 @@
 <template name="main">
-	<div class="container" style="margin-top:50px">
+	<div id="home" class="container" style="margin-top:50px">
 	    <div class="mainBanner hero-unit">
 	        <h1>Welcome to <span class="adunoTitle">Aduno</span></h1>
-	        <h2 style="font-weight:lighter"><i style="color:grey">To Unite, Make <span style="color:orange"> One</span></i></h2>
 	        <div class="topForm">
 		        <form class="form-inline">
-		        	<input type="text" id="usernameInput" placeholder="Type your name"/>
+			        <h2 style="font-weight:lighter;display:inline-block;"><i style="color:grey">To Unite, Make <span style="color:orange"> One</span></i></h2>
+		        	<a class="btn btn-info loginButton">{{> loginButtons }}</a>
 		        </form>
 				<div class="well peopleList">
 					<h3 style="color:grey">People Present</h3>
