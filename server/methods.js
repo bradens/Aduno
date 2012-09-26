@@ -7,7 +7,6 @@
  */
 Meteor.methods({
   keepalive: function (user_id) {
-    console.log("running keepalive " + user_id);
     var badge = Meteor.users.findOne(user_id).badge !== undefined ? Meteor.users.findOne(user_id).badge : randomBadge();
     Meteor.users.update({
       _id: user_id

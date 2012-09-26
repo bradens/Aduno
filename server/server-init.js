@@ -58,27 +58,24 @@ Meteor.startup(function() {
     remove: function () { return true; },
     fetch: function () { return true; }
   });
-  Meteor.users.allow({
-    insert: function () { return true; },
-    update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
-  });
-  Meteor.accounts.configuration.allow({
-    insert: function () { return true; },
-    update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
-  });
+//  Meteor.users.allow({
+//    insert: function () { return true; },
+//    update: function () { return true; },
+//    remove: function () { return true; },
+//    fetch: function () { return true; }
+//  });
+//  Meteor.accounts.configuration.allow({
+//    insert: function () { return true; },
+//    update: function () { return true; },
+//    remove: function () { return true; },
+//    fetch: function () { return true; }
+//  });
 })
 
 //server code: clean up dead clients after 5 seconds
 Meteor.setInterval(function () {
   var now = (new Date()).getTime();
   var remove_threshold = now - 5*1000;
-  Meteor.users.find({last_keepalive: {$lt: remove_threshold}}).forEach(function (user) {
-    console.log(user);
-  });
   Meteor.users.update({last_keepalive: {$lt: remove_threshold}}, {$set: {
     idle: true
   }});
