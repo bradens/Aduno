@@ -5,6 +5,7 @@
  * 
  * Main methods for the template.
  */
+
 Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
@@ -55,7 +56,7 @@ Template.main.people = function() {
     }
   }, {
     sort: {
-      name : 1
+      _id : 1
     }
   });
 };

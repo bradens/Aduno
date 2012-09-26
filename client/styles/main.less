@@ -1,0 +1,272 @@
+/**
+ * main.less
+ * Aduno project (http://aduno.meteor.com)
+ * @author Braden Simpson (@bradensimpson)
+ */
+
+//--------------------------- Mixins ---------------------------// 
+
+.border-radius (@radius) {
+	border-radius: @radius;
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+}
+.transition-all (@length: .25s) {
+	transition: all @length;
+	-webkit-transition: all @length;
+	-moz-transition: all @length;	
+}
+.abspos-left {
+	position:absolute;
+	top:0;
+	left:0;
+}
+.abspos-right {
+	position:absolute;
+	top:0;
+	right:0;
+}
+.unselectable {
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	cursor: pointer;
+}
+.box-shadow (@x, @y, @blur, @sat, @color) {
+	-moz-box-shadow: @x @y @blur @sat @color;
+	-webkit-box-shadow: @x @y @blur @sat @color;
+	box-shadow: @x @y @blur @sat @color;
+}
+.inner-shadow(@horizontal:0, @vertical:1px, @blur:2px, @sat: 1px, @alpha: 0.4) {
+  -webkit-box-shadow: inset @horizontal @vertical @blur @sat rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: inset @horizontal @vertical @blur @sat rgba(0, 0, 0, @alpha);
+  box-shadow: inset @horizontal @vertical @blur @sat rgba(0, 0, 0, @alpha);
+}
+
+//--------------------------- Colors ---------------------------// 
+
+@orange		: orange;
+@white		: white;
+@lightgrey: lightgrey;
+@darkblue : slateblue;
+@darkgrey : darkgrey;
+
+//--------------------------- Links ---------------------------// 
+
+a {
+	.transition-all;
+  text-decoration: none !important;
+}
+a.wiDelete {
+	.abspos-right;
+  opacity:.6;  
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+a.wiDelete:hover {
+  opacity:1;
+}
+a.darkLink {
+  color: @lightgrey;
+}
+a.lightLink {
+  color: @darkblue;
+}
+a:hover {
+  color:@orange;
+}
+
+//--------------------------- Login ---------------------------// 
+
+.btn .login-link-text {
+  font-size:30px;
+  line-height:40px;
+  color: @white;
+  text-rendering: optimizelegibility;
+  font-weight:bold;
+  letter-spacing:-1px
+}
+.accounts-dialog {
+  color:black;
+  text-shadow:none;
+}
+
+//--------------------------- Banner ---------------------------// 
+
+.adunoTitle {
+  color: @orange;
+  text-shadow: 0 1px 0 white;
+}
+.mainBanner {
+  padding-bottom:30px;
+  min-width:660px;
+}
+.topForm {
+  width:100%;
+  margin-top:20px;
+  display:inline-block;
+  margin-right:50px;
+  min-width:660px;
+}
+.peopleList li {
+  list-style-type:none;
+}
+
+//--------------------------- WorkItems ---------------------------// 
+
+.workItem {
+  .workItemTitle {
+    padding:5px;
+    text-shadow: 0 1px 0 white;
+  }
+  .editTitleBtn {
+    display:none;
+    position:absolute;
+    top:10px;
+    right:35px;
+  }
+  .workItemID {
+    font-size:10px;
+    color:darkgrey;
+  }
+	.abspos-left;
+  .border-radius(4px);
+  .unselectable;
+  width: 215px;
+  min-height: 143px;
+  padding: 10px;
+  background-color: @lightgrey;
+  border: thin solid @darkgrey;
+  .box-shadow(0, 0, 5px, 1px, rgb(180, 180, 250));
+}
+.workItem:hover .editTitleBtn {
+  display:block;  
+}
+
+//--------------------------- Canvas ---------------------------// 
+
+.canvas-container {
+  padding:20px;
+  display:inline-block;
+  width:90%;
+}
+.canvas-container > canvas {
+  background-color: rgb(250,250,250);
+  border: 1px solid #EEE;
+  .border-radius(4px);
+	.inner-shadow(0, 0, 1px, 1px, 0.05);
+}
+
+//--------------------------- Dialogs ---------------------------// 
+
+#wiDetailsDialog, #authDialog {
+  display:none;
+}
+
+#wiDetailsDialog {
+  textarea {
+    min-height:100px;
+  }
+}
+
+//--------------------------- About ---------------------------// 
+
+.about {
+  h1, h2, h3 {
+    color:white;
+    text-shadow: 0 1px 2px black;
+    .tech li {
+      list-style-type:none;
+    }
+  }
+  .darkWell {
+    min-height:150px;
+  }
+  background: url('/px_by_Gre3g.png');
+  border-top:1px solid white;
+  min-height:400px;
+  width:90%;
+  margin-top:50px;
+  padding:5%;
+  font-size:14px;
+}
+
+//--------------------------- Components ---------------------------// 
+
+.darkWell {
+  background-color: rgba(0,0,0,.5);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  color:slategrey;
+}
+
+.sep {
+  background-size: 100% 1px, 100% 1px, auto;
+  background-position: 50% 100%, 50% 100%, 50% 0;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-origin: padding-box, border-box, padding-box;
+  border-bottom: 1px solid transparent;
+  background-image:
+      linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
+      linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
+      radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
+  background-image:
+      -o-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
+      -o-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
+      -o-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
+  background-image:
+      -ms-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
+      -ms-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
+      -ms-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
+  background-image:
+      -moz-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
+      -moz-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
+      -moz-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
+  background-image:
+      -webkit-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
+      -webkit-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
+      -webkit-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
+  width:100%;
+  clear:both;
+  height:1px;
+  margin:9px 0 10px 0;
+}
+
+//--------------------------- Bootstrap Overrides ---------------------------// 
+
+::selection {
+  color: white;
+  background-color:darkorange;
+}
+
+.accounts-dialog input[type='text'], .accounts-dialog input[type='password'] {
+  width: 174px;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: orange;
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 165, 0, .6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 165, 0, .6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 165, 0, .6);
+}
+.navbar .btn-navbar {
+  float:left;
+}

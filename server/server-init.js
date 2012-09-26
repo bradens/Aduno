@@ -34,6 +34,12 @@ var github = new GitHubApi({
     version: "3.0.0"
 });
 
+function randomBadge()
+{
+  var labels = ['', 'label-success', 'label-warning', 'label-important', 'label-info', 'label-inverse'];
+  return labels[Math.round((Math.random()*6))];
+}
+
 Meteor.startup(function() {
   var canModify = function(userId, tasks) {
     return _.all(tasks, function(task) {
@@ -42,27 +48,27 @@ Meteor.startup(function() {
   };
   WorkItems.allow({
     insert: function () { return true; },
-      update: function () { return true; },
-      remove: function () { return true; },
-      fetch: function () { return true; }
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
   });
   Links.allow({
     insert: function () { return true; },
-      update: function () { return true; },
-      remove: function () { return true; },
-      fetch: function () { return true; }
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
   });
   Meteor.users.allow({
     insert: function () { return true; },
-      update: function () { return true; },
-      remove: function () { return true; },
-      fetch: function () { return true; }
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
   });
   Meteor.accounts.configuration.allow({
     insert: function () { return true; },
-      update: function () { return true; },
-      remove: function () { return true; },
-      fetch: function () { return true; }
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
   });
 })
 

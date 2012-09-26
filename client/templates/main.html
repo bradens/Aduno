@@ -1,26 +1,43 @@
 <template name="main">
-  <div id="home" class="data-scroll-section">
-	  <div class="container" style="margin-top:50px">
-	      <div class="mainBanner hero-unit">
-	          <h1>Welcome to <span class="adunoTitle">Aduno</span></h1>
-	          <div class="topForm">
-	            <form class="form-inline">
+	  <div class="container data-scroll-section" id="home" style="margin-top:50px">
+	     <div class="mainBanner hero-unit">
+          <h1>Welcome to <span class="adunoTitle">Aduno</span></h1>
+          <div class="topForm">
+          	<div class="row-fluid">
+	            <div class="span4">
 	              <h2 style="font-weight:lighter;display:inline-block;"><i style="color:grey">To Unite, Make <span style="color:orange"> One</span></i></h2>
-	              <a class="btn btn-info loginButton">{{> loginButtons }}</a>
-	            </form>
-	        <div class="well peopleList">
-	          <h3 style="color:grey">People Present</h3>
-	          <div class="sep"></div>
-	          <ul>
-	            {{#each people}}
-	              {{> person}}
-	            {{/each}}
-	          </ul>
-	        </div>
+              </div>
+              <div class="span8">
+              	<a class="btn btn-info loginButton">{{> loginButtons }}</a>
+	            </div>
 	          </div>
-	        </div>
+	        	<div class="row-fluid">
+			        <div class="well peopleList span4">
+			          <h3 style="color:grey">Users</h3>
+			          <div class="sep"></div>
+			          <ul>
+			            {{#each people}}
+			              {{> person}}
+			            {{/each}}
+			          </ul>
+			        </div>
+			        <div class="user-cp span8 well">
+			        	<div class="btn-group">
+								  <a class="btn btn-primary" href="#"><i class="icon-th-large icon-white"></i> Current Repo</a>
+								  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+								  <ul class="dropdown-menu">
+								    <li><a href="#"><i class="icon-folder-close"></i> Repo1</a></li>
+								    <li><a href="#"><i class="icon-folder-close"></i> Repo2</a></li>
+								    <li class="divider"></li>
+    								<li><a href="#"><i class="icon-folder-open"></i> Current Repo</a></li>
+								  </ul>
+								</div>
+			        </div>
+	        	</div>
+        	</div>
+      	</div>
 	  </div>
-	  <div class="canvas-container well">
+	  <div class="canvas-container well data-scroll-section" id="wb">
 	    <div>
 	      <a id="newWorkItem" class="btn" style="margin-bottom:10px;">Create Workitem</a>
 	    </div>
@@ -30,5 +47,4 @@
 	       {{> workitem}}
 	    {{/each}}
 	  </div>
-  </div>
 </template>

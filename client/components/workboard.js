@@ -21,15 +21,18 @@ $(window).load(function() {
       }});
       workboard.draw();
   });
+  
   $('body').on('drag', '.workItem', function (e) {
     workboard.IS_DRAGGING = true;
     workboard.draw();
   });
+  
   if (window.workboard == undefined)
   {
     window.workboard = new WorkBoard(); 
   }
   
+  // Get the listeners for our canvas going.
   $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
   if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
   workboard.ctx = workboard.canvas.getContext('2d');
@@ -37,6 +40,7 @@ $(window).load(function() {
   function WorkBoard() {
     this.currentLineID = '';
     this.IS_DRAGGING = false;
+    
     this.createNewWorkItem = function () {
       var position = GetNewItemPos();
       var id = WorkItems.insert({
@@ -46,6 +50,7 @@ $(window).load(function() {
         left: position.left
       });
     };
+    
     this.draw = function() {
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
       Links.find({}).forEach(function(Link) {
@@ -75,12 +80,16 @@ $(window).load(function() {
           workboard.ctx.stroke();
       });
     };
+    
+    // Event handler for the canvas animation
     this.ev_canvas = function (e)
     {
       workboard.draw();
       if (workboard.is_Linking)
         workboard.drawLine(e);
     };
+    
+    // Draws a line from the current workitem to the event position (mouse).
     this.drawLine = function (e) {
       this.ctx.beginPath();
       wi = WorkItems.findOne({_id: this.currentLineID});
@@ -89,9 +98,8 @@ $(window).load(function() {
       this.ctx.lineTo(e.offsetX, e.offsetY);
         this.ctx.stroke();
     }
-    /**
-     * Function that returns a new item position psuedorandomly.
-     */
+
+    // Function that returns a new item position psuedorandomly.
     function GetNewItemPos() {
       var $mat = $("#myCanvas");
       var top = $mat.offset().top + 50 + Math.floor(Math.random() * 31) - 15;

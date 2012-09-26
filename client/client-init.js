@@ -6,14 +6,12 @@
  * Initialization for all client side code.
  */
 Meteor.startup(function() {
+  Session.set('loginCallback', true);
   function clientKeepalive() {  
     if (Meteor.user()) {
-      if (!Meteor.user().badge)
-        Meteor.users.update(Meteor.user()._id, { $set : {badge : randomLabel() }});
       Meteor.call('keepalive', Meteor.user()._id);
     }
   }
-  
   // Hack to make a keepalive as soon as meteor connects
   $(window).load(function() {
     clientKeepalive();
