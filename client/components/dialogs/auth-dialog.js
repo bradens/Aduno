@@ -8,12 +8,12 @@
  * redundancy
  */
 Template.authDialog.events = {
-	'click .authDialogOK' : function(e) {
-		dialog = $("#authDialog");
-		usr = dialog.find("#authUsername").val();
-		pwd = dialog.find("#authPass").val();
-		Meteor.call('auth', Session.get('user_id'), usr, pwd);
-		$('#authDialog input, #wiDetailsDialog textarea').html('');
-		$('#authDialog').modal("hide");
-	}
+  'click .authDialogOK' : function(e) {
+    dialog = $("#authDialog");
+    usr = dialog.find("#authUsername").val();
+    pwd = dialog.find("#authPass").val();
+    Meteor.call('auth', Session.get('user_id'), usr, pwd);
+    $('#authDialog input, #wiDetailsDialog textarea').html('');
+    $('#authDialog').modal("hide");
+  }
 };

@@ -1,31 +1,31 @@
 <template name="workitem">
-	{{ redrawAfterUpdate }}
-	<div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px;">
-		<h3 class="workItemTitle">{{ name }}</h3>
-		<a class="btn btn-mini editTitleBtn" href="#">edit</a>
-		<span class="workItemID">{{ _id }}</span>
-		<a class="btn btn-danger wiDelete">×</a> 
-		<div class="sep"></div>
-		<p class="description">{{ description }}</p>
-		<div class="btn-toolbar">
-			<div class="btn-group">
-				<a class="btn btn-info details">Details</a>
-				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-					Actions
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="#">Create Child</a>
-					</li>
-					<li>
-						<a class="postIssue" href="#">Post as Issue</a>
-					</li>
-				</ul>
-			</div>
-			<div class="btn-group">
-				<a class="btn btn-success linkWI">Link</a>
-			</div>
-		</div>
-	</div>
+  {{ redrawAfterUpdate }}
+  <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px;">
+    <h3 class="workItemTitle">{{ name }}</h3>
+    <a class="btn btn-mini editTitleBtn" href="#">edit</a>
+    <span class="workItemID">{{ _id }}</span>
+    <a class="btn btn-danger wiDelete">×</a> 
+    <div class="sep"></div>
+    <p class="description">{{ description }}</p>
+    <div class="btn-toolbar">
+      <div class="btn-group">
+        <a class="btn btn-info details">Details</a>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+          Actions
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#">Create Child</a>
+          </li>
+          <li>
+            <a class="postIssue" href="#">Post as Issue</a>
+          </li>
+        </ul>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-success linkWI">Link</a>
+      </div>
+    </div>
+  </div>
 </template>
