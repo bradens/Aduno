@@ -13,10 +13,19 @@ $(function() {
     window.workflow = new WorkFlow(); 
   }
   function WorkFlow() {
+    this.IS_LOGGING_IN = false;
+    this.IS_LOGGED_IN = false;
     this.loggedIn = function () {
+      this.IS_LOGGED_IN = true;
       if (Meteor.user())
         Meteor.call('keepalive', Meteor.user()._id);
-      console.log("asdf");
+      console.log("logged in");
+      
+      // TODO @bradens load up the repos.
+      Meteor.call('loadRepos', Meteor.user()._id, workflow.loadedReposCallback);
+    };
+    this.loadedReposCallback = function(res) {
+      console.log("finished loading repos");
     };
   }
 });

@@ -78,14 +78,6 @@ a:hover {
 
 //--------------------------- Login ---------------------------// 
 
-.btn .login-link-text {
-  font-size:30px;
-  line-height:40px;
-  color: @white;
-  text-rendering: optimizelegibility;
-  font-weight:bold;
-  letter-spacing:-1px
-}
 .accounts-dialog {
   color:black;
   text-shadow:none;
@@ -146,9 +138,10 @@ a:hover {
 //--------------------------- Canvas ---------------------------// 
 
 .canvas-container {
-  padding:20px;
-  display:inline-block;
-  width:90%;
+  margin:40px 0 0 0;
+  padding:20px 0 20px 0;
+  width:100%;
+  border:none;
 }
 .canvas-container > canvas {
   background-color: rgb(250,250,250);
@@ -175,22 +168,40 @@ a:hover {
   h1, h2, h3 {
     color:white;
     text-shadow: 0 1px 2px black;
-    .tech li {
-      list-style-type:none;
-    }
+  }
+  .tech li {
+    list-style-type:none;
   }
   .darkWell {
     min-height:150px;
   }
+  .box-shadow(-5px, 0, 20px, 1px, rgb(50,50,50));
   background: url('/px_by_Gre3g.png');
-  border-top:1px solid white;
+  border-top:1px dashed grey;
   min-height:400px;
   width:90%;
-  margin-top:50px;
   padding:5%;
   font-size:14px;
 }
 
+//--------------------------- Getting Started ---------------------------// 
+
+.getting-started {
+	.well {
+    min-height: 150px;
+	}
+	h1, h2, h3 {
+    color:black;
+    text-shadow: 0 1px 2px white;
+  }
+  .box-shadow(-5px, 0, 20px, 1px, rgba(255,255,255,.5));
+	border-top:1px dashed grey;
+	min-height:400px;
+	width:90%;
+	padding:5%;
+	font-size:14px;
+	background-color: #EEE;
+}
 //--------------------------- Components ---------------------------// 
 
 .darkWell {
@@ -270,3 +281,9 @@ input[type="color"]:focus,
 .navbar .btn-navbar {
   float:left;
 }
+
+#login-buttons .login-button,
+.accounts-dialog .login-button {
+	
+}
+

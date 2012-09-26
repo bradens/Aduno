@@ -12,9 +12,11 @@ var scroller = function() {
   return $("html, body").stop();
 };
 
-function loginCallback() {
-  workflow && workflow.loggedIn();
-}
+// Very hacky way to get the login callback..
+// Eventually use 
+//function loginCallback() {
+//  workflow && workflow.loggedIn();
+//}
 
 function scrollto(selector)
 {

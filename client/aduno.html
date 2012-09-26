@@ -12,23 +12,43 @@
       <div class="navbar-inner">  
         <div class="container-fluid">  
             <ul class="nav">  
-              <li><a href="#home" onclick="scrollto('body');">Home</a></li>  
-              <li><a href="#wb" onclick="scrollto('#wb');">Workboard</a></li>  
+              <li><a href="#wb" onclick="scrollto('body');">Workboard</a></li>  
               <li><a href="#about" onclick="scrollto('#about');">About</a></li>  
+              <li><a href="#gettingStarted" onclick="scrollto('#gettingStarted');">Getting Started</a></li>  
             </ul>  
-            <a href="https://github.com/bradens/Aduno"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>  
+            <ul class="nav pull-right">
+   	          <li><a class="loginButton">{{> loginButtons }}</a></li>
+							<li class="divider-vertical"></li>
+							<li class="dropdown">
+							  <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> Current Repo<span class="caret"></span></a>
+							  <ul class="dropdown-menu">
+							    <li><a href="#"><i class="icon-folder-close"></i> Repo1</a></li>
+							    <li><a href="#"><i class="icon-folder-close"></i> Repo2</a></li>
+							    <li class="divider"></li>
+								<li><a href="#"><i class="icon-folder-open"></i> Current Repo</a></li>
+							  </ul>
+							</li>
+							<li class="dropdown">
+							  <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-people-large"></i> Current Users<span class="caret"></span></a>
+							  <ul class="dropdown-menu">
+							    <li><a href="#"><i class="icon-person-close"></i> <span class="label label-warning">person1</span></a></li>
+							    <li><a href="#"><i class="icon-person-close"></i> <span class="label label-info">person2</a></li>
+							  </ul>
+							</li>
+            </ul>
+            <!--  <a href="https://github.com/bradens/Aduno"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>  
+        	-->
         </div>  
       </div>
     </div>  
-    <div>
-      {{> main }}
-      {{> about}}
-    </div>  
+    {{> main }}
+    {{> about}}
+    {{> gettingStarted}}
     {{> wiDialog }}
     {{> authDialog }}
-      <!--[if lt IE 7]>
-          <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-      <![endif]-->
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
   
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
       <script>window.jQuery || document.write('<script src="scripts/vendor/jquery.min.js"><\/script>')</script>
@@ -39,7 +59,6 @@
           g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
           s.parentNode.insertBefore(g,s)}(document,'script'));
       </script>
-  
   </div>
   <!-- build:js scripts/plugins.js -->
   <script src="scripts/jquery-ui-1.8.23.custom.min.js"></script>

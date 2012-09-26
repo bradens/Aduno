@@ -51,7 +51,14 @@ $(window).load(function() {
       });
     };
     
+    this.updateCanvas = function() {
+      $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
+      if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
+      workboard.ctx = workboard.canvas.getContext('2d');
+    };
+    
     this.draw = function() {
+      this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
       Links.find({}).forEach(function(Link) {
         workboard.ctx.beginPath();
@@ -91,6 +98,7 @@ $(window).load(function() {
     
     // Draws a line from the current workitem to the event position (mouse).
     this.drawLine = function (e) {
+      this.updateCanvas();
       this.ctx.beginPath();
       wi = WorkItems.findOne({_id: this.currentLineID});
       $wi = $("[data-wi-id="+this.currentLineID+"]");

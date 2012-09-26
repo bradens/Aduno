@@ -6,7 +6,7 @@
  * Initialization for all client side code.
  */
 Meteor.startup(function() {
-  Session.set('loginCallback', true);
+//  Session.set('loginCallback', true);
   function clientKeepalive() {  
     if (Meteor.user()) {
       Meteor.call('keepalive', Meteor.user()._id);
@@ -17,7 +17,7 @@ Meteor.startup(function() {
     clientKeepalive();
   });
   
-  Meteor.setInterval(clientKeepalive, 5*1000);
+  Meteor.setInterval(clientKeepalive, 1*1000);
   Meteor.autosubscribe(function() {
     Meteor.subscribe('workitems');
     Meteor.subscribe('users');
