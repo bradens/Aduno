@@ -6,9 +6,10 @@
  * Initialization for all client side code.
  */
 Meteor.startup(function() {
-//  Session.set('loginCallback', true);
   function clientKeepalive() {  
     if (Meteor.user()) {
+      if (workflow && !workflow.IS_LOGGED_IN && !Meteor.user().loading)
+        workflow.loggedIn();
       Meteor.call('keepalive', Meteor.user()._id);
     }
   }

@@ -1,5 +1,13 @@
 <template name="person">
   <li>
-    <span class="label {{badge}}">{{profile.name}}</span>
+    <a href="#"><i class="icon-person-close">
+      </i> <span class="label {{badge}}">
+        {{#if profile.name }}
+          {{profile.name}}
+        {{else}}
+          {{getEmail}}
+        {{/if}}
+        </span>
+    </a>
   </li>
 </template>

@@ -9,6 +9,6 @@ underscore
 less
 accounts-ui
 accounts-password
-accounts-github
 accounts-base
 jquery-waypoints
+accounts-github

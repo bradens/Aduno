@@ -21,8 +21,11 @@ $(function() {
         Meteor.call('keepalive', Meteor.user()._id);
       console.log("logged in");
       
-      // TODO @bradens load up the repos.
-      Meteor.call('loadRepos', Meteor.user()._id, workflow.loadedReposCallback);
+      Meteor.call('authenticated', Meteor.user()._id, authenticatedCallback);
+      
+      function authenticatedCallback() {
+        Meteor.call('loadRepos', Meteor.user()._id, workflow.loadedReposCallback);
+      }
     };
     this.loadedReposCallback = function(res) {
       console.log("finished loading repos");

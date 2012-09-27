@@ -8,6 +8,7 @@
  */
 this.WorkItems = new Meteor.Collection("workitems");
 this.Links = new Meteor.Collection("links");
+this.Repos = new Meteor.Collection("repos");
 
 // Publishing our collections
 if (Meteor.is_server)
@@ -20,5 +21,12 @@ if (Meteor.is_server)
     });
     Meteor.publish('links', function() {
       return Links.find({});
+    });
+    Meteor.publish('repos', function () {
+      return Repos.find({
+        privateTo: {
+          $in: [null, this.userId()]
+        }
+      });
     });
 }

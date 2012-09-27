@@ -46,17 +46,3 @@ Template.main.links = function() {
     }
   });
 };
-Template.main.people = function() {
-  return Meteor.users.find({
-    _id : {
-      $ne: ""
-    },
-    idle : {
-      $ne : true
-    }
-  }, {
-    sort: {
-      _id : 1
-    }
-  });
-};

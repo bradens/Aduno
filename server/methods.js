@@ -13,13 +13,31 @@ Meteor.methods({
     var badge = user.badge !== undefined ? user.badge : randomBadge();
     Meteor.users.update({
       _id: user_id
-      }, 
+      },
       { $set: {
           last_keepalive: (new Date()).getTime(),
           idle: false,
           badge: badge
         }
       });
+  },
+  authenticated : function(user_id) {
+    console.log("Authenticating...");
+    github.authenticate ({
+      type: "oauth",
+      token: Meteor.users.findOne(user_id).services.github.accessToken
+    });
+  }, 
+  loadRepos: function (user_id) {
+    console.log("Loading repos...");
+    github.repos.getAll({
+        },
+        function(err, res) {
+            console.log(err)
+            console.log(res);
+            
+        }
+    );
   },
   // THIS IS OUT OF DATE
   // todo @braden

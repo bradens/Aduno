@@ -58,6 +58,13 @@ Meteor.startup(function() {
     remove: function () { return true; },
     fetch: function () { return true; }
   });
+  Repos.allow({
+    insert: function () { return true; },
+    update: canModify,
+    remove: canModify,
+    fetch: ['privateTo']
+  });
+  
 //  Meteor.users.allow({
 //    insert: function () { return true; },
 //    update: function () { return true; },
