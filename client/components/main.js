@@ -10,7 +10,6 @@ Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
-  
   'keyup #usernameInput' : function (e) {
     var name;
     name = $('input#usernameInput').val().trim();

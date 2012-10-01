@@ -40,7 +40,6 @@ $(window).load(function() {
   function WorkBoard() {
     this.currentLineID = '';
     this.IS_DRAGGING = false;
-    
     this.createNewWorkItem = function () {
       var position = GetNewItemPos();
       var id = WorkItems.insert({
@@ -56,7 +55,6 @@ $(window).load(function() {
       if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
       workboard.ctx = workboard.canvas.getContext('2d');
     };
-    
     this.draw = function() {
       this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
@@ -84,7 +82,7 @@ $(window).load(function() {
           workboard.ctx.moveTo(wi.left - $(workboard.canvas).offset().left + $wi.width()/2,wi.top - $(workboard.canvas).offset().top);
           workboard.ctx.lineTo(wiChild.left - $(workboard.canvas).offset().left + $wiChild.width()/2,wiChild.top - $(workboard.canvas).offset().top);
         }
-          workboard.ctx.stroke();
+        workboard.ctx.stroke();
       });
     };
     

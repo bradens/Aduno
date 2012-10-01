@@ -31,6 +31,7 @@ else{
 var github = new GitHubApi({
     version: "3.0.0"
 });
+
 function randomBadge()
 {
   var labels = ['', 'label-success', 'label-warning', 'label-important', 'label-info', 'label-inverse'];
