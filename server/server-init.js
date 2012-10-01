@@ -16,7 +16,6 @@ var base = path.resolve('.');
 if (base == '/'){
   base = path.dirname(global.require.main.filename);   
 }
-
 var publicPath = path.resolve(base+'/public/'+gitPath);
 var staticPath = path.resolve(base+'/static/'+gitPath);
 
@@ -29,11 +28,9 @@ else if (fs.existsSync(staticPath)){
 else{
   console.log('node_modules not found');
 }
-
 var github = new GitHubApi({
     version: "3.0.0"
 });
-
 function randomBadge()
 {
   var labels = ['', 'label-success', 'label-warning', 'label-important', 'label-info', 'label-inverse'];
@@ -60,10 +57,16 @@ Meteor.startup(function() {
   });
   Repos.allow({
     insert: function () { return true; },
-    update: canModify,
-    remove: canModify,
-    fetch: ['privateTo']
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
   });
+//  Repos.allow({
+//    insert: function () { return true; },
+//    update: canModify,
+//    remove: canModify,
+//    fetch: ['privateTo']
+//  });
   
 //  Meteor.users.allow({
 //    insert: function () { return true; },
@@ -83,7 +86,12 @@ Meteor.startup(function() {
 Meteor.setInterval(function () {
   var now = (new Date()).getTime();
   var remove_threshold = now - 5*1000;
-  Meteor.users.update({last_keepalive: {$lt: remove_threshold}}, {$set: {
-    idle: true
-  }});
+  
+  var inactiveUsers = ActiveUsers.find({last_keepalive: {$lt: remove_threshold}}).fetch();
+  for (var i = 0;i < inactiveUsers.length;i++) {
+    Meteor.users.update(inactiveUsers[i].user_id, {$set: {
+      idle: true
+    }});
+    
+  }
 }, 5*1000);

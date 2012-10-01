@@ -6,6 +6,7 @@
  * Initialization for all client side code.
  */
 Meteor.startup(function() {
+  Session.set("user_id", null);
   function clientKeepalive() {  
     if (Meteor.user()) {
       if (workflow && !workflow.IS_LOGGED_IN && !Meteor.user().loading)
@@ -23,5 +24,6 @@ Meteor.startup(function() {
     Meteor.subscribe('workitems');
     Meteor.subscribe('users');
     Meteor.subscribe('links');
+    Meteor.subscribe('repos', Session.get("user_id"));
   });
 });

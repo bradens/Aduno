@@ -10,10 +10,9 @@
 	  <li class="dropdown">
 	    <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> Current Repo<span class="caret"></span></a>
 	    <ul class="dropdown-menu">
-	      <li><a href="#"><i class="icon-folder-close"></i> Repo1</a></li>
-	      <li><a href="#"><i class="icon-folder-close"></i> Repo2</a></li>
-	      <li class="divider"></li>
-	    <li><a href="#"><i class="icon-folder-open"></i> Current Repo</a></li>
+	      {{#each currentRepos }}
+	        {{> currentRepo }}
+	      {{/each}}
 	    </ul>
 	  </li>
 	  <li class="dropdown">

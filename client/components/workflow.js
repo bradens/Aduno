@@ -19,11 +19,11 @@ $(function() {
       this.IS_LOGGED_IN = true;
       if (Meteor.user())
         Meteor.call('keepalive', Meteor.user()._id);
-      console.log("logged in");
       
       Meteor.call('authenticated', Meteor.user()._id, authenticatedCallback);
       
       function authenticatedCallback() {
+        Session.set("user_id", Meteor.user()._id);
         Meteor.call('loadRepos', Meteor.user()._id, workflow.loadedReposCallback);
       }
     };
