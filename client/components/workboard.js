@@ -52,7 +52,7 @@ $(window).load(function() {
     
     this.updateCanvas = function() {
       $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
-      if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
+      workboard.canvas = document.getElementById('myCanvas');
       workboard.ctx = workboard.canvas.getContext('2d');
     };
     this.draw = function() {

@@ -63,7 +63,6 @@ Meteor.methods({
               if (adRepo) {
                 if (!(_.contains(adRepo.user_ids, user_id))) {
                   // just update the users list to be with the new user
-                  console.log(user_id);
                   Repos.update(
                       adRepo._id,
                       {$push: { user_ids: user_id
@@ -72,14 +71,16 @@ Meteor.methods({
                 }
               }
               else {
-                // It's new, insert it
-                Repos.insert({
-                  github_id: res[i].id,
-                  user_ids: [user_id],
-                  name: res[i].name,
-                  owner: res[i].owner.login,
-                  url: res[i].owner.url
-                });
+                if (res[i].has_issues) {
+                  // It's new, insert it
+                  Repos.insert({
+                    github_id: res[i].id,
+                    user_ids: [user_id],
+                    name: res[i].name,
+                    owner: res[i].owner.login,
+                    url: res[i].owner.url
+                  });
+                }
               }
             }
             var skip = false;
@@ -90,7 +91,6 @@ Meteor.methods({
                 skip = true;
               }
               if (!skip) {
-                console.log(repoList[i]);
                 var github_id = repoList[i].github_id;
                 Repos.update(
                     github_id,
@@ -105,14 +105,50 @@ Meteor.methods({
     );
   },
   
+  // Load all the labels for a repo
+  loadLabels : function(username, reponame) {
+    github.issues.getLabels({
+      user: username,
+      repo: reponame
+    },
+    function(err, res) {
+      if (err){
+        console.log(err)
+        return;
+      }
+      else {
+        Fiber(function() {
+          var repoObj = Repos.findOne({
+            owner : username, 
+            name : reponame
+          });
+          _.each(res, function(item) {
+            if (!Labels.findOne({
+                repo_id: repoObj._id,
+                name: item.name
+              })) {
+              Labels.insert({
+                repo_id: repoObj._id,
+                name : item.name, 
+                color : item.color
+              });
+            }
+          });
+        }).run();
+      }
+    });
+  },
+  
   // Load all of the issues for a specific repo
   // Once again, github information takes precedence.
-  loadIssues: function(repo_id) {
+  loadIssues: function(username, reponame) {
     //TODO @bradens
-    
-    
-    
-    return null;
+//    github.issues.repoIssues({
+//      user: username,
+//      repo: reponame
+//    }, function(err, res) {
+//      console.log("loaded issues");
+//    });
   },
   
   // THIS IS OUT OF DATE

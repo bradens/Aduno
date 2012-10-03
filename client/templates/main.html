@@ -3,6 +3,14 @@
 	  <div>
 	    <a id="newWorkItem" class="btn" style="margin-bottom:10px;">Create Workitem</a>
 	  </div>
+	  <div class="workflow-panel well-small">
+	    <ul class="filter-labels nav nav-list">
+	      <li class="nav-header">Filter by label</li>
+	      {{#each labels }}
+	        {{> labelItem }}
+	       {{/each}}
+	    </ul>
+	  </div>
 	  <canvas width="1000px" height="1000px" id="myCanvas">          
 	  </canvas>	
 	  {{#each workitems}}

@@ -24,6 +24,7 @@ Meteor.startup(function() {
     Meteor.subscribe('workitems');
     Meteor.subscribe('users');
     Meteor.subscribe('links');
+    Meteor.subscribe('labels', Session.get("currentRepoId"));
     Meteor.subscribe('repos', Session.get("user_id"));
   });
 });

@@ -31,6 +31,11 @@ Template.main.workitems = function() {
     }
   });
 };
+Template.main.labels = function() {
+  return Labels.find({
+    repo_id: Session.get("currentRepoId")
+  });
+};
 Template.main.links = function() {
   return Links.find({
     parentID: {

@@ -62,6 +62,12 @@ Meteor.startup(function() {
     remove: function () { return true; },
     fetch: function () { return true; }
   });
+  Labels.allow({
+    insert: function () { return true; },
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
+  });
 //  Repos.allow({
 //    insert: function () { return true; },
 //    update: canModify,

@@ -150,6 +150,30 @@ a:hover {
 	.inner-shadow(0, 0, 1px, 1px, 0.05);
 }
 
+//--------------------------- Workflow ---------------------------// 
+
+.workflow-panel {
+	display:inline-block;
+	vertical-align:top;
+  max-width:300px;
+  min-width:135px;
+  padding: 9px 0;
+  .filter-labels {
+    padding-right: 0;
+  }
+	li > a:hover {
+	  background-color: rgba(200,200,255, .5) !important;
+	}
+	li:nth-child(2n) > a{
+	  background-color: rgba(0,0,0,.02);
+	}
+	li > a {
+	  color: #444;
+	  font-size: 11.844px;
+		font-weight: bold;
+		line-height: 14px;
+	}
+}
 //--------------------------- Dialogs ---------------------------// 
 
 #wiDetailsDialog, #authDialog {
