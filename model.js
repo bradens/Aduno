@@ -16,14 +16,21 @@ this.Labels = new Meteor.Collection("labels");
 // Publishing our collections
 if (Meteor.is_server)
 {
-    Meteor.publish('workitems', function() {
-      return WorkItems.find({});
+//    Meteor.publish('workitems', function() {
+//      return WorkItems.find({});
+//    });
+    Meteor.publish('workitems', function(repoId) {
+      return WorkItems.find({
+        repo_id: repoId
+      });
     });
     Meteor.publish('users', function() {
       return Meteor.users.find({});
     });
-    Meteor.publish('links', function() {
-      return Links.find({});
+    Meteor.publish('links', function(repoId) {
+      return Links.find({
+        repo_id: repoId
+      });
     });
     Meteor.publish('issues', function () {
       return Issues.find({});

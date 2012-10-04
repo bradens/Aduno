@@ -150,7 +150,9 @@ Meteor.methods({
 //      console.log("loaded issues");
 //    });
   },
-  
+  synchronize: function(username, reponame) {
+    loadIssues(username, reponame);
+  },
   // THIS IS OUT OF DATE
   // todo @braden delete this
   postWorkItemAsIssue: function (wiID)

@@ -21,9 +21,9 @@ Meteor.startup(function() {
   
   Meteor.setInterval(clientKeepalive, 1*1000);
   Meteor.autosubscribe(function() {
-    Meteor.subscribe('workitems');
+    Meteor.subscribe('workitems', Session.get("currentRepoId"));
     Meteor.subscribe('users');
-    Meteor.subscribe('links');
+    Meteor.subscribe('links', Session.get("currentRepoId"));
     Meteor.subscribe('labels', Session.get("currentRepoId"));
     Meteor.subscribe('repos', Session.get("user_id"));
   });

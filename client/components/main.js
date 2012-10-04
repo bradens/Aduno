@@ -10,6 +10,16 @@ Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
+  'click #synchronize' : function() {
+    Meteor.call(
+        'synchronize', 
+        Meteor.user().services.github.username, 
+        Session.get("currentRepoName"),
+        function(e) {
+          console.log("synchronized");
+        }
+    );
+  },
   'keyup #usernameInput' : function (e) {
     var name;
     name = $('input#usernameInput').val().trim();

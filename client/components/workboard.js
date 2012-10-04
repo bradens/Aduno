@@ -44,12 +44,12 @@ $(window).load(function() {
       var position = GetNewItemPos();
       var id = WorkItems.insert({
         name: "New WorkItem",
+        repo_id: Session.get("currentRepoId"),
         description: "Default description",
         top: position.top,
         left: position.left
       });
     };
-    
     this.updateCanvas = function() {
       $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
       workboard.canvas = document.getElementById('myCanvas');
@@ -58,17 +58,17 @@ $(window).load(function() {
     this.draw = function() {
       this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
-      Links.find({}).forEach(function(Link) {
+      Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
         workboard.ctx.beginPath();
         wi = WorkItems.findOne({_id: Link.parentID});
         wiChild = WorkItems.findOne({_id: Link.childID});
         
         // If either of the WorkItems don't exist, delete our link and return.
-        if (wi == undefined || wiChild == undefined)
-        {
-          Links.remove(Link._id);
-          return;
-        }
+//        if (wi == undefined || wiChild == undefined)
+//        {
+//          Links.remove(Link._id);
+//          return;
+//        }
         
         $wi = $("[data-wi-id="+Link.parentID+"]");
         $wiChild = $("[data-wi-id="+Link.childID+"]");

@@ -42,6 +42,7 @@ Template.workitem.events = {
       workboard.is_Linking = false;
       // finish the link;
       Links.insert({
+        repo_id: Session.get("currentRepoId"),
         parentID: workboard.currentLineID,
         childID: $(e.currentTarget).closest(".workItem").attr('data-wi-id')
       });
