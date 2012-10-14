@@ -13,9 +13,10 @@ Template.topNav.events = {
                   RepoItem.attr('data-repo-owner'),
                   RepoItem.attr('data-value'),
                   workflow.labelsLoaded);
-      Meteor.call('loadIssues', 
+      Meteor.call('loadIssuesWithLabels', 
                   RepoItem.attr('data-repo-owner'), 
                   RepoItem.attr('data-value'),
+                  [],
                   workflow.issuesLoaded);
     }
 }

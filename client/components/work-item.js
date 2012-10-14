@@ -10,7 +10,6 @@ Template.workitem.redrawAfterUpdate = function() {
     workboard.draw();
   });
 };
-
 Template.workitem.title = function() {
   return "New WorkItem";
 }

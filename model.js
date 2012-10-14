@@ -16,16 +16,10 @@ this.Labels = new Meteor.Collection("labels");
 // Publishing our collections
 if (Meteor.is_server)
 {
-//    Meteor.publish('workitems', function() {
-//      return WorkItems.find({});
-//    });
     Meteor.publish('workitems', function(repoId) {
       return WorkItems.find({
         repo_id: repoId
       });
-    });
-    Meteor.publish('users', function() {
-      return Meteor.users.find({});
     });
     Meteor.publish('links', function(repoId) {
       return Links.find({
@@ -39,6 +33,12 @@ if (Meteor.is_server)
       return Labels.find({
         repo_id: repoId
       });
+    });
+    Meteor.publish('users', function() {
+      return Meteor.users.find({_id: this.userId}, {fields: {
+        'profile.name': 1,
+        'services.github.username': 1
+      }});
     });
     Meteor.publish('repos', function () {
       return Repos.find({

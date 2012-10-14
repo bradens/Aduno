@@ -10,11 +10,19 @@ Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
+  'click .filter-labels li' : function(e) {
+    Meteor.call('loadIssuesWithLabels', 
+        Meteor.user().services.github.username, 
+        Session.get('currentRepo'),
+        [$(e.target).attr("data-label-name")],
+        workflow.issuesLoaded);
+    Session.set("currentLabel", $(e.target).attr('data-label-name'));
+  },
   'click #synchronize' : function() {
     Meteor.call(
         'synchronize', 
         Meteor.user().services.github.username, 
-        Session.get("currentRepoName"),
+        Session.get("currentRepo"),
         function(e) {
           console.log("synchronized");
         }
@@ -31,16 +39,35 @@ Template.main.events = {
   }
 };
 Template.main.workitems = function() {
-  return WorkItems.find({
-    name: {
-      $ne: ""
-    }
-  }, { 
-    sort: {
-      name: 1
-    }
-  });
+  if (Session.get("currentLabel") != "all") {
+    return  WorkItems.find({
+      name: {
+        $ne: ""
+      },
+      labels: Session.get("currentLabel")
+    }, { 
+      sort: {
+        name: 1
+      }
+    });
+  } else {
+    return WorkItems.find({
+      name: {
+        $ne: ""
+      },
+    }, { 
+      sort: {
+        name: 1
+      }
+    });
+  }
 };
+Template.labelItem.checkLabelActive = function() { 
+  if (Session.get("currentLabel") == "all" || this.name == Session.get("currentLabel")){
+    return "active";
+  }
+  return "";
+}
 Template.main.labels = function() {
   return Labels.find({
     repo_id: Session.get("currentRepoId")

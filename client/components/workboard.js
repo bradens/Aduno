@@ -41,7 +41,7 @@ $(window).load(function() {
     this.currentLineID = '';
     this.IS_DRAGGING = false;
     this.createNewWorkItem = function () {
-      var position = GetNewItemPos();
+      var position = workboard.getNewItemPos();
       var id = WorkItems.insert({
         name: "New WorkItem",
         repo_id: Session.get("currentRepoId"),
@@ -62,13 +62,6 @@ $(window).load(function() {
         workboard.ctx.beginPath();
         wi = WorkItems.findOne({_id: Link.parentID});
         wiChild = WorkItems.findOne({_id: Link.childID});
-        
-        // If either of the WorkItems don't exist, delete our link and return.
-//        if (wi == undefined || wiChild == undefined)
-//        {
-//          Links.remove(Link._id);
-//          return;
-//        }
         
         $wi = $("[data-wi-id="+Link.parentID+"]");
         $wiChild = $("[data-wi-id="+Link.childID+"]");
@@ -106,7 +99,7 @@ $(window).load(function() {
     }
 
     // Function that returns a new item position psuedorandomly.
-    function GetNewItemPos() {
+    this.getNewItemPos = function() {
       var $mat = $("#myCanvas");
       var top = $mat.offset().top + 50 + Math.floor(Math.random() * 31) - 15;
       var left = $mat.offset().left + $mat.width() / 2 - 72 + Math.floor(Math.random() * 31) - 15;
