@@ -6,11 +6,8 @@
  * Work-item template javascript.  
  */
 Template.workitem.redrawAfterUpdate = function() {
-  Meteor.defer(function() {
     workboard.draw();
-  });
 };
-
 Template.workitem.title = function() {
   return "New WorkItem";
 }

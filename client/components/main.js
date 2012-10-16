@@ -10,11 +10,24 @@ Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
+  'click .filter-labels li' : function(e) {
+    Meteor.call('loadIssuesWithLabels', 
+        Meteor.user().services.github.username, 
+        Session.get('currentRepo'),
+        [$(e.target).attr("data-label-name")],
+        workflow.issuesLoaded);
+    if ($(e.target).attr('data-label-name') == "all") {
+      Session.set("currentLabel", "all");
+    }
+    else {
+      Session.set("currentLabel", Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': $(e.target).attr('data-label-name')})._id);
+    }
+  },
   'click #synchronize' : function() {
     Meteor.call(
         'synchronize', 
         Meteor.user().services.github.username, 
-        Session.get("currentRepoName"),
+        Session.get("currentRepo"),
         function(e) {
           console.log("synchronized");
         }
@@ -31,20 +44,56 @@ Template.main.events = {
   }
 };
 Template.main.workitems = function() {
-  return WorkItems.find({
-    name: {
-      $ne: ""
-    }
-  }, { 
-    sort: {
-      name: 1
-    }
-  });
+  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+    return  WorkItems.find({
+      name: {
+        $ne: ""
+      },
+      labels: Labels.findOne(Session.get("currentLabel")).label
+    }, { 
+      sort: {
+        name: 1
+      }
+    });
+  } else {
+    return WorkItems.find({
+      name: {
+        $ne: ""
+      },
+    }, { 
+      sort: {
+        name: 1
+      }
+    });
+  }
+};
+Template.main.checkAllLabel = function() {
+  if (Session.get("currentLabel") == "all")
+    return "active";
+  else
+    return "";
+};
+Template.labelItem.labelName = function() {
+  return this.label.name;
+};
+Template.labelItem.checkLabelActive = function() { 
+  if (Session.get("currentLabel") != "all" && this.label.name == Labels.findOne(Session.get("currentLabel")).label.name) {
+    return "active";
+  }
+  return "";
 };
 Template.main.labels = function() {
-  return Labels.find({
-    repo_id: Session.get("currentRepoId")
-  });
+//  if (!Session.get("currentLabel")  || Session.get("currentLabel") == "all") {
+      return Labels.find({
+        repo_id: Session.get("currentRepoId"),
+      });
+//  }
+//  else {
+//    return Labels.find({
+//      repo_id: Session.get("currentRepoId"),
+//      _id: Session.get("currentLabel")
+//    });
+//  }
 };
 Template.main.links = function() {
   return Links.find({

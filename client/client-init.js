@@ -7,6 +7,7 @@
  */
 Meteor.startup(function() {
   Session.set("user_id", null);
+  Session.set("currentLabel", "all");
   function clientKeepalive() {  
     if (Meteor.user()) {
       if (workflow && !workflow.IS_LOGGED_IN && !Meteor.user().loading)
@@ -17,6 +18,17 @@ Meteor.startup(function() {
   // Hack to make a keepalive as soon as meteor connects
   $(window).load(function() {
     clientKeepalive();
+  });
+  
+  WorkItems.find().observe({
+    added: function(item) {
+        if (item.left == -1 && item.top == -1) {
+          // Hacky way to determine if this is a newly added work item.
+          // Need to improve this TODO @bradens
+          var newPosition = workboard.getNewItemPos();
+          WorkItems.update(item._id, {$set: {top: newPosition.top, left: newPosition.left}});
+        }
+    }
   });
   
   Meteor.setInterval(clientKeepalive, 1*1000);

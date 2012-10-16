@@ -1,0 +1,11 @@
+<template name="chat_inputarea">
+  <div class="well well-small">
+    {{#if signined_name}}
+      <input type="text" class="span2" id="message">
+    {{/if}}
+
+    {{#unless signined_name}}
+      You need to sign in to chat
+    {{/unless}}
+  </div>
+</template>

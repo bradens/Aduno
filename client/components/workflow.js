@@ -31,7 +31,7 @@ $(function() {
       console.log("finished loading repos");
     };
     this.issuesLoaded = function() {
-      console.log('reposLoaded');
+      console.log('issuesLoaded');
     };
     this.labelsLoaded = function() {
       console.log('labelsLoaded');
