@@ -1,0 +1,13 @@
+<template name="chat_header">
+  <div class="navbar-inner">
+      <h5>Chat</h5>
+        {{#unless signined_name}}
+          {{ user_id }}
+          <form class="navbar-form pull-right">
+              <input type="text" class="span2" placeholder="Your name" id="name">
+              <button type="button" class="btn">Sign in</button>
+          </form>
+        {{/unless}}
+    </div>
+  </div>
+</template>

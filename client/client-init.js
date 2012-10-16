@@ -40,5 +40,6 @@ Meteor.startup(function() {
     Meteor.subscribe('links', Session.get("currentRepoId"));
     Meteor.subscribe('labels', Session.get("currentRepoId"));
     Meteor.subscribe('repos', Session.get("user_id"));
+    Meteor.subscribe('messages', Session.get("currentRepoId"));
   });
 });
