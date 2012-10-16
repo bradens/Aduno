@@ -43,6 +43,7 @@ $(window).load(function() {
     this.createNewWorkItem = function () {
       var position = workboard.getNewItemPos();
       var id = WorkItems.insert({
+        labels: [Labels.findOne(Session.get("currentLabel")).label],
         name: "New WorkItem",
         repo_id: Session.get("currentRepoId"),
         description: "Default description",
@@ -66,6 +67,9 @@ $(window).load(function() {
         $wi = $("[data-wi-id="+Link.parentID+"]");
         $wiChild = $("[data-wi-id="+Link.childID+"]");
         
+        if (!$wi || !$wiChild)
+          return;
+
         if (workboard.IS_DRAGGING) {
           // Use the temp position specified by the position of the 'dragging' workitem
           workboard.ctx.moveTo($wi.position().left - $(workboard.canvas).offset().left + $wi.width()/2,$wi.position().top - $(workboard.canvas).offset().top);

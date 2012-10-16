@@ -22,14 +22,12 @@ Meteor.startup(function() {
   
   WorkItems.find().observe({
     added: function(item) {
-      Meteor.defer(function() {
         if (item.left == -1 && item.top == -1) {
           // Hacky way to determine if this is a newly added work item.
           // Need to improve this TODO @bradens
           var newPosition = workboard.getNewItemPos();
           WorkItems.update(item._id, {$set: {top: newPosition.top, left: newPosition.left}});
         }
-      });
     }
   });
   

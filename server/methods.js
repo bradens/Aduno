@@ -125,12 +125,11 @@ Meteor.methods({
           _.each(res, function(item) {
             if (!Labels.findOne({
                 repo_id: repoObj._id,
-                name: item.name
+                'label.name': item.name
               })) {
               Labels.insert({
                 repo_id: repoObj._id,
-                name : item.name, 
-                color : item.color
+                label: item
               });
             }
           });

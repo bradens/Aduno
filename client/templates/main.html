@@ -7,7 +7,7 @@
 	  <div class="workflow-panel well-small">
 	    <ul class="filter-labels nav nav-list">
 	      <li class="nav-header">Filter by label</li>
-	      <li><a href="#" class="all">all</a></li>
+	      <li class=" {{checkAllLabel}}"><a data-label-name="all" href="#" class="all">all</a></li>
 	      {{#each labels }}
 	        {{> labelItem }}
 	        {{/each}}

@@ -16,7 +16,12 @@ Template.main.events = {
         Session.get('currentRepo'),
         [$(e.target).attr("data-label-name")],
         workflow.issuesLoaded);
-    Session.set("currentLabel", $(e.target).attr('data-label-name'));
+    if ($(e.target).attr('data-label-name') == "all") {
+      Session.set("currentLabel", "all");
+    }
+    else {
+      Session.set("currentLabel", Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': $(e.target).attr('data-label-name')})._id);
+    }
   },
   'click #synchronize' : function() {
     Meteor.call(
@@ -39,12 +44,12 @@ Template.main.events = {
   }
 };
 Template.main.workitems = function() {
-  if (Session.get("currentLabel") != "all") {
+  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
     return  WorkItems.find({
       name: {
         $ne: ""
       },
-      labels: Session.get("currentLabel")
+      labels: Labels.findOne(Session.get("currentLabel")).label
     }, { 
       sort: {
         name: 1
@@ -62,16 +67,33 @@ Template.main.workitems = function() {
     });
   }
 };
+Template.main.checkAllLabel = function() {
+  if (Session.get("currentLabel") == "all")
+    return "active";
+  else
+    return "";
+};
+Template.labelItem.labelName = function() {
+  return this.label.name;
+};
 Template.labelItem.checkLabelActive = function() { 
-  if (Session.get("currentLabel") == "all" || this.name == Session.get("currentLabel")){
+  if (Session.get("currentLabel") != "all" && this.label.name == Labels.findOne(Session.get("currentLabel")).label.name) {
     return "active";
   }
   return "";
-}
+};
 Template.main.labels = function() {
-  return Labels.find({
-    repo_id: Session.get("currentRepoId")
-  });
+//  if (!Session.get("currentLabel")  || Session.get("currentLabel") == "all") {
+      return Labels.find({
+        repo_id: Session.get("currentRepoId"),
+      });
+//  }
+//  else {
+//    return Labels.find({
+//      repo_id: Session.get("currentRepoId"),
+//      _id: Session.get("currentLabel")
+//    });
+//  }
 };
 Template.main.links = function() {
   return Links.find({
