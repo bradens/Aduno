@@ -41,38 +41,35 @@ $(window).load(function() {
     this.currentLineID = '';
     this.IS_DRAGGING = false;
     this.createNewWorkItem = function () {
-      var position = GetNewItemPos();
+      var position = workboard.getNewItemPos();
       var id = WorkItems.insert({
+        labels: [Labels.findOne(Session.get("currentLabel")).label],
         name: "New WorkItem",
+        repo_id: Session.get("currentRepoId"),
         description: "Default description",
         top: position.top,
         left: position.left
       });
     };
-    
     this.updateCanvas = function() {
       $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
-      if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
+      workboard.canvas = document.getElementById('myCanvas');
       workboard.ctx = workboard.canvas.getContext('2d');
     };
     this.draw = function() {
       this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
-      Links.find({}).forEach(function(Link) {
+      Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
         workboard.ctx.beginPath();
         wi = WorkItems.findOne({_id: Link.parentID});
         wiChild = WorkItems.findOne({_id: Link.childID});
         
-        // If either of the WorkItems don't exist, delete our link and return.
-        if (wi == undefined || wiChild == undefined)
-        {
-          Links.remove(Link._id);
-          return;
-        }
-        
         $wi = $("[data-wi-id="+Link.parentID+"]");
         $wiChild = $("[data-wi-id="+Link.childID+"]");
         
+        if (!$wi || !$wiChild)
+          return;
+
         if (workboard.IS_DRAGGING) {
           // Use the temp position specified by the position of the 'dragging' workitem
           workboard.ctx.moveTo($wi.position().left - $(workboard.canvas).offset().left + $wi.width()/2,$wi.position().top - $(workboard.canvas).offset().top);
@@ -106,7 +103,7 @@ $(window).load(function() {
     }
 
     // Function that returns a new item position psuedorandomly.
-    function GetNewItemPos() {
+    this.getNewItemPos = function() {
       var $mat = $("#myCanvas");
       var top = $mat.offset().top + 50 + Math.floor(Math.random() * 31) - 15;
       var left = $mat.offset().left + $mat.width() / 2 - 72 + Math.floor(Math.random() * 31) - 15;

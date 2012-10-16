@@ -30,5 +30,11 @@ $(function() {
     this.loadedReposCallback = function(res) {
       console.log("finished loading repos");
     };
+    this.issuesLoaded = function() {
+      console.log('issuesLoaded');
+    };
+    this.labelsLoaded = function() {
+      console.log('labelsLoaded');
+    };
   }
 });

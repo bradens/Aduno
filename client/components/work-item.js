@@ -6,11 +6,8 @@
  * Work-item template javascript.  
  */
 Template.workitem.redrawAfterUpdate = function() {
-  Meteor.defer(function() {
     workboard.draw();
-  });
 };
-
 Template.workitem.title = function() {
   return "New WorkItem";
 }
@@ -42,6 +39,7 @@ Template.workitem.events = {
       workboard.is_Linking = false;
       // finish the link;
       Links.insert({
+        repo_id: Session.get("currentRepoId"),
         parentID: workboard.currentLineID,
         childID: $(e.currentTarget).closest(".workItem").attr('data-wi-id')
       });

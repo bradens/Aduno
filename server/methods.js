@@ -63,7 +63,6 @@ Meteor.methods({
               if (adRepo) {
                 if (!(_.contains(adRepo.user_ids, user_id))) {
                   // just update the users list to be with the new user
-                  console.log(user_id);
                   Repos.update(
                       adRepo._id,
                       {$push: { user_ids: user_id
@@ -72,14 +71,16 @@ Meteor.methods({
                 }
               }
               else {
-                // It's new, insert it
-                Repos.insert({
-                  github_id: res[i].id,
-                  user_ids: [user_id],
-                  name: res[i].name,
-                  owner: res[i].owner.login,
-                  url: res[i].owner.url
-                });
+                if (res[i].has_issues) {
+                  // It's new, insert it
+                  Repos.insert({
+                    github_id: res[i].id,
+                    user_ids: [user_id],
+                    name: res[i].name,
+                    owner: res[i].owner.login,
+                    url: res[i].owner.url
+                  });
+                }
               }
             }
             var skip = false;
@@ -90,7 +91,6 @@ Meteor.methods({
                 skip = true;
               }
               if (!skip) {
-                console.log(repoList[i]);
                 var github_id = repoList[i].github_id;
                 Repos.update(
                     github_id,
@@ -105,30 +105,99 @@ Meteor.methods({
     );
   },
   
-  // Load all of the issues for a specific repo
-  // Once again, github information takes precedence.
-  loadIssues: function(repo_id) {
-    //TODO @bradens
-    
-    
-    
-    return null;
-  },
-  
-  // THIS IS OUT OF DATE
-  // todo @braden delete this
-  postWorkItemAsIssue: function (wiID)
-  {
-    var wi = WorkItems.findOne({_id: wiID});
-    console.log("Posting work item " + wiID);
-    github.issues.create({
-      user: "bradens",
-      repo: "TestingRepo",
-      title: wi.name,
-      body: wi.description,
-      labels: []
-    }, function(err, res) {
-      console.log(res);
+  // Load all the labels for a repo
+  loadLabels : function(username, reponame) {
+    github.issues.getLabels({
+      user: username,
+      repo: reponame
+    },
+    function(err, res) {
+      if (err){
+        console.log(err)
+        return;
+      }
+      else {
+        Fiber(function() {
+          var repoObj = Repos.findOne({
+            owner : username, 
+            name : reponame
+          });
+          _.each(res, function(item) {
+            if (!Labels.findOne({
+                repo_id: repoObj._id,
+                'label.name': item.name
+              })) {
+              Labels.insert({
+                repo_id: repoObj._id,
+                label: item
+              });
+            }
+          });
+        }).run();
+      }
     });
+  },
+  //Load all of the issues for a specific repo
+  // Once again, github information takes precedence.
+  loadIssuesWithLabels: function(username, reponame, labels) {
+    //TODO @bradens
+    if (!labels || labels.length == 0) {
+      labels = null;
+    }
+    console.log(labels);
+    github.issues.repoIssues({
+      user: username,
+      repo: reponame,
+      labels: labels
+    }, function(err, res) {
+      if (err) { 
+        console.log(err);
+        return;
+      }
+      else {
+        Fiber(function() {
+          Meteor.call('loadedIssues', username, reponame, res, labels);
+        }).run();
+      }
+    });
+  },
+  loadedIssues: function(username, reponame, result, tag) {
+    console.log(result);
+    Fiber(function() {
+      var repoObj = Repos.findOne({
+        owner : username, 
+        name : reponame
+      });
+      _.each(result, function(item) {
+        console.log(item);
+        // TODO @braden insert some issues
+        var wi = WorkItems.findOne({
+          number: item.number,
+          repo_id: repoObj._id
+        });
+        if (!wi) {
+          // TODO @braden 
+          // Somehow position these in a way that makes sense.  
+          // Currently going to place them in a random position once we 
+          // get back to the client.  
+          // It doesn't exist in the aduno repo
+          WorkItems.insert({
+            name : item.title,
+            number: item.number,
+            repo_id: repoObj._id,
+            labels : item.labels,
+            description: item.body,
+            assignee: item.assignee,
+            milestone: item.milestone,
+            comments : item.comments,
+            top: -1,
+            left: -1
+          });
+        }
+      });
+    }).run();
+  },
+  synchronize: function(username, reponame) {
+    //loadIssues(username, reponame);
   }
 });

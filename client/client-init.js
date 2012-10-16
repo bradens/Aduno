@@ -7,6 +7,7 @@
  */
 Meteor.startup(function() {
   Session.set("user_id", null);
+  Session.set("currentLabel", "all");
   function clientKeepalive() {  
     if (Meteor.user()) {
       if (workflow && !workflow.IS_LOGGED_IN && !Meteor.user().loading)
@@ -19,11 +20,23 @@ Meteor.startup(function() {
     clientKeepalive();
   });
   
+  WorkItems.find().observe({
+    added: function(item) {
+        if (item.left == -1 && item.top == -1) {
+          // Hacky way to determine if this is a newly added work item.
+          // Need to improve this TODO @bradens
+          var newPosition = workboard.getNewItemPos();
+          WorkItems.update(item._id, {$set: {top: newPosition.top, left: newPosition.left}});
+        }
+    }
+  });
+  
   Meteor.setInterval(clientKeepalive, 1*1000);
   Meteor.autosubscribe(function() {
-    Meteor.subscribe('workitems');
+    Meteor.subscribe('workitems', Session.get("currentRepoId"));
     Meteor.subscribe('users');
-    Meteor.subscribe('links');
+    Meteor.subscribe('links', Session.get("currentRepoId"));
+    Meteor.subscribe('labels', Session.get("currentRepoId"));
     Meteor.subscribe('repos', Session.get("user_id"));
   });
 });

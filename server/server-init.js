@@ -16,6 +16,7 @@ var base = path.resolve('.');
 if (base == '/'){
   base = path.dirname(global.require.main.filename);   
 }
+//base = base + "/bundle";
 var publicPath = path.resolve(base+'/public/'+gitPath);
 var staticPath = path.resolve(base+'/static/'+gitPath);
 
@@ -57,6 +58,12 @@ Meteor.startup(function() {
     fetch: function () { return true; }
   });
   Repos.allow({
+    insert: function () { return true; },
+    update: function () { return true; },
+    remove: function () { return true; },
+    fetch: function () { return true; }
+  });
+  Labels.allow({
     insert: function () { return true; },
     update: function () { return true; },
     remove: function () { return true; },
