@@ -12,6 +12,7 @@ this.Repos = new Meteor.Collection("repos");
 this.ActiveUsers = new Meteor.Collection("activeusers");
 this.Issues = new Meteor.Collection("issues");
 this.Labels = new Meteor.Collection("labels");
+this.Messages = new Meteor.Collection("messages");
 
 // Publishing our collections
 if (Meteor.is_server)
@@ -45,6 +46,11 @@ if (Meteor.is_server)
         privateTo: {
           $in: [null, this.userId()]
         }
+      });
+    });
+    Meteor.publish('messages', function (repoId) {
+      return Messages.find({
+        repo_id: repoId
       });
     });
 }
