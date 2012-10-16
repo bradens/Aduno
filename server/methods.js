@@ -169,7 +169,6 @@ Meteor.methods({
         name : reponame
       });
       _.each(result, function(item) {
-        console.log(item);
         // TODO @braden insert some issues
         var wi = WorkItems.findOne({
           number: item.number,
@@ -181,11 +180,16 @@ Meteor.methods({
           // Currently going to place them in a random position once we 
           // get back to the client.  
           // It doesn't exist in the aduno repo
+          var labels = [];
+          _.each(item.labels, function(item) {
+            var label = Labels.findOne({'label.name': item.name});
+            labels.push(label);
+          });
           WorkItems.insert({
             name : item.title,
             number: item.number,
             repo_id: repoObj._id,
-            labels : item.labels,
+            labels : labels,
             description: item.body,
             assignee: item.assignee,
             milestone: item.milestone,

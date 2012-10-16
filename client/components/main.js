@@ -44,18 +44,18 @@ Template.main.events = {
   }
 };
 Template.main.workitems = function() {
-  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
-    return  WorkItems.find({
-      name: {
-        $ne: ""
-      },
-      labels: Labels.findOne(Session.get("currentLabel")).label
-    }, { 
-      sort: {
-        name: 1
-      }
-    });
-  } else {
+//  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+//    return  WorkItems.find({
+//      name: {
+//        $ne: ""
+//      }
+//      labels: [Labels.findOne(Session.get("currentLabel"))]
+//    }, { 
+//      sort: {
+//        name: 1
+//      }
+//    });
+//  } else {
     return WorkItems.find({
       name: {
         $ne: ""
@@ -65,7 +65,7 @@ Template.main.workitems = function() {
         name: 1
       }
     });
-  }
+//  }
 };
 Template.main.checkAllLabel = function() {
   if (Session.get("currentLabel") == "all")
