@@ -1,7 +1,7 @@
 <template name="workitem">
   {{ redrawAfterUpdate }}
   <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px;">
-    <h3 class="workItemTitle">{{ name }}</h3>
+    <h4 class="workItemTitle">{{ name }}</h4>
     <a class="btn btn-mini editTitleBtn" href="#">edit</a>
     <span class="workItemID">{{ _id }}</span>
     <a class="btn btn-small btn-danger wiDelete">×</a> 
