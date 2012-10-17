@@ -17,9 +17,15 @@ this.Messages = new Meteor.Collection("messages");
 // Publishing our collections
 if (Meteor.is_server)
 {
-    Meteor.publish('workitems', function(repoId) {
+    Meteor.publish('workitems', function(repoId, labelId) {
+      if (labelId == "all") {
+        return WorkItems.find({
+            repo_id: repoId
+          });
+      }
       return WorkItems.find({
-        repo_id: repoId
+        repo_id: repoId,
+        'labels._id' : labelId
       });
     });
     Meteor.publish('links', function(repoId) {
@@ -46,8 +52,8 @@ if (Meteor.is_server)
       return Repos.find({
         privateTo: {
           $in: [null, this.userId()]
-        }
-      });
+        }}
+      );
     });
     Meteor.publish('messages', function (repoId) {
       return Messages.find({

@@ -6,6 +6,12 @@
  * Main methods for the template.
  */
 
+Template.main.rendered = function() {
+  // redraw our canvas
+  if (window.workboard !== undefined)
+    window.workboard.draw();
+}
+
 Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
@@ -14,8 +20,8 @@ Template.main.events = {
     Meteor.call('loadIssuesWithLabels', 
         Meteor.user().services.github.username, 
         Session.get('currentRepo'),
-        [$(e.target).attr("data-label-name")],
-        workflow.issuesLoaded);
+        [$(e.target).attr("data-label-name")]
+    );
     if ($(e.target).attr('data-label-name') == "all") {
       Session.set("currentLabel", "all");
     }

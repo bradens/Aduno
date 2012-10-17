@@ -61,14 +61,20 @@ $(window).load(function() {
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
       Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
         workboard.ctx.beginPath();
-        wi = WorkItems.findOne({_id: Link.parentID});
-        wiChild = WorkItems.findOne({_id: Link.childID});
+        if (Session.get("currentLabel") === "all") {
+          wi = WorkItems.findOne({_id: Link.parentID });
+          wiChild = WorkItems.findOne({_id: Link.childID});
+        }
+        else {
+          wi = WorkItems.findOne({_id: Link.parentID, 'labels._id' : Session.get("currentLabel") });
+          wiChild = WorkItems.findOne({_id: Link.childID, 'labels._id' : Session.get("currentLabel")});
+        }
         
+        if (!wi || !wiChild)
+          return;
         $wi = $("[data-wi-id="+Link.parentID+"]");
         $wiChild = $("[data-wi-id="+Link.childID+"]");
         
-        if (!$wi || !$wiChild)
-          return;
 
         if (workboard.IS_DRAGGING) {
           // Use the temp position specified by the position of the 'dragging' workitem
