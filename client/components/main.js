@@ -44,18 +44,18 @@ Template.main.events = {
   }
 };
 Template.main.workitems = function() {
-//  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
-//    return  WorkItems.find({
-//      name: {
-//        $ne: ""
-//      }
-//      labels: [Labels.findOne(Session.get("currentLabel"))]
-//    }, { 
-//      sort: {
-//        name: 1
-//      }
-//    });
-//  } else {
+  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+    return  WorkItems.find({
+      name: {
+        $ne: ""
+      },
+      'labels._id': Session.get("currentLabel")
+    }, { 
+      sort: {
+        name: 1
+      }
+    });
+  } else {
     return WorkItems.find({
       name: {
         $ne: ""
@@ -65,7 +65,7 @@ Template.main.workitems = function() {
         name: 1
       }
     });
-//  }
+  }
 };
 Template.main.checkAllLabel = function() {
   if (Session.get("currentLabel") == "all")
@@ -83,17 +83,9 @@ Template.labelItem.checkLabelActive = function() {
   return "";
 };
 Template.main.labels = function() {
-//  if (!Session.get("currentLabel")  || Session.get("currentLabel") == "all") {
-      return Labels.find({
-        repo_id: Session.get("currentRepoId"),
-      });
-//  }
-//  else {
-//    return Labels.find({
-//      repo_id: Session.get("currentRepoId"),
-//      _id: Session.get("currentLabel")
-//    });
-//  }
+    return Labels.find({
+      repo_id: Session.get("currentRepoId"),
+    });
 };
 Template.main.links = function() {
   return Links.find({

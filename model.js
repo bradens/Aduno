@@ -38,7 +38,8 @@ if (Meteor.is_server)
     Meteor.publish('users', function() {
       return Meteor.users.find({_id: this.userId}, {fields: {
         'profile.name': 1,
-        'services.github.username': 1
+        'services.github.username': 1,
+        'idle': 1
       }});
     });
     Meteor.publish('repos', function () {
