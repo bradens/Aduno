@@ -3,7 +3,6 @@
  * Aduno project (http://aduno.meteor.com)
  * @author Braden Simpson (@bradensimpson)
  */
-
 Template.topNav.events = {
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");

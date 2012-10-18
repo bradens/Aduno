@@ -1,12 +1,28 @@
 <template name="main">
 	<div class="canvas-container well data-scroll-section" id="wb">
 	  <div class="workboard-toolbar">
-	    <a id="newWorkItem" class="btn"><i class="icon-plus"></i> Create Workitem</a>
-	    <a id="synchronize" class="btn"><i class="icon-refresh"></i> </a>
+      <div class="btn-toolbar">
+		    <div class="btn-group">
+			    <a id="synchronize" rel="tooltip" title="Synchronize" class="btn"><i class="icon-refresh"></i> </a>
+			    <a rel="tooltip" class="btn dropdown-toggle" data-toggle="dropdown"  title="Create new item" href="#">
+			       <i class="icon-plus"> </i>
+			       <span class="caret"></span>
+			    </a>
+		      <ul class="dropdown-menu">
+		        <li>
+		          <a href="#" id="newWorkItem">Work Item</a>
+		        </li>
+		        <li>
+		          <a id="newLabel"  href="#">Label</a>
+		        </li>
+		      </ul>
+		    </div>
+	    </div>
 	  </div>
 	  <div class="workflow-panel well-small">
+      <a rel="tooltip" title="Click to toggle editing labels" class="editLabelBtn" ><i class="icon-edit"> </i></a>
 	    <ul class="filter-labels nav nav-list">
-	      <li class="nav-header">Filter by label</li>
+	      <li class="nav-header">Filter by label </li>
 	      <li class=" {{checkAllLabel}}"><a data-label-name="all" href="#" class="all">all</a></li>
 	      {{#each labels }}
 	        {{> labelItem }}

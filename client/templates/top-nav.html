@@ -2,13 +2,12 @@
   <ul class="nav">  
 	  <li><a href="#wb" onclick="scrollto('body');">Workboard</a></li>  
 	  <li><a href="#about" onclick="scrollto('#about');">About</a></li>  
-	  <li><a href="#gettingStarted" onclick="scrollto('#gettingStarted');">Getting Started</a></li>  
 	</ul>  
 	<ul class="nav pull-right">
 	  <li><a class="loginButton">{{> loginButtons }}</a></li>
 	  <li class="divider-vertical"></li>
 	  <li class="dropdown">
-	    <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
+	    <a href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
 	    <ul class="dropdown-menu">
 	      {{#each currentRepos }}
 	        {{> currentRepo }}

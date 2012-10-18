@@ -57,15 +57,6 @@ a {
 	.transition-all;
   text-decoration: none !important;
 }
-a.wiDelete {
-	.abspos-right;
-  opacity:.6;  
-  border-top-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-a.wiDelete:hover {
-  opacity:1;
-}
 a.darkLink {
   color: @lightgrey;
 }
@@ -108,18 +99,27 @@ a:hover {
 
 .workItem {
   .workItemTitle {
-    padding:5px;
+    margin-top:25px;
+    font-size:14px;
     text-shadow: 0 1px 0 white;
   }
-  .editTitleBtn {
-    display:none;
-    position:absolute;
-    top:10px;
-    right:35px;
-  }
   .workItemID {
+    display:none;   /* Temporarily disable this as we don't need it for debugging right now */
     font-size:10px;
     color:darkgrey;
+  }
+  .btn-toolbar {
+    margin:0;
+	  opacity: .5;
+    .abspos-left;
+    border-top-right-radius:0px;
+    border-bottom-left-radius:0px;
+  }
+  .linkWI {
+    border-bottom-left-radius:0 !important;
+  }
+  .actions {
+    border-top-right-radius:0 !important;
   }
 	.abspos-left;
   .border-radius(4px);
@@ -131,13 +131,22 @@ a:hover {
   border: thin solid @darkgrey;
   .box-shadow(0, 0, 5px, 1px, rgb(180, 180, 250));
 }
-.workItem:hover .editTitleBtn {
-  display:block;  
+.workItem:hover .btn-toolbar {
+  opacity:1;  
 }
-
+a.wiDelete {
+  .abspos-right;
+  opacity:.6;  
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+a.wiDelete:hover {
+  opacity:1;
+}
 //--------------------------- Workboard ---------------------------// 
 .workboard-toolbar {
 	margin-bottom:10px;
+	margin-left: 25px;
 }
 .canvas-container {
   margin:40px 0 0 0;
@@ -166,12 +175,12 @@ a:hover {
 	li > a:hover {
 	  background-color: rgba(200,200,255, .5) !important;
 	}
-	li:nth-child(2n) > a{
+	li:nth-child(2n) > a {
 	  background-color: rgba(0,0,0,.02);
 	  border-top: 1px solid lightgrey;
 	  border-bottom: 1px solid lightgrey;
 	}
-	li:nth-child(2n+1) > a{
+	li:nth-child(2n+1) > a {
 	  border-top:1px solid white;
 	  border-bottom:1px solid white;
 	}
@@ -187,6 +196,17 @@ a:hover {
 		font-weight: bold;
 		line-height: 14px;
 	}
+  a.editLabelBtn {
+    padding:0;
+    margin:0;
+    float:right;
+    cursor: pointer;
+    border:none;
+    position:relative;
+  }
+  a.editLabelBtn:hover {
+    background-color: transparent !important;
+  }
 }
 //--------------------------- Dialogs ---------------------------// 
 

@@ -10,13 +10,24 @@ Template.main.rendered = function() {
   // redraw our canvas
   if (window.workboard !== undefined)
     window.workboard.draw();
+  // re-init our tooltips
+  $('[rel=tooltip]').tooltip();
 }
 
 Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
-  'click .filter-labels li' : function(e) {
+  'click a.editLabelBtn' : function(e) {
+    workflow.editLabelMode(!workflow.IS_EDITING_LABELS);
+  },
+  'keyup .filter-labels li a' : function(e) {
+    if ($(e.target).hasClass("editable")) {
+      Labels.update($(e).attr('data-label-id'), {$set: {name: $(e.target).html()}});
+    }
+  },
+  'click .filter-labels li:not(".nav-header")' : function(e) {
+    if (workflow.IS_EDITING_LABELS) return false;
     Meteor.call('loadIssuesWithLabels', 
         Meteor.user().services.github.username, 
         Session.get('currentRepo'),
@@ -82,6 +93,9 @@ Template.main.checkAllLabel = function() {
 Template.labelItem.labelName = function() {
   return this.label.name;
 };
+Template.main.getEditingLabelStateMsg = function() {
+  return Session.get("IS_EDITING_LABELS_MSG");
+}
 Template.labelItem.checkLabelActive = function() { 
   if (Session.get("currentLabel") != "all" && this.label.name == Labels.findOne(Session.get("currentLabel")).label.name) {
     return "active";

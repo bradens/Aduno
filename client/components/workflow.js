@@ -6,7 +6,6 @@
  * Workboard code.  Used for manipulating the 'workboard' which is the name of the
  * main working area of Aduno.
  */
-
 $(function() {
   if (window.workflow == undefined)
   {
@@ -15,6 +14,7 @@ $(function() {
   function WorkFlow() {
     this.IS_LOGGING_IN = false;
     this.IS_LOGGED_IN = false;
+    this.IS_EDITING_LABELS = false;
     this.loggedIn = function () {
       this.IS_LOGGED_IN = true;
       if (Meteor.user())
@@ -36,5 +36,16 @@ $(function() {
     this.labelsLoaded = function() {
       console.log('labelsLoaded');
     };
+    this.editLabelMode = function(editable) {
+      this.IS_EDITING_LABELS = editable;
+      if (editable) {
+        $('.filter-labels li a').addClass("editable");
+        $('.filter-labels li a').attr('contenteditable', 'true');
+      }
+      else {
+        $('.filter-labels li a').removeClass("editable");
+        $('.filter-labels li a').attr('contenteditable', 'false');
+      }
+    }
   }
 });
