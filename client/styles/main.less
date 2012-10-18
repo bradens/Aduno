@@ -278,6 +278,32 @@ a.wiDelete:hover {
   color:slategrey;
 }
 
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0,0,0,.4);
+}
+::-webkit-scrollbar-thumb {
+	background-color:  rgba(0, 0, 0, .2);
+	background-clip: padding-box;
+	border: solid transparent;
+	border-width: 1px 3px 1px 3px;
+	min-height: 28px;
+	padding: 100px 0 0;
+	box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1),inset 0 -1px 0 rgba(0, 0, 0, .07);
+}
+:focus {
+  outline: -webkit-focus-ring-color auto 5px;
+}
+::-webkit-scrollbar:hover {
+    background-color:rgba(0,0,0,.1);
+}
+::-webkit-scrollbar {
+overflow: visible;
+width: 12px;
+}
+
 .sep {
   background-size: 100% 1px, 100% 1px, auto;
   background-position: 50% 100%, 50% 100%, 50% 0;
