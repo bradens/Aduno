@@ -45,6 +45,9 @@ Template.workitem.events = {
       });
     }
   },
+  'keyup .workItemTitle' : function(e) {
+    console.log(e);
+  },
   'click .postIssue' : function(e) {
     if (!People.findOne({_id: Session.get('user_id')}).is_authenticated)
       $("#authDialog").modal();
@@ -54,6 +57,8 @@ Template.workitem.events = {
   'mouseover .workItem' : function() {
     $('#wi_'+this._id).draggable({
       containment: '#myCanvas'
+    }).bind('click', function(e){
+      $(e.target).focus();
     });
   }
 };

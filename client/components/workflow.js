@@ -27,6 +27,9 @@ $(function() {
         Meteor.call('loadRepos', Meteor.user()._id, workflow.loadedReposCallback);
       }
     };
+    this.createLabel = function() {
+      $("#newLabelDialog").modal();
+    };
     this.loadedReposCallback = function(res) {
       console.log("finished loading repos");
     };
@@ -37,6 +40,10 @@ $(function() {
       console.log('labelsLoaded');
     };
     this.editLabelMode = function(editable) {
+      // TODO @bradens  -- Editing labels is currently not allowed.  Remove the following 2 lines when implemented
+      alert("Editing labels is currently unsupported.");
+      return false;
+      
       this.IS_EDITING_LABELS = editable;
       if (editable) {
         $('.filter-labels li a').addClass("editable");

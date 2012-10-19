@@ -41,6 +41,23 @@ Meteor.methods({
     });
   }, 
   
+  //-------------------------------------- Labels --------------------------------------// 
+  addLabel: function (user_id, reponame, labelObject) {
+    github.issues.createLabel({
+      repo: reponame,
+      user: Meteor.users.findOne(user_id).services.github.username,
+      name: labelObject.name,
+      color: labelObject.color
+    }, function(err, res){
+      if (err) 
+        return false;
+      else {
+        console.log(res); 
+        return true;
+      }
+    });
+  },
+  
   // Load Github repos for a user.
   // We will *always* give preference to a github repos information
   // since it controls who has access to what.

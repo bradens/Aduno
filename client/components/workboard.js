@@ -43,7 +43,7 @@ $(window).load(function() {
     this.createNewWorkItem = function () {
       var position = workboard.getNewItemPos();
       var id = WorkItems.insert({
-        labels: [Labels.findOne(Session.get("currentLabel"))],
+        labels: [Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name' : Session.get("currentLabel")})],
         name: "New WorkItem",
         repo_id: Session.get("currentRepoId"),
         description: "Default description",

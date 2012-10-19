@@ -30,6 +30,9 @@ Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
+  'click #newLabel' : function() {
+    workflow.createLabel();
+  },
   'click a.editLabelBtn' : function(e) {
     workflow.editLabelMode(!workflow.IS_EDITING_LABELS);
   },
