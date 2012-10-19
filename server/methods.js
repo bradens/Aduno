@@ -105,6 +105,40 @@ Meteor.methods({
     );
   },
   
+  // TODO @bradens
+  // Currently updating labels is not supported...the github api we use doesn't allow 
+  // for updates 
+  updateLabels: function(username, reponame, repoId) {
+    console.log("Unsupported");
+//    var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();
+//    _.each(labels, function(item) {
+//      var oldLabelName = item.label.url.substring(item.label.url.lastIndexOf("/") + 1);
+//      var accessToken = Meteor.users.findOne({'services.github.username': username}).services.github.accessToken;
+//      console.log("https://api.github.com/repos/" + username + "/" + reponame + "/labels/" + oldLabelName + "?access_token=" + accessToken);
+//      urlReq("https://api.github.com/repos/" + username + "/" + reponame + "/labels/" + oldLabelName + "?access_token=" + accessToken,
+//          {
+//            method: 'PUT',
+//            params: {
+//              name: item.label.name,
+//              color: item.label.color
+//            }
+//          }, function(body, res) {
+//            console.log(body + "\n" + res);
+//          });
+//      });
+
+//      github.issues.updateLabel({
+//        user: username,
+//        repo: reponame, 
+//        name: item.label.name,
+//        color: item.label.color
+//      }, function(err, res) {
+//        if (err)
+//          console.log(err);
+//      });
+//    });
+  },
+      
   // Load all the labels for a repo
   loadLabels : function(username, reponame) {
     github.issues.getLabels({
@@ -201,7 +235,8 @@ Meteor.methods({
       });
     }).run();
   },
-  synchronize: function(username, reponame) {
-    //loadIssues(username, reponame);
+  // TODO @bradens
+  synchronize: function(username, reponame, repoId) {
+    Meteor.call('updateLabels', username, reponame, repoId);
   }
 });

@@ -12,6 +12,18 @@ Template.main.rendered = function() {
     window.workboard.draw();
   // re-init our tooltips
   $('[rel=tooltip]').tooltip();
+  $('[contenteditable="true"], .filter-labels li a').live('focus', function() {
+        var $this = $(this);
+        $this.data('before', $this.html());
+        return $this;
+    }).live('blur keyup paste', function() {
+        var $this = $(this);
+        if ($this.data('before') !== $this.html()) {
+            $this.data('before', $this.html());
+            $this.trigger('keyup');
+        }
+        return $this;
+    });
 }
 
 Template.main.events = {
@@ -23,7 +35,7 @@ Template.main.events = {
   },
   'keyup .filter-labels li a' : function(e) {
     if ($(e.target).hasClass("editable")) {
-      Labels.update($(e).attr('data-label-id'), {$set: {name: $(e.target).html()}});
+      Labels.update($(e.target).attr('data-label-id'), {$set: {'label.name': $(e.target).html(), dirty: true}});
     }
   },
   'click .filter-labels li:not(".nav-header")' : function(e) {
@@ -37,7 +49,7 @@ Template.main.events = {
       Session.set("currentLabel", "all");
     }
     else {
-      Session.set("currentLabel", Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': $(e.target).attr('data-label-name')})._id);
+      Session.set("currentLabel", $(e.target).attr('data-label-name'));
     }
   },
   'click #synchronize' : function() {
@@ -45,6 +57,7 @@ Template.main.events = {
         'synchronize', 
         Meteor.user().services.github.username, 
         Session.get("currentRepo"),
+        Session.get("currentRepoId"),
         function(e) {
           console.log("synchronized");
         }
@@ -66,7 +79,7 @@ Template.main.workitems = function() {
       name: {
         $ne: ""
       },
-      'labels._id': Session.get("currentLabel")
+      'labels.label.name': Session.get("currentLabel")
     }, { 
       sort: {
         name: 1
@@ -97,7 +110,7 @@ Template.main.getEditingLabelStateMsg = function() {
   return Session.get("IS_EDITING_LABELS_MSG");
 }
 Template.labelItem.checkLabelActive = function() { 
-  if (Session.get("currentLabel") != "all" && this.label.name == Labels.findOne(Session.get("currentLabel")).label.name) {
+  if (Session.get("currentLabel") != "all" && this.label.name == Session.get("currentLabel")) {
     return "active";
   }
   return "";

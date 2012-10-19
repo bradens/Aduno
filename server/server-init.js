@@ -7,8 +7,11 @@
  * npm packages.
  */
 var require = __meteor_bootstrap__.require;
-var path = require("path");
-var fs = require('fs');
+var path = require("path"),
+      fs = require('fs'),
+      http = require('http'),
+      url = require('url');
+
 var GitHubApi;
 var gitPath = 'node_modules/github';
 

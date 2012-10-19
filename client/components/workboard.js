@@ -48,7 +48,8 @@ $(window).load(function() {
         repo_id: Session.get("currentRepoId"),
         description: "Default description",
         top: position.top,
-        left: position.left
+        left: position.left,
+        dirty: true
       });
     };
     this.updateCanvas = function() {
@@ -66,8 +67,8 @@ $(window).load(function() {
           wiChild = WorkItems.findOne({_id: Link.childID});
         }
         else {
-          wi = WorkItems.findOne({_id: Link.parentID, 'labels._id' : Session.get("currentLabel") });
-          wiChild = WorkItems.findOne({_id: Link.childID, 'labels._id' : Session.get("currentLabel")});
+          wi = WorkItems.findOne({_id: Link.parentID, 'labels.label.name' : Session.get("currentLabel") });
+          wiChild = WorkItems.findOne({_id: Link.childID, 'labels.label.name' : Session.get("currentLabel")});
         }
         
         if (!wi || !wiChild)
