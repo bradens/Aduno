@@ -109,6 +109,14 @@ Template.main.checkAllLabel = function() {
 Template.labelItem.labelName = function() {
   return this.label.name;
 };
+Template.labelItem.events = {
+    'click .label-delete' : function(e) {
+      $("#warningDialog .warning-dialog-message").html("Deleting a label also removes it from each workitem it is associated with.");
+      $("#warningDialog .warning-dialog-ok").html("Delete Label");
+      $("#warningDialog").attr('current-label-name', $(e.target).closest('[data-label-name]').attr('data-label-name')).modal();
+      e.stopPropagation();
+    }
+}
 Template.main.getEditingLabelStateMsg = function() {
   return Session.get("IS_EDITING_LABELS_MSG");
 }

@@ -9,7 +9,7 @@
 var require = __meteor_bootstrap__.require;
 var path = require("path"),
       fs = require('fs'),
-      http = require('http'),
+      https = require('https'),
       url = require('url');
 
 var GitHubApi;

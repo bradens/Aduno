@@ -168,6 +168,9 @@ a.wiDelete:hover {
 	li > a:hover {
 	  background-color: rgba(200,200,255, .5) !important;
 	}
+	li:hover a.label-delete {
+	  display:block;
+	} 
 	li:nth-child(2n) > a {
 	  background-color: rgba(0,0,0,.02);
 	  border-top: 1px solid lightgrey;
@@ -200,10 +203,16 @@ a.wiDelete:hover {
   a.editLabelBtn:hover {
     background-color: transparent !important;
   }
+  a.label-delete {
+    float:right;
+    cursor:pointer;
+    text-align:center;
+    display:none;
+  }
 }
 //--------------------------- Dialogs ---------------------------// 
 
-#wiDetailsDialog, #newLabelDialog {
+#wiDetailsDialog, #newLabelDialog, #warningDialog {
   display:none;
 }
 

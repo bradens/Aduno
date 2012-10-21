@@ -42,22 +42,45 @@ Meteor.methods({
   }, 
   
   //-------------------------------------- Labels --------------------------------------// 
-  addLabel: function (user_id, reponame, labelObject) {
+  addLabel: function (username, reponame, repoId, labelObject) {
     github.issues.createLabel({
       repo: reponame,
-      user: Meteor.users.findOne(user_id).services.github.username,
+      user: username,
       name: labelObject.name,
       color: labelObject.color
     }, function(err, res){
-      if (err) 
-        return false;
-      else {
-        console.log(res); 
-        return true;
-      }
+      Fiber(function() {
+        if (err){ 
+          console.log("ERROR");
+          return false;
+        }
+        else {
+          Labels.insert({
+            label: res,
+            repo_id: repoId
+          });
+          return true;
+        }
+      }).run();
     });
   },
-  
+  deleteLabel : function (user_id, username, reponame, labelname) {
+    var accessToken = Meteor.users.findOne(user_id).services.github.accessToken;
+    var repoId = Repos.findOne({name: reponame})._id;
+    urlReq("https://api.github.com:443/repos/" + username + "/" + reponame + "/labels/" + labelname.replace(" ", "+"), {
+          method: "DELETE",
+          headers: {"Content-length" : "0", "Authorization" : "bearer " + accessToken}
+        }, function(err, res) {
+          if (err)
+            console.log("Error : " + err);
+          else {
+              Fiber(function() { 
+                Labels.remove({repo_id: repoId, 'label.name': labelname});
+              }).run();
+            }
+        }
+    );
+  },
   // Load Github repos for a user.
   // We will *always* give preference to a github repos information
   // since it controls who has access to what.
