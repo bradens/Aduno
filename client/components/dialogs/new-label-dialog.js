@@ -7,8 +7,15 @@ Template.newLabelDialog.events = {
       color = dialog.find("#labelColor").val();
       if (color.indexOf("#") != -1)
         color = color.substring(1);
-      Meteor.call('addLabel', Meteor.user().services.github.username, Session.get("currentRepo"), Session.get("currentRepoId"), {name: name, color: color}); 
+      if (dialog.attr("editing") == "true"){
+        var id = dialog.attr("editing-label-id")
+        Labels.update(id, {$set : {'label.name' : name, 'label.color': color, dirty: true}});
+      }
+      else {
+        Meteor.call('addLabel', Meteor.user().services.github.username, Session.get("currentRepo"), Session.get("currentRepoId"), {name: name, color: color}); 
+      }
       $('#newLabelDialog input').val("");
-      $('#newLabelDialog').modal("hide");
+      dialog.attr("editing", "false");
+      dialog.modal("hide");
     }
 };

@@ -168,7 +168,7 @@ a.wiDelete:hover {
 	li > a:hover {
 	  background-color: rgba(200,200,255, .5) !important;
 	}
-	li:hover a.label-delete {
+	li:hover a.label-delete, li:hover a.editLabelBtn {
 	  display:block;
 	} 
 	li:nth-child(2n) > a {
@@ -193,21 +193,29 @@ a.wiDelete:hover {
 		line-height: 14px;
 	}
   a.editLabelBtn {
-    padding:0;
-    margin:0;
-    float:right;
     cursor: pointer;
-    border:none;
+    border:none !important;
     position:relative;
+    right:25px;
+    display:none;
+    border:none;
+    float:right;
+    padding:4px;
   }
   a.editLabelBtn:hover {
-    background-color: transparent !important;
+    background-color: rgba(100, 255, 100, .5) !important;
+  }
+  a.label-delete:hover {
+    background-color: rgba(255, 100, 100, .5) !important;
   }
   a.label-delete {
+    right:10px;
+    padding:4px;
     float:right;
     cursor:pointer;
-    text-align:center;
+    position:relative;
     display:none;
+    border:none !important;
   }
 }
 //--------------------------- Dialogs ---------------------------// 
