@@ -1,0 +1,32 @@
+<template name="workflowMenu">
+  <div id="left-menu" class="tabbable">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#tab1" data-toggle="tab" rel="tooltip" title="Labels"><i class="icon-tags"></i> </a>
+      </li>
+      <li>
+        <a href="#tab2" data-toggle="tab" rel="tooltip" title="Milestones"><i class="icon-flag"></i> </a>
+      </li>
+      <li>
+        <a href="#tab3" data-toggle="tab" rel="tooltip" title="Chat"><i class="icon-comment"></i> </a>
+      </li>
+      <li>
+        <a href="#tab4" data-toggle="tab" rel="tooltip" title="Settings"><i class="icon-cog"></i> </a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="tab1">
+        {{> labels }}
+      </div>
+      <div class="tab-pane" id="tab2">
+        {{> milestones }}
+      </div>
+      <div class="tab-pane" id="tab3">
+        {{> chat }}
+      </div>
+      <div class="tab-pane" id="tab4">
+        {{> settings }}
+      </div>
+    </div>
+  </div>
+</template>
