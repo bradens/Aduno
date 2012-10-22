@@ -24,3 +24,19 @@ function scrollto(selector)
         scrollTop: $(selector).offset().top
     }, 500, 'swing');  
 }
+
+function scrollToBottom(elm_id) {
+  var elm = document.getElementById(elm_id);
+  try {
+    elm.scrollTop = elm.scrollHeight;
+  }
+  catch(e) {
+    var f = document.createElement("input");
+    if (f.setAttribute) f.setAttribute("type","text")
+    if (elm.appendChild) elm.appendChild(f);
+    f.style.width = "0px";
+    f.style.height = "0px";
+    if (f.focus) f.focus();
+    if (elm.removeChild) elm.removeChild(f);
+  }
+}

@@ -19,16 +19,32 @@
 		    </div>
 	    </div>
 	  </div>
-	  <div class="workflow-panel well-small">
-      <a rel="tooltip" title="Click to toggle editing labels" class="editLabelBtn" ><i class="icon-edit"> </i></a>
-	    <ul class="filter-labels nav nav-list">
-	      <li class="nav-header">Filter by label </li>
-	      <li class=" {{checkAllLabel}}"><a data-label-name="all" href="#" class="all">all</a></li>
-	      {{#each labels }}
-	        {{> labelItem }}
-	      {{/each}}
-	    </ul>
-	  </div>
+	  <div id="left-menu" class="tabbable"> <!-- Only required for left/right tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
+        <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+        
+          <div class="workflow-panel well-small">
+            <a rel="tooltip" title="Click to toggle editing labels" class="editLabelBtn" ><i class="icon-edit"> </i></a>
+            
+            <ul class="filter-labels nav nav-list">
+              <li class="nav-header">Filter by label </li>
+              <li class=" {{checkAllLabel}}"><a data-label-name="all" href="#" class="all">all</a></li>
+              {{#each labels }}
+                {{> labelItem }}
+              {{/each}}
+            </ul>
+          </div>
+
+        </div>
+        <div class="tab-pane" id="tab2">
+          <p>Howdy, I'm in Section 2.</p>
+        </div>
+      </div>
+    </div>
 	  <canvas width="1000px" height="1000px" id="myCanvas">          
 	  </canvas>	
     {{> chat }}

@@ -1,7 +1,25 @@
 <template name="chat">
   <div class="chat">
-    {{> chat_header}}
-    {{> chat_inputarea}}
-    {{> chat_content}}
+    <div class="navbar-inner">
+      <h4>Chat</h4>
+    </div>
+      
+    {{#if repo_id}}
+      <div id="chat-content" style="padding: 5px; overflow:auto; height:450px">
+        {{#each messages}}
+          <p><strong>{{ name }}</strong>: {{message}}</p>
+        {{/each}}
+      </div>
+      <div class="well well-small">
+        <input type="text" class="span2" id="message">
+     </div>
+    {{/if}}
+
+    {{#unless repo_id}}
+      <div class="well well-small">
+        You must connect to a repo to chat
+      </div>
+    {{/unless}}
+    
   </div>
 </template>
