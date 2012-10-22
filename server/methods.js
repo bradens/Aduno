@@ -99,7 +99,7 @@ Meteor.methods({
           color: item.label.color
         }}, function(body, res) {
             Fiber(function() {
-              Labels.update(item._id, {$set: {label: body}});
+              Labels.update(item._id, {$set: {label: body, dirty: false}});
             }).run();
       });
     });
@@ -263,12 +263,40 @@ Meteor.methods({
             left: -1
           });
         }
+        else {
+          // There is a work item here already
+          if (wi.dirty) {
+            // it's dirty then it means someone on github updated theirs without us getting a pull.
+            // Need to figure out a merge strategy, but in the mean time keep ours.  
+            WorkItems.update(wi._id, {
+              $set : {
+                unsync: true
+              }
+            });
+          }
+          else {
+            //. It's not dirty, but different than ours.  Update it.
+            WorkItems.update(wi._id, {
+              $set: {
+                name: item.title, 
+                number: item.number,
+                repo_id: repoObj._id,
+                labels : labels,
+                description: item.body,
+                assignee: item.assignee,
+                milestone: item.milestone,
+                comments : item.comments
+              }
+            });
+          }
+        }
       });
     }).run();
   },
   // TODO @bradens
   synchronize: function(username, reponame, repoId) {
-    console.log("updating labels");
+    console.log("Synchronizing");
     Meteor.call('updateLabels', username, reponame, repoId);
+    Meteor.call('updateWorkItems', username, reponame, repoId);
   }
 });

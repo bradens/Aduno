@@ -12,6 +12,19 @@ Template.workitem.title = function() {
   return "New WorkItem";
 }
 
+Template.workItemTitleEditor.events = {
+    'keyup input' : function(e) {
+      $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
+      WorkItems.update($id, {$set : {
+        name: e.target.value
+      }});
+    },
+    'blur input' : function(e) {
+      $wie = $("#work-item-title-editor");
+      $wie.find('input').val("");
+      $wie.fadeOut('fast');
+    }
+}
 Template.workitem.events = {
   'click .editTitleBtn' : function (e) {
     showWiDialog($(e.currentTarget).closest(".workItem").attr('data-wi-id'));
@@ -19,6 +32,18 @@ Template.workitem.events = {
   },
   'click .details' : function (e) {
     showWiDialog($(e.currentTarget).closest(".workItem").attr('data-wi-id'));
+  },
+  'click h4.workItemTitle' : function(e) {
+    $wiEditor = $("#work-item-title-editor");
+    pos = $(e.target).offset();
+    pos.top = pos.top - ($wiEditor.height() + 30);
+    $wiEditor.css({
+      top: pos.top,
+      left: pos.left
+    }).fadeIn('fast');
+    $wiEditor.attr('editing-id', $(e.target).closest('[data-wi-id]').attr('data-wi-id'));
+    $wiEditor.find('input').val(e.target.innerText).focus();
+    e.stopPropagation();
   },
   'click .wiDelete' : function (e) {
     var wiID = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
@@ -57,8 +82,6 @@ Template.workitem.events = {
   'mouseover .workItem' : function() {
     $('#wi_'+this._id).draggable({
       containment: '#myCanvas'
-    }).bind('click', function(e){
-      $(e.target).focus();
     });
   }
 };

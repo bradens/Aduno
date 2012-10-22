@@ -19,11 +19,20 @@
         </ul>
       </div>
     </div>
-    <h4 contenteditable="true" class="workItemTitle">{{ name }}</h4>
+    <h4 contenteditable="true" rel="tooltip" title="Click to edit" class="workItemTitle">{{ name }}</h4>
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
     <div class="sep"></div>
     <div class="editable">
-      <p class="description" contenteditable="true">{{ description }}</p>
+      <p class="description">{{ description }}</p>
     </div>
+  </div>
+</template>
+
+<template name="workItemTitleEditor">
+  <div class="well darkWell" id="work-item-title-editor">
+    <form class="form-horizontal">
+	    <input type="text" id="work-item-title-input" >
+	    <a class="btn btn-infro">Hide</a>
+    </form>
   </div>
 </template>
