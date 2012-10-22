@@ -42,21 +42,69 @@ Meteor.methods({
   }, 
   
   //-------------------------------------- Labels --------------------------------------// 
-  addLabel: function (user_id, reponame, labelObject) {
+  addLabel: function (username, reponame, repoId, labelObject) {
     github.issues.createLabel({
       repo: reponame,
-      user: Meteor.users.findOne(user_id).services.github.username,
+      user: username,
       name: labelObject.name,
       color: labelObject.color
     }, function(err, res){
-      if (err) 
-        return false;
-      else {
-        console.log(res); 
-        return true;
-      }
+      Fiber(function() {
+        if (err){ 
+          console.log("ERROR");
+          return false;
+        }
+        else {
+          Labels.insert({
+            label: res,
+            repo_id: repoId
+          });
+          return true;
+        }
+      }).run();
     });
   },
+  deleteLabel : function (user_id, username, reponame, labelname) {
+    var accessToken = Meteor.users.findOne(user_id).services.github.accessToken;
+    var repoId = Repos.findOne({name: reponame})._id;
+    urlReq("https://api.github.com:443/repos/" + username + "/" + reponame + "/labels/" + labelname.replace(" ", "+"), {
+          method: "DELETE",
+          headers: {"Content-length" : "0", "Authorization" : "bearer " + accessToken}
+        }, function(err, res) {
+          if (err)
+            console.log("Error : " + err);
+          else {
+              Fiber(function() { 
+                Labels.remove({repo_id: repoId, 'label.name': labelname});
+              }).run();
+            }
+        }
+    );
+  },
+  
+  // TODO @bradens
+  // Currently updating labels is not supported...the github api we use doesn't allow 
+  // for updates 
+  updateLabels: function(username, reponame, repoId) {
+    var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();
+    _.each(labels, function(item) {
+      var oldLabelName = item.label.url.substring(item.label.url.lastIndexOf("/") + 1);
+      console.log(oldLabelName);
+      var accessToken = Meteor.users.findOne({'services.github.username': username}).services.github.accessToken;
+      urlReq("https://api.github.com:443/repos/" + username + "/" + reponame + "/labels/" + oldLabelName, { 
+        method: 'PATCH',
+        headers: {"Authorization" : "bearer " + accessToken},
+        params: {
+          name: item.label.name,
+          color: item.label.color
+        }}, function(body, res) {
+            Fiber(function() {
+              Labels.update(item._id, {$set: {label: body}});
+            }).run();
+      });
+    });
+  },
+
   
   // Load Github repos for a user.
   // We will *always* give preference to a github repos information
@@ -120,40 +168,6 @@ Meteor.methods({
         }
       }
     );
-  },
-  
-  // TODO @bradens
-  // Currently updating labels is not supported...the github api we use doesn't allow 
-  // for updates 
-  updateLabels: function(username, reponame, repoId) {
-    console.log("Unsupported");
-//    var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();
-//    _.each(labels, function(item) {
-//      var oldLabelName = item.label.url.substring(item.label.url.lastIndexOf("/") + 1);
-//      var accessToken = Meteor.users.findOne({'services.github.username': username}).services.github.accessToken;
-//      console.log("https://api.github.com/repos/" + username + "/" + reponame + "/labels/" + oldLabelName + "?access_token=" + accessToken);
-//      urlReq("https://api.github.com/repos/" + username + "/" + reponame + "/labels/" + oldLabelName + "?access_token=" + accessToken,
-//          {
-//            method: 'PUT',
-//            params: {
-//              name: item.label.name,
-//              color: item.label.color
-//            }
-//          }, function(body, res) {
-//            console.log(body + "\n" + res);
-//          });
-//      });
-
-//      github.issues.updateLabel({
-//        user: username,
-//        repo: reponame, 
-//        name: item.label.name,
-//        color: item.label.color
-//      }, function(err, res) {
-//        if (err)
-//          console.log(err);
-//      });
-//    });
   },
       
   // Load all the labels for a repo
@@ -254,6 +268,7 @@ Meteor.methods({
   },
   // TODO @bradens
   synchronize: function(username, reponame, repoId) {
+    console.log("updating labels");
     Meteor.call('updateLabels', username, reponame, repoId);
   }
 });

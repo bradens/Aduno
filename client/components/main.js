@@ -12,18 +12,6 @@ Template.main.rendered = function() {
     window.workboard.draw();
   // re-init our tooltips
   $('[rel=tooltip]').tooltip();
-  $('[contenteditable="true"], .filter-labels li a').live('focus', function() {
-        var $this = $(this);
-        $this.data('before', $this.html());
-        return $this;
-    }).live('blur keyup paste', function() {
-        var $this = $(this);
-        if ($this.data('before') !== $this.html()) {
-            $this.data('before', $this.html());
-            $this.trigger('keyup');
-        }
-        return $this;
-    });
 }
 
 Template.main.events = {
@@ -34,12 +22,15 @@ Template.main.events = {
     workflow.createLabel();
   },
   'click a.editLabelBtn' : function(e) {
-    workflow.editLabelMode(!workflow.IS_EDITING_LABELS);
-  },
-  'keyup .filter-labels li a' : function(e) {
-    if ($(e.target).hasClass("editable")) {
-      Labels.update($(e.target).attr('data-label-id'), {$set: {'label.name': $(e.target).html(), dirty: true}});
-    }
+    var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');
+    var label = Labels.findOne({'label.name' : labelname, repo_id: Session.get("currentRepoId")});
+    $newLabel = $("#newLabelDialog");
+    $newLabel.attr("editing", "true");
+    $newLabel.attr("editing-label-id", label._id);
+    $newLabel.find("#labelColor").val(label.label.color);
+    $newLabel.find("#labelName").val(label.label.name);
+    $newLabel.modal();
+    e.stopPropagation();
   },
   'click .filter-labels li:not(".nav-header")' : function(e) {
     if (workflow.IS_EDITING_LABELS) return false;
@@ -109,6 +100,14 @@ Template.main.checkAllLabel = function() {
 Template.labelItem.labelName = function() {
   return this.label.name;
 };
+Template.labelItem.events = {
+    'click .label-delete' : function(e) {
+      $("#warningDialog .warning-dialog-message").html("Deleting a label also removes it from each workitem it is associated with.");
+      $("#warningDialog .warning-dialog-ok").html("Delete Label");
+      $("#warningDialog").attr('current-label-name', $(e.target).closest('[data-label-name]').attr('data-label-name')).modal();
+      e.stopPropagation();
+    }
+}
 Template.main.getEditingLabelStateMsg = function() {
   return Session.get("IS_EDITING_LABELS_MSG");
 }

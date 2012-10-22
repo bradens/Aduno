@@ -30,7 +30,7 @@ urlReq = function(reqUrl, options, cb){
     };
 
     // MAKE THE REQUEST
-    var req = http.request(settings);
+    var req = https.request(settings);
 
     // if there are params: write them to the request
     if(options.params){ req.write(options.params) };

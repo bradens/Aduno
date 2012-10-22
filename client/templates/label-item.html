@@ -1,3 +1,7 @@
 <template name="labelItem">
-  <li class="{{ checkLabelActive }}"><a data-label-name="{{ labelName }}"  data-label-id="{{ _id }}" href="#">{{ labelName }}</a></li>
+  <li data-label-name="{{ labelName }}"  class="{{ checkLabelActive }}">
+    <a class="label-delete" rel="tooltip" title="Delete label"><span>×</span></a>
+    <a rel="tooltip" title="Edit Label" class="editLabelBtn" ><i class="icon-pencil"> </i></a>
+    <a data-label-name="{{ labelName }}"  data-label-id="{{ _id }}" href="#">{{ labelName }}</a>
+  </li>
 </template>
