@@ -82,9 +82,6 @@ Meteor.methods({
     );
   },
   
-  // TODO @bradens
-  // Currently updating labels is not supported...the github api we use doesn't allow 
-  // for updates 
   updateLabels: function(username, reponame, repoId) {
     var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();
     _.each(labels, function(item) {
@@ -105,6 +102,56 @@ Meteor.methods({
     });
   },
 
+  // Updates github with the workitems from Aduno.
+  updateWorkItems: function(username, reponame, repoId) {
+    newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
+    dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
+    // First add the new work items.
+    _.each(newItems, function(item) {
+      labels = [];
+      // For the new items 
+      _.each(item.labels, function(aLabel) {
+        labels.push(aLabel.label.name);
+      });
+      github.issues.create({
+        user: username, 
+        repo: reponame,
+        title: item.name,
+        body: item.description,
+        assignee: item.assignee,
+        labels: labels
+      }, function(err, res) {
+        console.log(err);
+      });
+    });
+    
+    // TODO @bradens  -- is this a race cond? done like this for efficiency
+    // Now clear off the new Items.
+    WorkItems.update({repo_id: repoId, newItem: true}, {$set: {newItem: false}});
+    
+    // Now the dirty (modified) items.
+    _.each(dirtyItems, function(item) {
+      labels = [];
+      _.each(item.labels, function(aLabel) {
+        labels.push(aLabel.label.name);
+      });
+      console.log(item);
+      github.issues.edit({
+        user: username, 
+        repo: reponame, 
+        title: item.name,
+        body: item.description,
+        number: item.number,
+        assignee: item.assignee,
+        milestone: item.milestone,
+        labels: labels
+      }, function(err, res) {
+        console.log(err);
+      });
+    });
+    
+    WorkItems.update({repo_id: repoId, dirty: true}, {$set: {dirty: false}});
+  },
   
   // Load Github repos for a user.
   // We will *always* give preference to a github repos information
@@ -276,6 +323,11 @@ Meteor.methods({
           }
           else {
             //. It's not dirty, but different than ours.  Update it.
+            var labels = [];
+            _.each(item.labels, function(item) {
+              var label = Labels.findOne({'label.name': item.name});
+              labels.push(label);
+            });
             WorkItems.update(wi._id, {
               $set: {
                 name: item.title, 

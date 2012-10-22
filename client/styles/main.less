@@ -5,7 +5,6 @@
  */
 
 //--------------------------- Mixins ---------------------------// 
-
 .border-radius (@radius) {
 	border-radius: @radius;
 	-moz-border-radius: @radius;
@@ -136,9 +135,10 @@ a:hover {
 	.abspos-left;
   .border-radius(4px);
   .unselectable;
+  overflow: hidden;
   width: 215px;
   min-height: 143px;
-  max-height:181px;
+  max-height:171px;
   padding: 1px 5px;
   background-color: @lightgrey;
   border: thin solid @darkgrey;
@@ -183,7 +183,7 @@ a.wiDelete:hover {
     padding-right: 0;
   }
 	li > a:hover {
-	  background-color: rgba(200,200,255, .5) !important;
+	  background-color: fade(orange, 20%) !important;
 	}
 	li:hover a.label-delete, li:hover a.editLabelBtn {
 	  display:block;
@@ -201,7 +201,7 @@ a.wiDelete:hover {
 	  border-bottom:none;
   }
   li.active > a {
-    background-color:#08C !important
+    background-color:fade(@orange, 80%) !important
   }
 	li > a {
 	  color: #444;

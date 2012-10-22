@@ -20,8 +20,10 @@ Template.workItemTitleEditor.events = {
       }
       $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
       WorkItems.update($id, {$set : {
-        name: e.target.value
+        name: e.target.value,
+        dirty: true
       }});
+      
     },
     'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
@@ -38,7 +40,8 @@ Template.workItemDescriptionEditor.events = {
       }
       $id = $(e.target).closest("#work-item-description-editor").attr('editing-id');
       WorkItems.update($id, {$set : {
-        description: e.target.value
+        description: e.target.value,
+        dirty: true
       }});
     },
     'blur textarea' : function(e) {
@@ -104,6 +107,8 @@ Template.workitem.events = {
         parentID: workboard.currentLineID,
         childID: $(e.currentTarget).closest(".workItem").attr('data-wi-id')
       });
+      WorkItems.update(parentID, {$set: {dirty: true}});
+      WorkItems.update(childID, {$set: {dirty: true}});
     }
   },
   'keyup .workItemTitle' : function(e) {

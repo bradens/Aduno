@@ -49,7 +49,7 @@ $(window).load(function() {
         description: "Default description",
         top: position.top,
         left: position.left,
-        dirty: true
+        newItem: true
       });
     };
     this.updateCanvas = function() {
