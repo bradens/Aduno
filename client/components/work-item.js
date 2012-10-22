@@ -11,17 +11,39 @@ Template.workitem.redrawAfterUpdate = function() {
 Template.workitem.title = function() {
   return "New WorkItem";
 }
-
 Template.workItemTitleEditor.events = {
-    'keyup input' : function(e) {
+    'keyup textarea' : function(e) {
+      if (e.keyCode == 13){
+        $(e.target).blur();
+        e.stopPropagation();
+        return;
+      }
       $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
       WorkItems.update($id, {$set : {
         name: e.target.value
       }});
     },
-    'blur input' : function(e) {
+    'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
-      $wie.find('input').val("");
+      $wie.find('textarea').val("");
+      $wie.fadeOut('fast');
+    }
+}
+Template.workItemDescriptionEditor.events = {
+    'keyup textarea' : function(e) {
+      if (e.keyCode == 13){
+        $(e.target).blur();
+        e.stopPropagation();
+        return;
+      }
+      $id = $(e.target).closest("#work-item-description-editor").attr('editing-id');
+      WorkItems.update($id, {$set : {
+        description: e.target.value
+      }});
+    },
+    'blur textarea' : function(e) {
+      $wie = $("#work-item-description-editor");
+      $wie.find('textarea').val("");
       $wie.fadeOut('fast');
     }
 }
@@ -36,13 +58,27 @@ Template.workitem.events = {
   'click h4.workItemTitle' : function(e) {
     $wiEditor = $("#work-item-title-editor");
     pos = $(e.target).offset();
-    pos.top = pos.top - ($wiEditor.height() + 30);
+    pos.top = pos.top-10; //- ($wiEditor.height() + 30);
+    pos.left = pos.left-10;
     $wiEditor.css({
       top: pos.top,
       left: pos.left
     }).fadeIn('fast');
     $wiEditor.attr('editing-id', $(e.target).closest('[data-wi-id]').attr('data-wi-id'));
-    $wiEditor.find('input').val(e.target.innerText).focus();
+    $wiEditor.find('textarea').val(e.target.innerHTML).focus();
+    e.stopPropagation();
+  },
+  'click .description' : function(e) {
+    $wiEditor = $("#work-item-description-editor");
+    pos = $(e.target).offset();
+    pos.top = pos.top-10; 
+    pos.left = pos.left-10;
+    $wiEditor.css({
+      top: pos.top,
+      left: pos.left
+    }).fadeIn('fast');
+    $wiEditor.attr('editing-id', $(e.target).closest('[data-wi-id]').attr('data-wi-id'));
+    $wiEditor.find('textarea').val(e.target.innerHTML).focus();
     e.stopPropagation();
   },
   'click .wiDelete' : function (e) {

@@ -22,17 +22,17 @@
     <h4 contenteditable="true" rel="tooltip" title="Click to edit" class="workItemTitle">{{ name }}</h4>
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
     <div class="sep"></div>
-    <div class="editable">
-      <p class="description">{{ description }}</p>
-    </div>
+    <p class="description">{{ description }}</p>
   </div>
 </template>
 
 <template name="workItemTitleEditor">
-  <div class="well darkWell" id="work-item-title-editor">
-    <form class="form-horizontal">
-	    <input type="text" id="work-item-title-input" >
-	    <a class="btn btn-infro">Hide</a>
-    </form>
+<div id="work-item-title-editor">
+  <textarea class="expand" id="work-item-title-input" />
+  </div>
+</template>
+<template name="workItemDescriptionEditor">
+<div id="work-item-description-editor">
+  <textarea class="expand" id="work-item-description-input" />
   </div>
 </template>

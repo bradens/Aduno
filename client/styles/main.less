@@ -93,8 +93,17 @@ a:hover {
 	display:none;
 	position:absolute;
 	padding:5px;
-  form {
-    margin:0;
+	textarea {
+	  font-size:12px;
+	}
+}
+#work-item-description-editor {
+  display:none;
+  position:absolute;
+  padding:5px;
+  textarea {
+    font-size:12px;
+    height:100px;
   }
 }
 .workItem {
@@ -121,11 +130,15 @@ a:hover {
   .actions {
     border-top-right-radius:0 !important;
   }
+  p {
+    font-size:12px;
+  }
 	.abspos-left;
   .border-radius(4px);
   .unselectable;
   width: 215px;
   min-height: 143px;
+  max-height:181px;
   padding: 1px 5px;
   background-color: @lightgrey;
   border: thin solid @darkgrey;
@@ -160,9 +173,7 @@ a.wiDelete:hover {
   .border-radius(4px);
 	.inner-shadow(0, 0, 1px, 1px, 0.05);
 }
-
 //--------------------------- Workflow ---------------------------// 
-
 .workflow-panel {
   display: block;
   vertical-align: top;
@@ -202,11 +213,14 @@ a.wiDelete:hover {
     cursor: pointer;
     border:none !important;
     position:relative;
-    right:25px;
+    right:21px;
     display:none;
     border:none;
     float:right;
-    padding:4px;
+    padding:2px;
+    top:1px;
+    height:16px;
+    width:19px;
   }
   a.editLabelBtn:hover {
     background-color: rgba(100, 255, 100, .5) !important;
@@ -215,8 +229,11 @@ a.wiDelete:hover {
     background-color: rgba(255, 100, 100, .5) !important;
   }
   a.label-delete {
-    right:10px;
-    padding:4px;
+    right:0px;
+    text-align:center;
+    padding:3px;
+    top:1px;
+    width:15px;
     float:right;
     cursor:pointer;
     position:relative;
@@ -392,4 +409,8 @@ input[type="color"]:focus,
 }
 .workboard-toolbar {
   margin-left: 205px;
+}
+
+.icon-white, .nav-tabs > .active > a > [class^="icon-"], .nav-tabs > .active > a > [class*=" icon-"], .nav-pills > .active > a > [class^="icon-"], .nav-pills > .active > a > [class*=" icon-"], .nav-list > .active > a > [class^="icon-"], .nav-list > .active > a > [class*=" icon-"], .navbar-inverse .nav > .active > a > [class^="icon-"], .navbar-inverse .nav > .active > a > [class*=" icon-"], .dropdown-menu > li > a:hover > [class^="icon-"], .dropdown-menu > li > a:hover > [class*=" icon-"], .dropdown-menu > .active > a > [class^="icon-"], .dropdown-menu > .active > a > [class*=" icon-"] {
+	background-image: url("/packages/bootstrap/img/glyphicons-halflings-white.png");
 }
