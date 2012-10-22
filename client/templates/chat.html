@@ -1,11 +1,8 @@
 <template name="chat">
-  <div class="chat">
-    <div class="navbar-inner">
-      <h4>Chat</h4>
-    </div>
-      
+  <div class="nav-header">Chat</div>
+  <div class="chat">      
     {{#if repo_id}}
-      <div id="chat-content" style="padding: 5px; overflow:auto; height:450px">
+      <div id="chat-content" style="padding: 5px; overflow:auto; height:400px">
         {{#each messages}}
           <p><strong>{{ name }}</strong>: {{message}}</p>
         {{/each}}
