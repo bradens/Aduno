@@ -132,6 +132,17 @@ a:hover {
   p {
     font-size:12px;
   }
+  .editing-div {
+    position:absolute;
+    left: 0px;
+    bottom:0px;
+    .editing-list {
+      margin-bottom:0;
+      li {
+        display:inline-block;
+      }
+    }
+  }
 	.abspos-left;
   .border-radius(4px);
   .unselectable;
@@ -371,6 +382,11 @@ a.wiDelete:hover {
 ::selection {
   color: white;
   background-color:darkorange;
+}
+
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
+	background-color:orange;
+	background-image: -webkit-linear-gradient(top, orange, darkorange);
 }
 
 textarea:focus,

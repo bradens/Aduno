@@ -38,5 +38,7 @@ function showWiDialog(id)
   $('#wiNameDetails').val(wi.name);
   $('#wiDescDetails').val(wi.description);
   $('#wiDetailsDialog').attr('editing-wi-id', id);
-  $('#wiDetailsDialog').modal();
+  $('#wiDetailsDialog').modal().on("hidden", function() {
+    workboard.userStopEditingItem(id);
+  });
 }

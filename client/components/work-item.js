@@ -23,12 +23,14 @@ Template.workItemTitleEditor.events = {
         name: e.target.value,
         dirty: true
       }});
-      
     },
     'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
       $wie.find('textarea').val("");
       $wie.fadeOut('fast');
+      id = $wie.attr('editing-id');
+      // add current user to editor of WI
+      workboard.userStopEditingItem(id);
     }
 }
 Template.workItemDescriptionEditor.events = {
@@ -48,30 +50,40 @@ Template.workItemDescriptionEditor.events = {
       $wie = $("#work-item-description-editor");
       $wie.find('textarea').val("");
       $wie.fadeOut('fast');
+      id = $wie.attr("editing-id");
+      // add current user to editor of WI
+      workboard.userStopEditingItem(id);
+      
     }
 }
 Template.workitem.events = {
-  'click .editTitleBtn' : function (e) {
-    showWiDialog($(e.currentTarget).closest(".workItem").attr('data-wi-id'));
-    $('#wiNameDetails').focus();
-  },
   'click .details' : function (e) {
-    showWiDialog($(e.currentTarget).closest(".workItem").attr('data-wi-id'));
+    id = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+    showWiDialog(id);
+    // add current user to editor of WI
+    workboard.userEditingItem(id);
   },
   'click h4.workItemTitle' : function(e) {
+    if (workboard.IS_LINKING) return;
     $wiEditor = $("#work-item-title-editor");
     pos = $(e.target).offset();
-    pos.top = pos.top-10; //- ($wiEditor.height() + 30);
+    pos.top = pos.top-10;
     pos.left = pos.left-10;
     $wiEditor.css({
       top: pos.top,
       left: pos.left
     }).fadeIn('fast');
-    $wiEditor.attr('editing-id', $(e.target).closest('[data-wi-id]').attr('data-wi-id'));
+    id = $(e.target).closest('[data-wi-id]').attr('data-wi-id');
+    $wiEditor.attr('editing-id', id);
     $wiEditor.find('textarea').val(e.target.innerHTML).focus();
+    
+    // add current user to editor of WI
+    workboard.userEditingItem(id);
+    
     e.stopPropagation();
   },
   'click .description' : function(e) {
+    if (workboard.IS_LINKING) return;
     $wiEditor = $("#work-item-description-editor");
     pos = $(e.target).offset();
     pos.top = pos.top-10; 
@@ -80,8 +92,13 @@ Template.workitem.events = {
       top: pos.top,
       left: pos.left
     }).fadeIn('fast');
-    $wiEditor.attr('editing-id', $(e.target).closest('[data-wi-id]').attr('data-wi-id'));
+    id = $(e.target).closest('[data-wi-id]').attr('data-wi-id');
+    $wiEditor.attr('editing-id', id);
     $wiEditor.find('textarea').val(e.target.innerHTML).focus();
+    
+    // add current user to editor of WI
+    workboard.userEditingItem(id);
+    
     e.stopPropagation();
   },
   'click .wiDelete' : function (e) {
@@ -95,6 +112,9 @@ Template.workitem.events = {
   'click .linkWI' : function(e) {
     workboard.is_Linking = true;
     workboard.currentLineID = $(e.currentTarget).closest(".workItem").attr("data-wi-id");
+    
+    // add current user to editor of WI
+    workboard.userEditingItem(workboard.currentLineID);
     e.stopPropagation();
   },
   'click .workItem' : function (e) {
@@ -102,23 +122,21 @@ Template.workitem.events = {
     {
       workboard.is_Linking = false;
       // finish the link;
+      
+      $cId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
       Links.insert({
         repo_id: Session.get("currentRepoId"),
         parentID: workboard.currentLineID,
-        childID: $(e.currentTarget).closest(".workItem").attr('data-wi-id')
+        childID: $cId
       });
-      WorkItems.update(parentID, {$set: {dirty: true}});
-      WorkItems.update(childID, {$set: {dirty: true}});
+      WorkItems.update(workboard.currentLineID, {$set: {dirty: true}});
+      WorkItems.update($cId, {$set: {dirty: true}});
+      // add current user to editor of WI
+      workboard.userStopEditingItem(workboard.currentLineID);
     }
   },
   'keyup .workItemTitle' : function(e) {
     console.log(e);
-  },
-  'click .postIssue' : function(e) {
-    if (!People.findOne({_id: Session.get('user_id')}).is_authenticated)
-      $("#authDialog").modal();
-    else
-      Meteor.call('postWorkItemAsIssue', $(e.currentTarget).closest(".workItem").attr('data-wi-id'));
   },
   'mouseover .workItem' : function() {
     $('#wi_'+this._id).draggable({
@@ -126,3 +144,6 @@ Template.workitem.events = {
     });
   }
 };
+Template.workitem.usersEditing = function() {
+  return this.usersEditing;
+}

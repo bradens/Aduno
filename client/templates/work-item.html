@@ -23,6 +23,13 @@
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
     <div class="sep"></div>
     <p class="description">{{ description }}</p>
+    <div class="editing-div">
+	    <ul class="unstyled editing-list">
+	      {{#each usersEditing }}
+	        {{> editingUserItem }}
+	      {{/each}}
+	    </ul>
+    </div>
   </div>
 </template>
 
