@@ -29,6 +29,7 @@ $(function() {
     };
     this.createLabel = function() {
       $("#newLabelDialog").attr("editing", "false");
+      $("#newLabelDialog input").val("");
       $("#newLabelDialog").modal();
     };
     this.loadedReposCallback = function(res) {

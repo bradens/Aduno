@@ -87,7 +87,15 @@ a:hover {
   list-style-type:none;
 }
 
-//--------------------------- WorkItems ---------------------------// 
+//--------------------------- WorkItems ---------------------------//
+
+.synchronized {
+	background: #2CC03E;
+border-color: #259A33;
+border-right-color: #2CC03E;
+border-bottom-color: #2CC03E;
+}
+
 #work-item-title-editor {
 	display:none;
 	position:absolute;
@@ -387,6 +395,10 @@ a.wiDelete:hover {
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
 	background-color:orange;
 	background-image: -webkit-linear-gradient(top, orange, darkorange);
+	background-image: -moz-linear-gradient(top, orange, darkorange);
+	background-image: -o-linear-gradient(top, orange, darkorange);
+  background-image: -ms-linear-gradient(top, orange, darkorange);
+  background-image: linear-gradient(top, orange, darkorange);
 }
 
 textarea:focus,

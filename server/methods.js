@@ -136,14 +136,16 @@ Meteor.methods({
         labels.push(aLabel.label.name);
       });
       console.log(item);
+      assigneeName = null;
+      if (item.assignee)
+        assigneeName = item.assignee.login;
       github.issues.edit({
         user: username, 
         repo: reponame, 
         title: item.name,
         body: item.description,
         number: item.number,
-        assignee: item.assignee,
-        milestone: item.milestone,
+        assignee: assigneeName,
         labels: labels
       }, function(err, res) {
         console.log(err);
