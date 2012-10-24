@@ -79,7 +79,6 @@ Template.workitem.events = {
     
     // add current user to editor of WI
     workboard.userEditingItem(id);
-    
     e.stopPropagation();
   },
   'click .description' : function(e) {

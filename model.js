@@ -52,7 +52,7 @@ if (Meteor.is_server)
     Meteor.publish('repos', function () {
       return Repos.find({
         privateTo: {
-          $in: [null, this.userId()]
+          $in: [null, this.userId]
         }},
         { sort :{
           name: 1
