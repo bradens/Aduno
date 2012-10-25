@@ -28,4 +28,10 @@ Template.labels.checkAllLabel = function() {
 };
 Template.labels.getEditingLabelStateMsg = function() {
   return Session.get("IS_EDITING_LABELS_MSG");
-}
+};
+Template.labels.totalWorkItemCount = function() {
+  return WorkItems.find().count();
+};
+Template.labelItem.getWorkItemCount = function() {
+  return WorkItems.find({ 'labels.label.name' : this.label.name, repo_id : Session.get("currentRepoId") }).count();
+};

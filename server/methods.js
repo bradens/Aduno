@@ -39,6 +39,8 @@ Meteor.methods({
       type: "oauth",
       token: Meteor.users.findOne(user_id).services.github.accessToken
     });
+    Meteor.call('loadRepos', user_id);
+    Meteor.call("authenticatedCallback");
   }, 
   
   //-------------------------------------- Labels --------------------------------------// 
