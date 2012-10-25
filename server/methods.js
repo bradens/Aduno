@@ -103,13 +103,64 @@ Meteor.methods({
       });
     });
   },
+  synchronizeWorkItem: function(workItemId) {
+    console.log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
+    item = WorkItems.findOne(workItemId);
+    username = Meteor.users.findOne(this.userId).services.github.username;
+    reponame = Repos.findOne(item.repo_id).name;
 
+    assigneeName = null;
+    if (item.assignee)
+      assigneeName = item.assignee.login;
+    labels = [];
+    // For the new items 
+    _.each(item.labels, function(aLabel) {
+      labels.push(aLabel.label.name);
+    });
+
+    if (item.newItem) {
+      // The workItem doesn't exist on github
+      github.issues.create({
+        user: username, 
+        repo: reponame,
+        title: item.name, 
+        body: item.description,
+        assignee: assigneeName,
+        labels: labels
+      }, function(err, res) {
+        console.log(err);
+        Fiber(function() {
+          WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
+        }).run()
+      });
+    }
+    else {
+      // edit it
+      github.issues.edit({
+        user: username,
+        repo: reponame,
+        number: item.number,
+        title: item.name,
+        body: item.description,
+        assignee: assigneeName,
+        labels: labels
+      }, function(err, res) {
+        console.log(err);
+        Fiber(function() {
+          WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
+        }).run()
+      });
+    }
+  },
   // Updates github with the workitems from Aduno.
   updateWorkItems: function(username, reponame, repoId) {
     newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
     dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // First add the new work items.
     _.each(newItems, function(item) {
+      assigneeName = null;
+      if (item.assignee)
+        assigneeName = item.assignee.login;
       labels = [];
       // For the new items 
       _.each(item.labels, function(aLabel) {
@@ -120,7 +171,7 @@ Meteor.methods({
         repo: reponame,
         title: item.name,
         body: item.description,
-        assignee: item.assignee,
+        assignee: assigneeName,
         labels: labels
       }, function(err, res) {
         console.log(err);
@@ -260,7 +311,6 @@ Meteor.methods({
     if (!labels || labels.length == 0) {
       labels = null;
     }
-    console.log(labels);
     github.issues.repoIssues({
       user: username,
       repo: reponame,
@@ -278,7 +328,6 @@ Meteor.methods({
     });
   },
   loadedIssues: function(username, reponame, result, tag) {
-    console.log(result);
     Fiber(function() {
       var repoObj = Repos.findOne({
         owner : username, 

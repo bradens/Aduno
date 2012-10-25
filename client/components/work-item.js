@@ -100,6 +100,10 @@ Template.workitem.events = {
     
     e.stopPropagation();
   },
+  'click .wi-sync' : function(e) {
+    var wiId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+    Meteor.call('synchronizeWorkItem', wiId);
+  },
   'click .wiDelete' : function (e) {
     var wiID = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
     // Remove the WorkItem
@@ -128,8 +132,10 @@ Template.workitem.events = {
         parentID: workboard.currentLineID,
         childID: $cId
       });
+
       WorkItems.update(workboard.currentLineID, {$set: {dirty: true}});
       WorkItems.update($cId, {$set: {dirty: true}});
+      
       // add current user to editor of WI
       workboard.userStopEditingItem(workboard.currentLineID);
     }
@@ -145,4 +151,7 @@ Template.workitem.events = {
 };
 Template.workitem.usersEditing = function() {
   return this.usersEditing;
-}
+};
+Template.workitem.synchronizedClass = function() {
+  return (this.dirty ? "btn-warning" : "btn-success");
+};
