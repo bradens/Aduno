@@ -21,6 +21,9 @@ Meteor.methods({
     labels = [];
     // For the new items 
     _.each(item.labels, function(aLabel) {
+      if (!aLabel) {
+        return;
+      }
       labels.push(aLabel.label.name);
     });
 

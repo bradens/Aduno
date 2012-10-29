@@ -17,7 +17,8 @@ $(window).load(function() {
       var position = $(e.target).position();
       WorkItems.update($(e.currentTarget).attr('data-wi-id'), {$set: {
         top: position.top,
-        left: position.left
+        left: position.left,
+        zIndex: $(this).css('z-index')
       }});
       workboard.draw();
   });
@@ -31,13 +32,14 @@ $(window).load(function() {
   {
     window.workboard = new WorkBoard(); 
   }
-  
+
   // Get the listeners for our canvas going.
   $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
   if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
   workboard.ctx = workboard.canvas.getContext('2d');
   
   function WorkBoard() {
+    this.zIndexBuffer = 20;       // TODO @bradens @fixme This is a hacky way to alter the z-index for stacking elements.
     this.currentLineID = '';
     this.IS_DRAGGING = false;
     this.createNewWorkItem = function () {

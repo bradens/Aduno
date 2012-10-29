@@ -1,6 +1,6 @@
 <template name="workitem">
   {{ redrawAfterUpdate }}
-  <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px;">
+  <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
     <div class="btn-toolbar">
       <div class="btn-group">
         <a class="linkWI btn btn-mini btn-success">Link</a>

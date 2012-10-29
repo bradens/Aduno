@@ -96,20 +96,17 @@ border-right-color: #2CC03E;
 border-bottom-color: #2CC03E;
 }
 
-#work-item-title-editor {
+#work-item-title-editor, #work-item-description-editor {
 	display:none;
 	position:absolute;
 	padding:5px;
-	textarea {
+	z-index:9999999;
+  textarea {
 	  font-size:12px;
 	}
 }
 #work-item-description-editor {
-  display:none;
-  position:absolute;
-  padding:5px;
   textarea {
-    font-size:12px;
     height:100px;
   }
 }
@@ -165,6 +162,12 @@ border-bottom-color: #2CC03E;
 }
 .workItem:hover .btn-toolbar {
   opacity:1;  
+}
+.top {
+  z-index: 2;
+}
+.bottom {
+  z-index: 1;
 }
 a.wiDelete {
   .abspos-right;

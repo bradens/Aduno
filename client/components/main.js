@@ -64,7 +64,7 @@ Template.main.events = {
       $set: {
         name: name
       }
-    });
+    })
   }
 };
 Template.main.workitems = function() {

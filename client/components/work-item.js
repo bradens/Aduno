@@ -97,7 +97,6 @@ Template.workitem.events = {
     
     // add current user to editor of WI
     workboard.userEditingItem(id);
-    
     e.stopPropagation();
   },
   'click .wi-sync' : function(e) {
@@ -121,6 +120,12 @@ Template.workitem.events = {
     e.stopPropagation();
   },
   'click .workItem' : function (e) {
+    
+    // Adjust the z-index
+    $(this).addClass('top').removeClass('bottom');
+    $(this).siblings().removeClass('top').addClass('bottom');
+    $(this).css("z-index", workboard.zIndexBuffer++);
+
     if (workboard.is_Linking)
     {
       workboard.is_Linking = false;
@@ -145,7 +150,10 @@ Template.workitem.events = {
   },
   'mouseover .workItem' : function() {
     $('#wi_'+this._id).draggable({
-      containment: '#myCanvas'
+      containment: '#myCanvas',
+      start: function(event, ui) {
+        $(this).css("z-index", workboard.zIndexBuffer++);  // TODO @bradens wrap if we reach Number.MAX_VALUE
+      }
     });
   }
 };
