@@ -5,6 +5,17 @@
  * 
  * Main methods for the template.
  */
+Template.main.adminConfigured = function () {
+    return Meteor.accounts.loginServicesConfigured()
+};
+
+Template.main.userLogin = function () {
+    return Meteor.user()
+};
+
+Template.main.repoID = function () {
+    return Session.get('currentRepoId')
+};
 
 Template.main.rendered = function() {
   // redraw our canvas

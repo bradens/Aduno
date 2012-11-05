@@ -3,6 +3,15 @@
  * Aduno project (http://aduno.meteor.com)
  * @author Braden Simpson (@bradensimpson)
  */
+ 
+ Template.topNav.repoID = function () {
+    return Session.get('currentRepoId')
+};
+
+Template.topNav.userLogin = function () {
+    return Meteor.user()
+};
+
 Template.topNav.events = {
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");
@@ -38,7 +47,7 @@ Template.topNav.currentRepoName = function() {
   if (Session.get("currentRepo"))
     return Session.get("currentRepo");
   else
-    return "Current Repo";
+    return "Choose a Repo";
 };
 
 Template.topNav.currentRepos = function() {

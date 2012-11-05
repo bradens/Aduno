@@ -1,30 +1,63 @@
 <template name="main">
-	<div class="canvas-container well data-scroll-section" id="wb">
-	  <div class="workboard-toolbar">
-      <div class="btn-toolbar">
-		    <div class="btn-group">
-			    <a id="synchronize" rel="tooltip" title="Synchronize" class="btn"><i class="icon-refresh"></i> </a>
-			    <a rel="tooltip" class="btn dropdown-toggle" data-toggle="dropdown"  title="Create new item" href="#">
-			       <i class="icon-plus"> </i>
-			       <span class="caret"></span>
-			    </a>
-		      <ul class="dropdown-menu">
-		        <li>
-		          <a href="#" id="newWorkItem">Work Item</a>
-		        </li>
-		        <li>
-		          <a id="newLabel"  href="#">Label</a>
-		        </li>
-		      </ul>
-		    </div>
-	    </div>
-	  </div>
-	  {{> workflowMenu}}
-	  <canvas width="1000px" height="1000px" id="myCanvas">          
-	  </canvas>
-	  {{#each workitems}}
-	     {{> workitem}}
-	     {{ workItemRedraw }}
-	  {{/each}}
-	</div>
+  {{#unless repoID}}
+    <div class="jumbotron masthead">
+      <div class="container">
+        <h1>Aduno</h1>
+        <p>Open-source, real-time collaborative articulation and task creation tool that plays nice with GitHub.</p>
+        
+        {{#unless adminConfigured}}
+          <div id="configure-aduno">
+            <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up GitHub Application Key</span></a></p>
+          </div>
+        {{/unless}}
+      
+        {{#if adminConfigured}}
+          {{#unless userLogin}}
+            <div id="user-login">
+              <p><a href="#" class="btn btn-danger btn-large" onclick="">Login in with GitHub<br /><span class="button_subtext">Fetch your repositories</span></a></p>
+            </div>
+          {{/unless}}
+          
+          {{#if userLogin}}
+            {{#unless repoID}}
+              <div id="select-repo">
+                <p><a href="#" class="btn btn-inverse btn-large" onclick="">Select a repository<br /><span class="button_subtext">Show issues on the workboard</span></a></p>
+              </div>
+            {{/unless}}
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  {{/unless}}
+  
+  {{#if repoID}}
+  	<div class="canvas-container well data-scroll-section" id="wb">
+  	  <div class="workboard-toolbar">
+        <div class="btn-toolbar">
+  		    <div class="btn-group">
+  			    <a id="synchronize" rel="tooltip" title="Synchronize" class="btn"><i class="icon-refresh"></i> </a>
+  			    <a rel="tooltip" class="btn dropdown-toggle" data-toggle="dropdown"  title="Create new item" href="#">
+  			       <i class="icon-plus"> </i>
+  			       <span class="caret"></span>
+  			    </a>
+  		      <ul class="dropdown-menu">
+  		        <li>
+  		          <a href="#" id="newWorkItem">Work Item</a>
+  		        </li>
+  		        <li>
+  		          <a id="newLabel"  href="#">Label</a>
+  		        </li>
+  		      </ul>
+  		    </div>
+  	    </div>
+  	  </div>
+  	  {{> workflowMenu}}
+  	  <canvas width="1000px" height="1000px" id="myCanvas">          
+  	  </canvas>
+  	  {{#each workitems}}
+  	     {{> workitem}}
+  	     {{ workItemRedraw }}
+  	  {{/each}}
+  	</div>
+ {{/if}}
 </template>

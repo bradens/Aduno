@@ -1,26 +1,29 @@
 <template name="topNav">
   <ul class="nav">  
-	  <li><a href="#wb" onclick="scrollto('body');">Workboard</a></li>  
-	  <li><a href="#about" onclick="scrollto('#about');">About</a></li>  
+    <span class="brand">Aduno</span>
 	</ul>  
 	<ul class="nav pull-right">
+  	{{#if repoID}}
+  	  <li class="dropdown">
+        <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-people-large"></i> Current Users<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          {{#each people }}
+            {{> person }}
+          {{/each}}
+        </ul>
+      </li>
+    {{/if}}
+    {{#if userLogin}}
+  	  <li class="dropdown">
+  	    <a href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
+  	    <ul class="dropdown-menu">
+  	      {{#each currentRepos }}
+  	        {{> currentRepo }}
+  	      {{/each}}
+  	    </ul>
+  	  </li>
+  	  <li class="divider-vertical"></li>
+  	{{/if}}
 	  <li><a class="loginButton">{{> loginButtons }}</a></li>
-	  <li class="divider-vertical"></li>
-	  <li class="dropdown">
-	    <a href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
-	    <ul class="dropdown-menu">
-	      {{#each currentRepos }}
-	        {{> currentRepo }}
-	      {{/each}}
-	    </ul>
-	  </li>
-	  <li class="dropdown">
-	    <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-people-large"></i> Current Users<span class="caret"></span></a>
-	    <ul class="dropdown-menu">
-	      {{#each people }}
-	        {{> person }}
-	      {{/each}}
-	    </ul>
-	  </li>
 	</ul>
 </template>
