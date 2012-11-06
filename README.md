@@ -11,7 +11,7 @@ their stable release.
 
 We have to install from a checkout of the meteor project.  
 
-    git clone git://github.com/braden/meteor.git
+    git clone git://github.com/bradens/meteor.git
     cd meteor
 
 If you want meteor in your path ```/usr/local/```
