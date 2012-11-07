@@ -21,6 +21,7 @@ Template.main.rendered = function() {
   // redraw our canvas
   if (window.workboard !== undefined)
     window.workboard.draw();
+  $('.tooltip').remove();
   // re-init our tooltips
   $('[rel=tooltip]').tooltip();
 }

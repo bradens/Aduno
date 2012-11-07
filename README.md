@@ -11,7 +11,7 @@ their stable release.
 
 We have to install from a checkout of the meteor project.  
 
-    git clone -b auth git://github.com/meteor/meteor.git
+    git clone git://github.com/bradens/meteor.git
     cd meteor
 
 If you want meteor in your path ```/usr/local/```
@@ -26,7 +26,7 @@ or check out meteor's official readme at their github repo [here](http://github.
 ####Install Aduno####
 Now just clone aduno  
 
-    git clone git://github.com/bradens/aduno.git
+    git clone git://github.com/bradens/Aduno.git
     cd aduno
     meteor
     
