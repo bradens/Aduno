@@ -27,18 +27,12 @@ $(window).load(function() {
     workboard.IS_DRAGGING = true;
     workboard.draw();
   });
-  
-  if (window.workboard == undefined)
-  {
-    window.workboard = new WorkBoard(); 
-  }
 
-  // Get the listeners for our canvas going.
-  $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
-  if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
-  workboard.ctx = workboard.canvas.getContext('2d');
-  
+  if (window.workboard == undefined)
+    window.workboard = new WorkBoard(); 
+
   function WorkBoard() {
+    // Get the listeners for our canvas going.
     this.zIndexBuffer = 20;       // TODO @bradens @fixme This is a hacky way to alter the z-index for stacking elements.
     this.currentLineID = '';
     this.IS_DRAGGING = false;
@@ -60,6 +54,8 @@ $(window).load(function() {
       workboard.ctx = workboard.canvas.getContext('2d');
     };
     this.draw = function() {
+      // This is the case when the workboard is hidden due to the welcome
+      if (!workboard.IS_SHOWN) return; 
       this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
       Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {

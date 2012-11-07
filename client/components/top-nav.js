@@ -4,7 +4,7 @@
  * @author Braden Simpson (@bradensimpson)
  */
 Template.topNav.areServicesConfigured = function () {
-    return Accounts.loginServicesConfigured()
+    return Accounts.loginServiceConfiguration.find({ service: 'github' }).count() > 0;
 };
 
 Template.topNav.getrepoID = function () {
@@ -30,11 +30,13 @@ Template.topNav.events = {
                   [],
                   workflow.issuesLoaded);
     },
-    'click li a.loginButton': function() {
-      Meteor.loginWithGithub();
-    },
     'click li a.logoutButton': function(){
-      Meteor.logout();
+      Meteor.logout(function() {
+        window.location.href = "/";
+      });
+    },
+    'click ul a#aduno-logo': function() {
+      window.location.href = "/";
     }
 }
 Template.topNav.people = function() {

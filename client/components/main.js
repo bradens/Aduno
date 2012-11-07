@@ -6,7 +6,7 @@
  * Main methods for the template.
  */
 Template.main.areServicesConfigured = function () {
-    return Accounts.loginServicesConfigured()
+    return Accounts.loginServiceConfiguration.find({ service: 'github' }).count() > 0;
 };
 
 Template.main.userLogin = function () {
@@ -32,6 +32,12 @@ Template.main.events = {
   },
   'click #newLabel' : function() {
     workflow.createLabel();
+  },
+  'click #configure-aduno a': function() {
+    $('#configDialog').modal();
+  },
+  'click #user-login a': function() {
+    Meteor.loginWithGithub();
   },
   'click a.editLabelBtn' : function(e) {
     var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');

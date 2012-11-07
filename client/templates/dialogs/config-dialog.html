@@ -1,0 +1,28 @@
+<template name="configDialog">
+  <div class="modal hide" id="configDialog" tabindex="-1" role="dialog" aria-labelledby="configDialogLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="detailsTitle">Configure Login Service</h3>
+    </div>
+    <div class="modal-body">
+    <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
+      <div class="control-group">
+        <label class="control-label" for="configClientKey">Client key: </label>
+        <div class="controls">
+          <input type="text" id="configClientKey"></input>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="configSecret">Secret: </label>
+        <div class="controls">
+          <input type="text" id="configSecret"></input>
+        </div>
+      </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn configCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary configOk">Ok</button>
+    </div>
+  </div>
+</template>
