@@ -79,7 +79,6 @@ Template.workitem.events = {
     
     // add current user to editor of WI
     workboard.userEditingItem(id);
-    
     e.stopPropagation();
   },
   'click .description' : function(e) {
@@ -98,8 +97,11 @@ Template.workitem.events = {
     
     // add current user to editor of WI
     workboard.userEditingItem(id);
-    
     e.stopPropagation();
+  },
+  'click .wi-sync' : function(e) {
+    var wiId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+    Meteor.call('synchronizeWorkItem', wiId);
   },
   'click .wiDelete' : function (e) {
     var wiID = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
@@ -118,6 +120,12 @@ Template.workitem.events = {
     e.stopPropagation();
   },
   'click .workItem' : function (e) {
+    
+    // Adjust the z-index
+    $(this).addClass('top').removeClass('bottom');
+    $(this).siblings().removeClass('top').addClass('bottom');
+    $(this).css("z-index", workboard.zIndexBuffer++);
+
     if (workboard.is_Linking)
     {
       workboard.is_Linking = false;
@@ -129,8 +137,10 @@ Template.workitem.events = {
         parentID: workboard.currentLineID,
         childID: $cId
       });
+
       WorkItems.update(workboard.currentLineID, {$set: {dirty: true}});
       WorkItems.update($cId, {$set: {dirty: true}});
+      
       // add current user to editor of WI
       workboard.userStopEditingItem(workboard.currentLineID);
     }
@@ -140,10 +150,16 @@ Template.workitem.events = {
   },
   'mouseover .workItem' : function() {
     $('#wi_'+this._id).draggable({
-      containment: '#myCanvas'
+      containment: '#myCanvas',
+      start: function(event, ui) {
+        $(this).css("z-index", workboard.zIndexBuffer++);  // TODO @bradens wrap if we reach Number.MAX_VALUE
+      }
     });
   }
 };
 Template.workitem.usersEditing = function() {
   return this.usersEditing;
-}
+};
+Template.workitem.synchronizedClass = function() {
+  return (this.dirty ? "btn-warning" : "btn-success");
+};

@@ -2,16 +2,16 @@
   {{#unless repoID}}
     <div class="jumbotron masthead">
       <div class="container">
-        <h1>Aduno</h1>
+        <h1><img src="/aduno-logo-white.png" alt="Aduno" /></h1>
         <p>Open-source, real-time collaborative articulation and task creation tool that plays nice with GitHub.</p>
         
-        {{#unless adminConfigured}}
+        {{#unless areServicesConfigured}}
           <div id="configure-aduno">
             <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up GitHub Application Key</span></a></p>
           </div>
         {{/unless}}
       
-        {{#if adminConfigured}}
+        {{#if areServicesConfigured}}
           {{#unless userLogin}}
             <div id="user-login">
               <p><a href="#" class="btn btn-danger btn-large" onclick="">Login in with GitHub<br /><span class="button_subtext">Fetch your repositories</span></a></p>

@@ -74,6 +74,10 @@ a:hover {
   color: @orange;
   text-shadow: 0 1px 0 white;
 }
+.logo-nav{
+  background: url('/aduno-logo-nav.png');
+}
+
 .mainBanner {
   padding-bottom:30px;
   min-width:660px;
@@ -87,6 +91,25 @@ a:hover {
 }
 .peopleList li {
   list-style-type:none;
+}
+.navbar .nav > li > a.loginButton, .navbar .nav > li > a.logoutButton{
+  float: none;
+  padding: 4px 15px;
+  color: white;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: baseline;
+}
+
+.navbar .nav > li > a.logoutButton:hover {
+  background-color: #BD362F;
+  color: white;
+}
+.navbar .nav > li > a.loginButton:hover {
+  background-color: #51A351;
+  color: white;
 }
 
 //--------------------------- Login Splash ---------------------------//
@@ -214,6 +237,10 @@ a:hover {
   line-height: 25px;
 }
 
+.splash-logo {
+  background: url('/aduno-logo.png');
+}
+
 .button_subtext {
   font-size: 12px;
   color: #ccc;
@@ -229,20 +256,17 @@ border-right-color: #2CC03E;
 border-bottom-color: #2CC03E;
 }
 
-#work-item-title-editor {
+#work-item-title-editor, #work-item-description-editor {
 	display:none;
 	position:absolute;
 	padding:5px;
-	textarea {
+	z-index:9999999;
+  textarea {
 	  font-size:12px;
 	}
 }
 #work-item-description-editor {
-  display:none;
-  position:absolute;
-  padding:5px;
   textarea {
-    font-size:12px;
     height:100px;
   }
 }
@@ -299,13 +323,28 @@ border-bottom-color: #2CC03E;
 .workItem:hover .btn-toolbar {
   opacity:1;  
 }
+.top {
+  z-index: 2;
+}
+.bottom {
+  z-index: 1;
+}
 a.wiDelete {
   .abspos-right;
   opacity:.6;  
   border-top-left-radius: 0px;
   border-bottom-right-radius: 0px;
+  border-bottom-left-radius:0;
 }
-a.wiDelete:hover {
+a.wi-sync {
+  .abspos-right;
+  opacity: .6;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  right:19px;
+}
+a.wiDelete:hover, a.wi-sync:hover {
   opacity:1;
 }
 //--------------------------- Workboard ---------------------------// 
@@ -325,12 +364,12 @@ a.wiDelete:hover {
   .border-radius(4px);
 	.inner-shadow(0, 0, 1px, 1px, 0.05);
 }
-//--------------------------- Workflow ---------------------------// 
+//--------------------------- Workflow ---------------------------// `
 .workflow-panel {
   display: block;
   vertical-align: top;
-  width: 170px;
-  
+  width: 197px;
+  padding:0;
   .filter-labels {
     padding-right: 0;
   }
@@ -448,7 +487,7 @@ a.wiDelete:hover {
 
 //--------------------------- Left Menu ---------------------------// 
 #left-menu {
-  width: 200px;
+  width: 212px;
   height: 1000px;
   display:inline-block;
   vertical-align:top;
@@ -524,6 +563,10 @@ a.wiDelete:hover {
 ::selection {
   color: white;
   background-color:darkorange;
+}
+
+a:focus, .btn:focus{
+	outline: none;
 }
 
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {

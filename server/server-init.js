@@ -51,32 +51,27 @@ Meteor.startup(function() {
   WorkItems.allow({
     insert: function () { return true; },
     update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
+    remove: function () { return true; }
   });
   Links.allow({
     insert: function () { return true; },
     update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
+    remove: function () { return true; }
   });
   Repos.allow({
     insert: function () { return true; },
     update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
+    remove: function () { return true; }
   });
   Labels.allow({
     insert: function () { return true; },
     update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
+    remove: function () { return true; }
   });
     Messages.allow({
     insert: function () { return true; },
     update: function () { return true; },
-    remove: function () { return true; },
-    fetch: function () { return true; }
+    remove: function () { return true; }
   });
 //  Repos.allow({
 //    insert: function () { return true; },

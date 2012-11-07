@@ -7,7 +7,6 @@ bootstrap
 jquery
 underscore
 less
-accounts-ui
 accounts-password
 accounts-base
 jquery-waypoints

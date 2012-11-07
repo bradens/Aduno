@@ -3,8 +3,11 @@
  * Aduno project (http://aduno.meteor.com)
  * @author Braden Simpson (@bradensimpson)
  */
- 
- Template.topNav.repoID = function () {
+Template.topNav.areServicesConfigured = function () {
+    return Accounts.loginServicesConfigured()
+};
+
+Template.topNav.getrepoID = function () {
     return Session.get('currentRepoId')
 };
 
@@ -26,6 +29,12 @@ Template.topNav.events = {
                   RepoItem.attr('data-value'),
                   [],
                   workflow.issuesLoaded);
+    },
+    'click li a.loginButton': function() {
+      Meteor.loginWithGithub();
+    },
+    'click li a.logoutButton': function(){
+      Meteor.logout();
     }
 }
 Template.topNav.people = function() {
@@ -48,6 +57,14 @@ Template.topNav.currentRepoName = function() {
     return Session.get("currentRepo");
   else
     return "Choose a Repo";
+};
+
+Template.topNav.isUserLoggedIn = function() {
+  return Meteor.userLoaded();
+};
+
+Template.topNav.isUserLoading = function() { 
+  return Meteor.user() && !Meteor.userLoaded();
 };
 
 Template.topNav.currentRepos = function() {

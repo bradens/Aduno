@@ -17,7 +17,8 @@ $(window).load(function() {
       var position = $(e.target).position();
       WorkItems.update($(e.currentTarget).attr('data-wi-id'), {$set: {
         top: position.top,
-        left: position.left
+        left: position.left,
+        zIndex: $(this).css('z-index')
       }});
       workboard.draw();
   });
@@ -31,13 +32,14 @@ $(window).load(function() {
   {
     window.workboard = new WorkBoard(); 
   }
-  
+
   // Get the listeners for our canvas going.
   $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
   if (!workboard.canvas) workboard.canvas = document.getElementById('myCanvas');
   workboard.ctx = workboard.canvas.getContext('2d');
   
   function WorkBoard() {
+    this.zIndexBuffer = 20;       // TODO @bradens @fixme This is a hacky way to alter the z-index for stacking elements.
     this.currentLineID = '';
     this.IS_DRAGGING = false;
     this.createNewWorkItem = function () {
@@ -76,15 +78,14 @@ $(window).load(function() {
         $wi = $("[data-wi-id="+Link.parentID+"]");
         $wiChild = $("[data-wi-id="+Link.childID+"]");
         
-
         if (workboard.IS_DRAGGING) {
           // Use the temp position specified by the position of the 'dragging' workitem
-          workboard.ctx.moveTo($wi.position().left - $(workboard.canvas).offset().left + $wi.width()/2,$wi.position().top - $(workboard.canvas).offset().top);
-          workboard.ctx.lineTo($wiChild.position().left - $(workboard.canvas).offset().left + $wiChild.width()/2,$wiChild.position().top - $(workboard.canvas).offset().top);
+          workboard.ctx.moveTo($wi.position().left - $(workboard.canvas).offset().left + $wi.width()/2,($wi.position().top + $wi.height()/2) - $(workboard.canvas).offset().top);
+          workboard.ctx.lineTo($wiChild.position().left - $(workboard.canvas).offset().left + $wiChild.width()/2,($wiChild.position().top + $wiChild.height()/2)- $(workboard.canvas).offset().top);
         }
         else {
-          workboard.ctx.moveTo(wi.left - $(workboard.canvas).offset().left + $wi.width()/2,wi.top - $(workboard.canvas).offset().top);
-          workboard.ctx.lineTo(wiChild.left - $(workboard.canvas).offset().left + $wiChild.width()/2,wiChild.top - $(workboard.canvas).offset().top);
+          workboard.ctx.moveTo(wi.left - $(workboard.canvas).offset().left + $wi.width()/2,(wi.top + $wi.height()/2) - $(workboard.canvas).offset().top);
+          workboard.ctx.lineTo(wiChild.left - $(workboard.canvas).offset().left + $wiChild.width()/2,(wiChild.top + $wiChild.height()/2) - $(workboard.canvas).offset().top);
         }
         workboard.ctx.stroke();
       });

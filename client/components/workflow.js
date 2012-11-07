@@ -20,12 +20,12 @@ $(function() {
       if (Meteor.user())
         Meteor.call('keepalive', Meteor.user()._id);
       
-      Meteor.call('authenticated', Meteor.user()._id, authenticatedCallback);
-      
-      function authenticatedCallback() {
-        Session.set("user_id", Meteor.user()._id);
-        Meteor.call('loadRepos', Meteor.user()._id, workflow.loadedReposCallback);
-      }
+      Meteor.call('authenticated', Meteor.user()._id);
+      Meteor.methods({
+        authenticatedCallback: function() {
+          Session.set("user_id", Meteor.user()._id);
+        }
+      });
     };
     this.createLabel = function() {
       $("#newLabelDialog").attr("editing", "false");

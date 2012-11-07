@@ -1,6 +1,6 @@
 <template name="workitem">
   {{ redrawAfterUpdate }}
-  <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px;">
+  <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
     <div class="btn-toolbar">
       <div class="btn-group">
         <a class="linkWI btn btn-mini btn-success">Link</a>
@@ -20,9 +20,10 @@
       </div>
     </div>
     <h4 class="workItemTitle">{{ name }}</h4>
-    <a class="btn btn-mini btn-danger wiDelete">×</a> 
+    <a rel="tooltip" title="Synchronize with Github" class="btn btn-mini {{ synchronizedClass }} wi-sync"><i class="icon-refresh"> </i></a>
+    <a rel="tooltip" title="Hide workitem" class="btn btn-mini btn-danger wiDelete">×</a> 
     <div class="sep"></div>
-    <p class="description">{{ description }}</p>
+    <p class="description" placeholder="Type something here">{{ description }}</p>
     <div class="editing-div">
 	    <ul class="unstyled editing-list">
 	      {{#each usersEditing }}

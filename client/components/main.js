@@ -5,8 +5,8 @@
  * 
  * Main methods for the template.
  */
-Template.main.adminConfigured = function () {
-    return Meteor.accounts.loginServicesConfigured()
+Template.main.areServicesConfigured = function () {
+    return Accounts.loginServicesConfigured()
 };
 
 Template.main.userLogin = function () {
@@ -75,7 +75,7 @@ Template.main.events = {
       $set: {
         name: name
       }
-    });
+    })
   }
 };
 Template.main.workitems = function() {
