@@ -55,7 +55,7 @@ $(window).load(function() {
     };
     this.draw = function() {
       // This is the case when the workboard is hidden due to the welcome
-      if (!workboard.IS_SHOWN) return; 
+      if (!Session.get("currentRepoId")) return; 
       this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
       Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
