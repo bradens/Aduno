@@ -35,3 +35,9 @@ Template.labels.totalWorkItemCount = function() {
 Template.labelItem.getWorkItemCount = function() {
   return WorkItems.find({ 'labels.label.name' : this.label.name, repo_id : Session.get("currentRepoId") }).count();
 };
+Template.wiLabelItem.getLabelDarkColor = function() {
+  return LightenDarkenColor(this.label.color, -50);
+};
+Template.addLabelItem.getLabelDarkColor = function() {
+  return LightenDarkenColor(this.label.color, -50);
+};

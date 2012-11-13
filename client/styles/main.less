@@ -78,6 +78,10 @@ a:hover {
   background: url('/aduno-logo-nav.png');
 }
 
+#aduno-logo {
+  cursor:pointer;
+}
+
 .mainBanner {
   padding-bottom:30px;
   min-width:660px;
@@ -446,6 +450,52 @@ a.wiDelete:hover, a.wi-sync:hover {
   textarea {
     min-height:100px;
   }
+  .add-label {
+    cursor: pointer;
+    font-size: 11.844px;
+    font-weight: bold;
+    line-height: 14px;
+    text-shadow: 0 -1px 0 rgba(255,255,255,0.9);
+    white-space: nowrap;
+    vertical-align: baseline;
+    color:grey;
+  }
+  .add-label:hover { 
+    background-color: rgba(0, 150, 0, 0.2);
+  }
+}
+
+#label-selection-dialog {
+  li {
+    cursor: pointer;
+  }
+}
+ul.tags {
+  list-style:none;
+  margin:0;
+}
+ul.tags li {
+  display: block;
+  padding: 4px 8px;
+  width:206px;
+}
+ul.tags li a.meta {
+  float: right;
+  color: #bbb;
+  width: 15px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+} 
+ul.tags li:hover {
+  background: #f0f0f0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}       
+ul.tags li a.label-delete:hover {
+  background:rgba(255,0,0,.5);
+  color: white;
 }
 
 //--------------------------- About ---------------------------// 

@@ -1,0 +1,10 @@
+<template name='wiLabelItemList'>
+	<ul class="wi-label-list tags">
+		{{#each labels}}
+			{{> wiLabelItem }}
+		{{/each}}
+  	<li class="add-label wi-label-item">
+			<i class="icon-tag"> </i><span> Add label</span>
+		</li> 
+  </ul>
+</template>

@@ -18,11 +18,33 @@
           <textarea id="wiDescDetails"></textarea>
         </div>
       </div>
+      <div class="control-group">
+        <label class="control-label" for="wiLabels">Labels: </label>
+        <div class="controls wi-labels-controls">
+        </div>
+      </div>
     </form>
     </div>
     <div class="modal-footer">
       <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
       <button class="btn btn-primary wiDialogSave">Save changes</button>
+    </div>
+  </div>
+
+  <div class="modal hide" id="label-selection-dialog" tabindex="-1" role="dialog" aria-labelledby="labelSelectDialog" aria-hidden="true">
+    <div class="modal-body">
+      <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
+        <div class="control-group">
+          <label> Choose Label :</label>
+          <div class="controls">
+            <ul class="add-label-list tags">
+              {{#each labels}}
+                {{> addLabelItem }}
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
