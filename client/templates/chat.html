@@ -7,9 +7,6 @@
           <p><strong>{{ name }}</strong>: {{message}}</p>
         {{/each}}
       </div>
-      <div class="well well-small">
-        <input type="text" placeholder="Type a message..." class="span2" id="message">
-     </div>
     {{/if}}
 
     {{#unless repo_id}}
@@ -17,6 +14,10 @@
         You must connect to a repo to chat
       </div>
     {{/unless}}
-    
+  </div>
+</template>
+<template name="chatEntry">
+  <div class="well well-small">
+    <input type="text" placeholder="Type a message..." class="span2" id="message">
   </div>
 </template>

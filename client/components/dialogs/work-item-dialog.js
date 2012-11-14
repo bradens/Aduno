@@ -19,7 +19,8 @@ Template.wiDialog.events = {
         id,
         { $set: {
           name: name, 
-          description: description
+          description: description,
+          dirty: true
         }
         });
     WorkItemDialog.clearDetailsDialogFields();
@@ -69,7 +70,16 @@ WorkItemDialog = {
   },
   renderWiLabels: function() {
     var wi = WorkItems.findOne(WorkItemDialog.currentWiId);
-    var fragment = Meteor.render(Template.wiLabelItemList({labels: wi.labels, wiId: id}));
+    var labels = wi.labels;
+
+    for (var i = 0; i < labels.length; i++) {
+      if (labels[i] == null) {         
+        labels.splice(i, 1);
+        i--;
+      }
+    }
+
+    var fragment = Meteor.render(Template.wiLabelItemList({labels: labels, wiId: id}));
     $("#wiDetailsDialog .wi-labels-controls").html(fragment);
     $("#wiDetailsDialog .label-delete").click(WorkItemDialog.removeLabelFromWi);
     $("#wiDetailsDialog .add-label").click(WorkItemDialog.addLabel);
@@ -102,6 +112,7 @@ WorkItemDialog = {
       var labelName = $(this).attr('data-label-name');
       var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': labelName});
       WorkItems.update(WorkItemDialog.currentWiId, {$push: {labels: label}});
+      WorkItems.update(WorkItemDialog.currentWiId, {$set: {dirty: true}});
       $(this).unbind('click');
       WorkItemDialog.labelSelectionDialog.get().modal('hide');
     },

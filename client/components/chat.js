@@ -2,7 +2,7 @@
         return Session.get('currentRepoId')
     };
 
-    Template.chat.events = {
+    Template.chatEntry.events = {
         'keydown input.#message': function (e) {
             if(e.keyCode == 13) {
               Messages.insert({repo_id: Session.get('currentRepoId'), name:Meteor.user().profile.name, message:$('#message').val(), at: new Date()});
