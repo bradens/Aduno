@@ -37,7 +37,7 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
-        console.log(err);
+        console.log("Error when synchronizing work items\n" + err);
         Fiber(function() {
           WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
         }).run()
@@ -54,7 +54,7 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
-        console.log(err);
+        console.log("Error when synchronizing work items\n" + err);
         Fiber(function() {
           WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
         }).run()
@@ -83,7 +83,7 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
-        console.log(err);
+        console.log("Error when updating new work items\n" + err);
       });
     });
     

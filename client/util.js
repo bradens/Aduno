@@ -41,6 +41,20 @@ function LightenDarkenColor(col,amt) {
   return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 }
 
+Handlebars.registerHelper('iter', function(context, options) {
+  var fn = options.fn, inverse = options.inverse;
+  var ret = "";
+
+  if(context && context.length > 0) {
+    for(var i=0, j=context.length; i<j; i++) {
+      ret = ret + fn(_.extend({}, context[i], { i: i, iPlus1: i + 1 }));
+    }
+  } else {
+    ret = inverse(this);
+  }
+  return ret;
+});
+
 function scrollto(selector)
 {
   scroller().animate({

@@ -1,0 +1,16 @@
+<template name="selectRepoDialog">
+  <div class="modal hide" id="select-repo-dialog" tabindex="-1" role="dialog" aria-labelledby="selectRepoDialogLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="detailsTitle">Select Repository</h3>
+    </div>
+    <div class="modal-body">
+      {{#each repos}}
+        {{> repoGridItem }}
+      {{/each}}
+    </div>
+    <div class="modal-footer">
+      <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+  </div>
+</template>

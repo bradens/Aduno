@@ -21,8 +21,8 @@ Template.main.rendered = function() {
   // redraw our canvas
   if (window.workboard !== undefined)
     window.workboard.draw();
-  $('.tooltip').remove();
-  // re-init our tooltips
+  $('.tooltip').remove(); 
+  // re-init our tooltip
   $('[rel=tooltip]').tooltip();
 }
 
@@ -32,6 +32,9 @@ Template.main.events = {
   },
   'click #newLabel' : function() {
     workflow.createLabel();
+  },
+  'click #select-repo a': function() {
+    $("#select-repo-dialog").modal();
   },
   'click #configure-aduno a': function() {
     $('#configDialog').modal();
