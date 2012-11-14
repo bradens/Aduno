@@ -5,6 +5,10 @@
  * 
  * Main methods for the template.
  */
+Template.main.isLoading = function() {
+  return (Session.get('loading'));
+};
+
 Template.main.areServicesConfigured = function () {
     return Accounts.loginServiceConfiguration.find({ service: 'github' }).count() > 0;
 };

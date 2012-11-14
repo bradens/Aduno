@@ -1,4 +1,9 @@
 <template name="main">
+  {{#if isLoading }}
+    <div class="loading-bar">
+      <span>Loading...</span>
+    </div> 
+  {{/if}}
   {{#unless repoID}}
     <div class="jumbotron masthead">
       <div class="container">

@@ -101,6 +101,8 @@ Template.workitem.events = {
   },
   'click .wi-sync' : function(e) {
     var wiId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+    // TODO @bradens 
+    // Session.set('loading','true');
     Meteor.call('synchronizeWorkItem', wiId);
   },
   'click .wiDelete' : function (e) {
