@@ -29,12 +29,30 @@ Template.wiDialog.events = {
 
 Template.wiDialog.labels = function() {
   return Labels.find({repo_id: Session.get("currentRepoId")});
-}
+};
+
+Template.wiDialog.workitems = function() {
+  return WorkItems.find(
+    {
+      $ne: {
+        _id: WorkItemDialog.currentWiId
+      },
+      repo_id: Session.get("currentRepoId") 
+    }
+  );
+};
+
+Template.wiLinkItem.getOtherName = function() {
+  if (WorkItemDialog.currentWiId == this.parentID)
+    return WorkItems.findOne(this.childID).name;
+  else
+    return WorkItems.findOne(this.parentID).name;
+};
 
 WorkItemDialog = {
   currentWiId: null,
   clearDetailsDialogFields: function() {
-      $('#wiDetailsDialog input, #wiDetailsDialog textarea').html('');
+    $('#wiDetailsDialog input, #wiDetailsDialog textarea').html('');
   },
   removeLabelFromWi: function(e) {
     var data = $(this).closest("li");
@@ -44,6 +62,11 @@ WorkItemDialog = {
     WorkItems.update(wiId, {$set: {dirty: true}});
     WorkItemDialog.renderWiLabels();
   },
+  removeLinkFromWi: function(e) {
+    var linkId = $(this).closest("li").attr("data-link-id");
+    Links.remove(linkId);    
+    WorkItemDialog.renderWiLinks();
+  },
   renderWiLabels: function() {
     var wi = WorkItems.findOne(WorkItemDialog.currentWiId);
     var fragment = Meteor.render(Template.wiLabelItemList({labels: wi.labels, wiId: id}));
@@ -51,10 +74,18 @@ WorkItemDialog = {
     $("#wiDetailsDialog .label-delete").click(WorkItemDialog.removeLabelFromWi);
     $("#wiDetailsDialog .add-label").click(WorkItemDialog.addLabel);
   },
+  renderWiLinks: function() {
+    var links = Links.find({$or : [{childID: WorkItemDialog.currentWiId}, {parentID: WorkItemDialog.currentWiId}]}).fetch();
+    var fragment = Meteor.render(Template.wiLinkItemList({links: links}));
+    $("#wiDetailsDialog .wi-links-controls").html(fragment);
+    $("#wiDetailsDialog .link-delete").click(WorkItemDialog.removeLinkFromWi);
+    $("#wiDetailsDialog .add-link").click(WorkItemDialog.addLink);
+  },
   showWiDialog: function(id) {
     wi = WorkItems.findOne({_id: id});
     WorkItemDialog.currentWiId = id;
     WorkItemDialog.renderWiLabels();
+    WorkItemDialog.renderWiLinks();
     $('#wiNameDetails').val(wi.name);
     $('#wiDescDetails').val(wi.description);
     $('#wiDetailsDialog').attr('editing-wi-id', id);
@@ -71,6 +102,7 @@ WorkItemDialog = {
       var labelName = $(this).attr('data-label-name');
       var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': labelName});
       WorkItems.update(WorkItemDialog.currentWiId, {$push: {labels: label}});
+      $(this).unbind('click');
       WorkItemDialog.labelSelectionDialog.get().modal('hide');
     },
     showLabelSelectionDialog: function() {
@@ -81,5 +113,9 @@ WorkItemDialog = {
   },
   addLabel: function() {
     WorkItemDialog.labelSelectionDialog.showLabelSelectionDialog();
+  },
+  addLink: function() {
+    // TODO @bradens
+    alert("Not supported yet.  Add links by clicking the 'link' button.");
   }
 }
