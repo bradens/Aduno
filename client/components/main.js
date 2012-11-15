@@ -44,7 +44,7 @@ Template.main.events = {
     $('#configDialog').modal();
   },
   'click #user-login a': function() {
-    Meteor.loginWithGithub();
+    Meteor.loginWithGithub({requestPermissions: ['user', 'public_repo']});
   },
   'click a.editLabelBtn' : function(e) {
     var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');
@@ -74,7 +74,6 @@ Template.main.events = {
   'click #synchronize' : function() {
     Meteor.call(
         'synchronize', 
-        Meteor.user().services.github.username, 
         Session.get("currentRepo"),
         Session.get("currentRepoId"),
         function(e) {

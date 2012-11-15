@@ -38,7 +38,7 @@
       }
     });
   },
-    addLabel: function (username, reponame, repoId, labelObject) {
+  addLabel: function (username, reponame, repoId, labelObject) {
     github.issues.createLabel({
       repo: reponame,
       user: username,
@@ -79,10 +79,15 @@
   },
   updateLabels: function(username, reponame, repoId) {
     var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();
+    userId = this.userId;
     _.each(labels, function(item) {
       var oldLabelName = item.label.url.substring(item.label.url.lastIndexOf("/") + 1);
-      console.log(oldLabelName);
-      var accessToken = Meteor.users.findOne({'services.github.username': username}).services.github.accessToken;
+
+      // This is a really bad way to do this.  We need to store references to labels rather than objects.
+
+      //workItems = WorkItems.update({'labels.label.name': oldLabelName}, {$pull: {'labels.label': $elemMatch{'label.name': oldLabelName}}}}).fetch();
+
+      var accessToken = Meteor.users.findOne(userId).services.github.accessToken;
       urlReq("https://api.github.com:443/repos/" + username + "/" + reponame + "/labels/" + oldLabelName, { 
         method: 'PATCH',
         headers: {"Authorization" : "bearer " + accessToken},
@@ -91,7 +96,7 @@
           color: item.label.color
         }}, function(body, res) {
             Fiber(function() {
-              Labels.update(item._id, {$set: {label: body, dirty: false}});
+              Labels.update(item._id, {$set: {label: JSON.parse(body), dirty: false}});
             }).run();
       });
     });

@@ -36,12 +36,18 @@ Meteor.methods({
       }
     });
     github.authenticate ({
-      type: "oauth",
+      type: "oauth",  
       token: Meteor.users.findOne(user_id).services.github.accessToken
     });
     Meteor.call('loadRepos', user_id);
     Meteor.call("authenticatedCallback");
   }, 
+  loadAuth: function() {
+    github.authenticate ({
+      type: "oauth",  
+      token: Meteor.users.findOne(this.userId).services.github.accessToken
+    });
+  },
   // Load Github repos for a user.
   // We will *always* give preference to a github repos information
   // since it controls who has access to what.
@@ -106,9 +112,10 @@ Meteor.methods({
     );
   },
   // TODO @bradens
-  synchronize: function(username, reponame, repoId) {
+  synchronize: function(reponame, repoId) {
     console.log("Synchronizing");
-    Meteor.call('updateLabels', username, reponame, repoId);
-    Meteor.call('updateWorkItems', username, reponame, repoId);
+    owner = Repos.findOne(repoId).owner;
+    Meteor.call('updateLabels', owner, reponame, repoId);
+    Meteor.call('updateWorkItems', owner, reponame, repoId);
   }
 });

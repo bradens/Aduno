@@ -10,8 +10,9 @@ Meteor.methods({
 	synchronizeWorkItem: function(workItemId) {
     console.log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
     item = WorkItems.findOne(workItemId);
-    username = Meteor.users.findOne(this.userId).services.github.username;
-    reponame = Repos.findOne(item.repo_id).name;
+    repoObj = Repos.findOne(item.repo_id);
+    username = repoObj.owner;
+    reponame = repoObj.name;
 
     // TODO @bradens need to embed the links into the workitems
 
@@ -62,7 +63,7 @@ Meteor.methods({
     }
   },
   // Updates github with the workitems from Aduno.
-  updateWorkItems: function(username, reponame, repoId) {
+  updateWorkItems: function(owner, reponame, repoId) {
     newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
     dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // First add the new work items.
@@ -76,7 +77,7 @@ Meteor.methods({
         labels.push(aLabel.label.name);
       });
       github.issues.create({
-        user: username, 
+        user: owner, 
         repo: reponame,
         title: item.name,
         body: item.description,
@@ -101,6 +102,7 @@ Meteor.methods({
       assigneeName = null;
       if (item.assignee)
         assigneeName = item.assignee.login;
+      Meteor.call('loadAuth');
       github.issues.edit({
         user: username, 
         repo: reponame, 

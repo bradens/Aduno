@@ -10,9 +10,10 @@ Template.newLabelDialog.events = {
       if (dialog.attr("editing") == "true"){
         var id = dialog.attr("editing-label-id")
         Labels.update(id, {$set : {'label.name' : name, 'label.color': color, dirty: true}});
+        Meteor.call('updateLabels', Repos.findOne(Session.get("currentRepoId")).owner, Session.get("currentRepo"), Session.get("currentRepoId"));
       }
       else {
-        Meteor.call('addLabel', Meteor.user().services.github.username, Session.get("currentRepo"), Session.get("currentRepoId"), {name: name, color: color}); 
+        Meteor.call('addLabel', Repos.findOne(Session.get("currentRepoId")).owner, Session.get("currentRepo"), Session.get("currentRepoId"), {name: name, color: color}); 
       }
       $('#newLabelDialog input').val("");
       dialog.attr("editing", "false");
