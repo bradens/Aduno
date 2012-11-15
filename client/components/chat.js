@@ -22,6 +22,5 @@
     Template.chat.rendered = function () {
       if(Session.get('currentRepoId') != null){
         scrollToBottom('chat-content');
-        message.focus();
       }
     }

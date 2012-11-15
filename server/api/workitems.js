@@ -40,7 +40,7 @@ Meteor.methods({
       }, function(err, res) {
         console.log("Error when synchronizing work items\n" + err);
         Fiber(function() {
-          WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
+          WorkItems.update(workItemId, {$set: { unsync: false, number: res.number, dirty: false }});
         }).run()
       });
     }
