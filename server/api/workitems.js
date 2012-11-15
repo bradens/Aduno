@@ -8,6 +8,7 @@
 
 Meteor.methods({
 	synchronizeWorkItem: function(workItemId) {
+    Meteor.call("loadAuth");
     console.log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
     item = WorkItems.findOne(workItemId);
     repoObj = Repos.findOne(item.repo_id);
@@ -40,7 +41,7 @@ Meteor.methods({
       }, function(err, res) {
         console.log("Error when synchronizing work items\n" + err);
         Fiber(function() {
-          WorkItems.update(workItemId, {$set: { unsync: false, number: res.number, dirty: false }});
+          WorkItems.update(workItemId, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
         }).run()
       });
     }
@@ -64,6 +65,7 @@ Meteor.methods({
   },
   // Updates github with the workitems from Aduno.
   updateWorkItems: function(owner, reponame, repoId) {
+    Meteor.call("loadAuth");
     newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
     dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // First add the new work items.
@@ -91,7 +93,7 @@ Meteor.methods({
     // TODO @bradens  -- is this a race cond? done like this for efficiency
     // Now clear off the new Items.
     WorkItems.update({repo_id: repoId, newItem: true}, {$set: {newItem: false}});
-    
+    Meteor.call("loadAuth");
     // Now the dirty (modified) items.
     _.each(dirtyItems, function(item) {
       labels = [];
@@ -112,6 +114,9 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
+        Fiber(function() {
+          WorkItems.update(workItemId, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
+        }).run()
         console.log(err);
       });
     });

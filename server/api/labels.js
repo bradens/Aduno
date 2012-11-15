@@ -39,6 +39,7 @@
     });
   },
   addLabel: function (username, reponame, repoId, labelObject) {
+    Meteor.call("loadAuth");
     github.issues.createLabel({
       repo: reponame,
       user: username,
