@@ -35,6 +35,10 @@ Meteor.methods({
         badge: badge
       }
     });
+    github.authenticate ({
+      type: "oauth",  
+      token: Meteor.users.findOne(this.userId).services.github.accessToken
+    });
     Meteor.call('loadRepos', user_id);
     Meteor.call("authenticatedCallback");
   }, 
