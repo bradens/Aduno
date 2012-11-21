@@ -25,5 +25,5 @@ Template.selectRepoDialog.events = {
 Template.selectRepoDialog.repos = function() {
   if (!Meteor.user())
     return [];  
-  return Repos.find({ user_ids: Meteor.user()._id });
+  return Repos.find({ user_ids: Meteor.user()._id }, {$sort: {name: -1}});
 };

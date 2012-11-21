@@ -54,6 +54,7 @@ Meteor.methods({
   // This will update the github repo side, which will be used to switch
   // to our 'aduno' draft versions of each repo.
   loadRepos: function (user_id) {
+    Meteor.call("loadAuth");
     var repoList = Repos.find({user_ids: user_id}).fetch();
     github.repos.getAll({},
       function(err, res) {

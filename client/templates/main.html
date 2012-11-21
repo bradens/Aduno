@@ -10,12 +10,11 @@
         <h1><img src="/aduno-logo-white.png" alt="Aduno" /></h1>
         <p>Open-source, real-time collaborative articulation and task creation tool that plays nice with GitHub.</p>
         {{#if currentUser }}
-          {{#unless currentUserLoaded }}
+          {{#if loggingIn }}
             <div id="loading-aduno">
               <p><a href="#" class="btn btn-success btn-large" onclick="">Loading <br /><span class="button_subtext">Getting user information from GitHub</span></a></p>
             </div>
-          {{/unless}}
-          {{#if currentUserLoaded }}
+=          {{else}}
             {{#unless repoID}}
               <div id="select-repo">
                 <p><a href="#" class="btn btn-inverse btn-large" onclick="">Select a repository<br /><span class="button_subtext">Show issues on the workboard</span></a></p>

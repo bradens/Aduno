@@ -61,14 +61,6 @@ Template.topNav.currentRepoName = function() {
     return "Choose a Repo";
 };
 
-Template.topNav.isUserLoggedIn = function() {
-  return Meteor.userLoaded();
-};
-
-Template.topNav.isUserLoading = function() { 
-  return Meteor.user() && !Meteor.userLoaded();
-};
-
 Template.topNav.currentRepos = function() {
   if (!Meteor.user())
     return [];

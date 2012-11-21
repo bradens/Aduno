@@ -14,7 +14,9 @@
           </ul>
         </li>
       {{/if}}
-      {{#if isUserLoggedIn}}
+      {{#if loggingIn }}
+        <li><span class="loadingUser">Loading</span></li>
+  	  {{ else }}
         <li class="dropdown">
           <a href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -23,14 +25,10 @@
             {{/each}}
           </ul>
         </li>
-    	  <li class="divider-vertical"></li>
-    	  <li>
-	  		<span class="loggedInUserName">{{currentUser.profile.name}}</span><a class="logoutButton btn btn-danger">Logout</a>
-		  </li>
-  	  {{ else }}
-  	    {{#if isUserLoading}}
-  		    <li><span class="loadingUser">Loading</span></li>
-  	    {{/if}}
+        <li class="divider-vertical"></li>
+        <li>
+          <span class="loggedInUserName">{{currentUser.profile.name}}</span><a class="logoutButton btn btn-danger">Logout</a>
+        </li>
   	  {{/if}}
 	  </ul>
   {{/if}}

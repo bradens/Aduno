@@ -147,9 +147,6 @@ Template.workitem.events = {
       workboard.userStopEditingItem(workboard.currentLineID);
     }
   },
-  'keyup .workItemTitle' : function(e) {
-    console.log(e);
-  },
   'mouseover .workItem' : function() {
     $('#wi_'+this._id).draggable({
       containment: '#myCanvas',
