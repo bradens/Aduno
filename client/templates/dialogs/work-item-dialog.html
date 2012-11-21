@@ -34,21 +34,28 @@
       <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close</button>
       <button class="btn btn-primary wiDialogSave">Save changes</button>
     </div>
-  </div>
-  <div class="modal hide" id="label-selection-dialog" tabindex="-1" role="dialog" aria-labelledby="labelSelectDialog" aria-hidden="true">
-    <div class="modal-body">
-      <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
-        <div class="control-group">
-          <label> Choose Label :</label>
-          <div class="controls">
-            <ul class="add-label-list tags">
-              {{#each labels}}
-                {{> addLabelItem }}
-              {{/each}}
-            </ul>
+    <div class="modal hide" id="label-selection-dialog" tabindex="-1" role="dialog" aria-labelledby="labelSelectDialog" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="detailsTitle">Select label</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
+          <div class="control-group">
+            <label> Choose Label :</label>
+            <div class="controls">
+              <ul class="add-label-list tags">
+                {{#each labels}}
+                  {{> addLabelItem }}
+                {{/each}}
+              </ul>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
     </div>
   </div>
 </template>

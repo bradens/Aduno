@@ -100,8 +100,10 @@ WorkItemDialog = {
     $('#wiDescDetails').val(wi.description);
     $('#wiDetailsDialog').attr('editing-wi-id', id);
     $('#wiDetailsDialog').modal().on("hidden", function() {
-      workboard.userStopEditingItem(id);
-      WorkItemDialog.currentWiId = null;
+      if ($("#wiDetailsDialog").css("display") === "none"){
+        workboard.userStopEditingItem(id);
+        WorkItemDialog.currentWiId = null;
+      }
     });
   },
   labelSelectionDialog : {
@@ -111,15 +113,22 @@ WorkItemDialog = {
     labelClicked: function(e) {
       var labelName = $(this).attr('data-label-name');
       var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': labelName});
-      WorkItems.update(WorkItemDialog.currentWiId, {$push: {labels: label}});
-      WorkItems.update(WorkItemDialog.currentWiId, {$set: {dirty: true}});
+      
+      // Meteor doesn't support $addToSet so we have to find and then add if
+      // doesn't exist
+      if (!WorkItems.findOne({_id: WorkItemDialog.currentWiId, labels: label})){
+        WorkItems.update(WorkItemDialog.currentWiId, {$push: {labels: label}});
+        WorkItems.update(WorkItemDialog.currentWiId, {$set: {dirty: true}});
+      }
       $(this).unbind('click');
       WorkItemDialog.labelSelectionDialog.get().modal('hide');
     },
     showLabelSelectionDialog: function() {
       $("#label-selection-dialog").modal().on('hidden', function() {
         WorkItemDialog.renderWiLabels();
-      }).find('li').click(WorkItemDialog.labelSelectionDialog.labelClicked);
+        $(this).find('li').unbind('click');
+      });
+      $("#label-selection-dialog li").click(WorkItemDialog.labelSelectionDialog.labelClicked);
     }
   },
   addLabel: function() {
