@@ -114,7 +114,7 @@ Template.workitem.events = {
     Links.remove({childID: wiID});
   },
   'click .linkWI' : function(e) {
-    workboard.is_Linking = true;
+    workboard.IS_LINKING = true;
     workboard.currentLineID = $(e.currentTarget).closest(".workItem").attr("data-wi-id");
     
     // add current user to editor of WI
@@ -130,7 +130,7 @@ Template.workitem.events = {
 
     if (workboard.is_Linking)
     {
-      workboard.is_Linking = false;
+      workboard.IS_LINKING = false;
       // finish the link;
       
       $cId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
