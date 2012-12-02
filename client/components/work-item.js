@@ -128,7 +128,7 @@ Template.workitem.events = {
     $(this).siblings().removeClass('top').addClass('bottom');
     $(this).css("z-index", workboard.zIndexBuffer++);
 
-    if (workboard.is_Linking)
+    if (workboard.IS_LINKING)
     {
       workboard.IS_LINKING = false;
       // finish the link;
