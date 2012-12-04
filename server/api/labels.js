@@ -68,8 +68,17 @@
           method: "DELETE",
           headers: {"Content-length" : "0", "Authorization" : "bearer " + accessToken}
         }, function(err, res) {
-          if (err)
-            console.log("Error : " + err);
+          if (err){
+            if (err.message === "Not Found") {
+              // The label doesn't exist on github -- delete it anyways
+              Fiber(function() { 
+                Labels.remove({repo_id: repoId, 'label.name': labelname});
+              }).run();
+            }
+            else {
+              console.log("Error : " + err);
+            }
+          }
           else {
               Fiber(function() { 
                 Labels.remove({repo_id: repoId, 'label.name': labelname});

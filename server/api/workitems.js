@@ -39,10 +39,14 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
-        console.log("Error when synchronizing work items\n" + err);
-        Fiber(function() {
-          WorkItems.update(workItemId, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
-        }).run()
+        if (err) {
+          console.log("Error when synchronizing work items\n" + err);
+        }
+        else {
+          Fiber(function() {
+            WorkItems.update(workItemId, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
+          }).run();
+        }      
       });
     }
     else {
@@ -56,16 +60,19 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
-        console.log("Error when synchronizing work items\n" + err);
-        Fiber(function() {
-          WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
-        }).run()
+        if (err) {
+          console.log("Error when synchronizing work items\n" + err);
+        }
+        else {
+          Fiber(function() {
+            WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
+          }).run();
+        }
       });
     }
   },
   // Updates github with the workitems from Aduno.
   updateWorkItems: function(owner, reponame, repoId) {
-    Meteor.call("loadAuth");
     newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
     dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // First add the new work items.
@@ -78,6 +85,7 @@ Meteor.methods({
       _.each(item.labels, function(aLabel) {
         labels.push(aLabel.label.name);
       });
+      Meteor.call("loadAuth");
       github.issues.create({
         user: owner, 
         repo: reponame,
@@ -86,14 +94,17 @@ Meteor.methods({
         assignee: assigneeName,
         labels: labels
       }, function(err, res) {
-        console.log("Error when updating new work items\n" + err);
+        if (err){
+          console.log("Error when updating new work items\n" + err);
+        }
+        else { 
+          Fiber(function() {
+            WorkItems.update(item._id, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
+          }).run();
+        }
       });
     });
     
-    // TODO @bradens  -- is this a race cond? done like this for efficiency
-    // Now clear off the new Items.
-    WorkItems.update({repo_id: repoId, newItem: true}, {$set: {newItem: false}});
-    Meteor.call("loadAuth");
     // Now the dirty (modified) items.
     _.each(dirtyItems, function(item) {
       labels = [];
@@ -106,7 +117,7 @@ Meteor.methods({
         assigneeName = item.assignee.login;
       Meteor.call('loadAuth');
       github.issues.edit({
-        user: username, 
+        user: owner, 
         repo: reponame, 
         title: item.name,
         body: item.description,
@@ -115,13 +126,11 @@ Meteor.methods({
         labels: labels
       }, function(err, res) {
         Fiber(function() {
-          WorkItems.update(workItemId, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
-        }).run()
+          WorkItems.update(item._id, {$set: { unsync: false, dirty: false }});
+        }).run();
         console.log(err);
       });
-    });
-    
-    WorkItems.update({repo_id: repoId, dirty: true}, {$set: {dirty: false}});
+    });    
   },
   //Load all of the issues for a specific repo
   // Once again, github information takes precedence.

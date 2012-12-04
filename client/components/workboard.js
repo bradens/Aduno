@@ -91,7 +91,7 @@ $(window).load(function() {
     this.ev_canvas = function (e)
     {
       workboard.draw();
-      if (workboard.is_Linking)
+      if (workboard.IS_LINKING)
         workboard.drawLine(e);
     };
     
