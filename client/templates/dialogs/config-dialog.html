@@ -5,6 +5,14 @@
       <h3 id="detailsTitle">Configure Login Service</h3>
     </div>
     <div class="modal-body">
+      <br />
+      Go to <a href="https://github.com/settings/applications/">https://github.com/settings/applications/</a>, click "Register new app" and use:
+      <div class="well">
+        Application Name:   Aduno<br />
+        Main URL:   http://localhost:3000<br />
+        Callback URL:   http://localhost:3000/_oauth/github?close
+      </div>
+      You will then have access to that Application's Client ID and Client Secret. You will only have to do this once unless you reset Aduno's database (mongodb).<br /><br />
     <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
       <div class="control-group">
         <label class="control-label" for="configClientKey">Client key: </label>

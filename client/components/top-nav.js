@@ -7,7 +7,7 @@ Template.topNav.areServicesConfigured = function () {
     return Accounts.loginServiceConfiguration.find({ service: 'github' }).count() > 0;
 };
 
-Template.topNav.getrepoID = function () {
+Template.topNav.getRepoID = function () {
     return Session.get('currentRepoId')
 };
 
