@@ -14,7 +14,7 @@
             <div id="loading-aduno">
               <p><a href="#" class="btn btn-success btn-large" onclick="">Loading <br /><span class="button_subtext">Getting user information from GitHub</span></a></p>
             </div>
-=          {{else}}
+          {{else}}
             {{#unless repoID}}
               <div id="select-repo">
                 <p><a href="#" class="btn btn-inverse btn-large" onclick="">Select a repository<br /><span class="button_subtext">Show issues on the workboard</span></a></p>
@@ -41,27 +41,21 @@
   {{/unless}}
   
   {{#if repoID}}
+    {{> workflowMenu}}
   	<div class="canvas-container well data-scroll-section" id="wb">
   	  <div class="workboard-toolbar">
         <div class="btn-toolbar">
   		    <div class="btn-group">
-  			    <a id="synchronize" rel="tooltip" title="Synchronize" class="btn"><i class="icon-refresh"></i> </a>
-  			    <a rel="tooltip" class="btn dropdown-toggle" data-toggle="dropdown"  title="Create new item" href="#">
-  			       <i class="icon-plus"> </i>
-  			       <span class="caret"></span>
-  			    </a>
-  		      <ul class="dropdown-menu">
-  		        <li>
-  		          <a href="#" id="newWorkItem">Work Item</a>
-  		        </li>
-  		        <li>
-  		          <a id="newLabel"  href="#">Label</a>
-  		        </li>
-  		      </ul>
+  			    <a id="synchronize" rel="tooltip" title="Synchronize All" class="btn"><i class="icon-refresh"></i> </a>
+          </div>
+          <div class="btn-group">
+            <a id="newWorkItem" rel="tooltip" title="New Work Itam" class="btn"><i class="icon-briefcase"></i><i class="icon-plus"></i> </a>
+            <a id="newLabel" rel="tooltip" title="New Label" class="btn"><i class="icon-tag"></i><i class="icon-plus"></i>  </a>
+            <a id="newMilestone" rel="tooltip" title="New Milestone" class="btn"></i><i class="icon-flag"></i> <i class="icon-plus"></i> </a>
   		    </div>
   	    </div>
   	  </div>
-  	  {{> workflowMenu}}
+  	  
   	  <canvas width="1000px" height="1000px" id="myCanvas">          
   	  </canvas>
   	  {{#each workitems}}

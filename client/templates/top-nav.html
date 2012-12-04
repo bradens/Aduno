@@ -5,6 +5,11 @@
 	{{#if areServicesConfigured}}
   	<ul class="nav pull-right">
     	{{#if getRepoID}}
+        <ul class="nav">
+          {{#each people }}
+            {{> person }}
+          {{/each}}
+        </ul>
         <li class="dropdown">
           <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-people-large"></i> Current Users<span class="caret"></span></a>
           <ul class="dropdown-menu">

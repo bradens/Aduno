@@ -15,6 +15,7 @@ Template.topNav.userLogin = function () {
     return Meteor.user()
 };
 
+
 Template.topNav.events = {
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");

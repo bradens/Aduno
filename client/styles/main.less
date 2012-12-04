@@ -253,6 +253,38 @@ a:hover {
   color: #ccc;
 }
 
+//--------------------------- Chat ---------------------------//
+
+#chat-container{
+  bottom: 38px;
+  position: absolute;
+}
+
+#chat-header {
+  border-top: 1px solid #DDD;  
+}
+
+#chat-content {
+  background-color: #fcfcfc;
+  padding: 5px;
+  overflow:auto;
+  height:200px; // TODO: make this responsive
+}
+
+.chat-messages {
+
+}
+
+.chat-message {
+  font-size: 12px;
+  display: block;
+  border-bottom: 1px dashed #ddd;
+}
+
+#chat-entry {
+
+}
+
 
 //--------------------------- WorkItems ---------------------------//
 
@@ -366,12 +398,11 @@ a.wiDelete:hover, a.wi-sync:hover {
 //--------------------------- Workboard ---------------------------// 
 .workboard-toolbar {
 	margin-bottom:10px;
-  margin-left: 216px;
+  margin-left: 40px;
 }
 .canvas-container {
   margin:40px 0 0 0;
-  padding:20px 0 20px 0;
-  width:100%;
+  padding:20px 0 20px 220px;
   border:none;
 }
 .canvas-container > canvas {
@@ -531,9 +562,9 @@ ul.tags li a.delete:hover {
   background: url('/px_by_Gre3g.png');
   border-top:1px dashed grey;
   min-height:400px;
-  width:90%;
   padding:5%;
   font-size:14px;
+  padding-left: 275px;
 }
 
 //--------------------------- Getting Started ---------------------------// 
@@ -558,9 +589,14 @@ ul.tags li a.delete:hover {
 //--------------------------- Left Menu ---------------------------// 
 #left-menu {
   width: 212px;
-  height: 1000px;
-  display:inline-block;
-  vertical-align:top;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  position: fixed;
+  top: 0px;
+  padding: 50px 0 0 0;
+  background: whiteSmoke;
+  border-right: 1px solid #eee;
 }
 
 //--------------------------- Components ---------------------------// 
@@ -638,6 +674,8 @@ ul.tags li a.delete:hover {
 a:focus, .btn:focus{
 	outline: none;
 }
+
+
 
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
 	background-color:orange;

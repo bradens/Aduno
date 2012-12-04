@@ -1,7 +1,3 @@
-    Template.chat.repo_id = function () {
-        return Session.get('currentRepoId')
-    };
-
     Template.chatEntry.events = {
         'keydown input.#message': function (e) {
             if(e.keyCode == 13) {

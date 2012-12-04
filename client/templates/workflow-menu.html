@@ -2,35 +2,35 @@
   <div id="left-menu" class="tabbable">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a href="#tab1" data-toggle="tab" rel="tooltip" title="Labels"><i class="icon-tags"></i> </a>
+        <a href="#tab-labels" data-toggle="tab" rel="tooltip" title="Labels"><i class="icon-tags"></i> </a>
       </li>
       <li>
-        <a href="#tab2" data-toggle="tab" rel="tooltip" title="Milestones"><i class="icon-flag"></i> </a>
+        <a href="#tab-milestones" data-toggle="tab" rel="tooltip" title="Milestones"><i class="icon-flag"></i> </a>
       </li>
       <li>
-        <a href="#tab3" data-toggle="tab" rel="tooltip" title="Chat"><i class="icon-comment"></i> </a>
+        <a href="#tab-workitems" data-toggle="tab" rel="tooltip" title="WorkItems"><i class="icon-briefcase"></i> </a>
       </li>
       <li>
-        <a href="#tab4" data-toggle="tab" rel="tooltip" title="Settings"><i class="icon-cog"></i> </a>
-      </li>
-      <li>
-        <a href="#tab5" data-toggle="tab" rel="tooltip" title="WorkItems"><i class="icon-folder-open"></i> </a>
+        <a href="#tab-settings" data-toggle="tab" rel="tooltip" title="Settings"><i class="icon-cog"></i> </a>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="tab1">
+      <div class="tab-pane active" id="tab-labels">
         {{> labels }}
       </div>
-      <div class="tab-pane" id="tab2">
+      <div class="tab-pane" id="tab-milestones">
         {{> milestones }}
       </div>
-      <div class="tab-pane" id="tab3">
-        {{> chat }}
-        {{> chatEntry }}
+      <div class="tab-pane" id="tab-workitems">
+        Workitems
       </div>
-      <div class="tab-pane" id="tab4">
+      <div class="tab-pane" id="tab-settings">
         {{> settings }}
       </div>
+    </div>
+    <div id="chat-container">
+      {{> chat }}
+      {{> chatEntry }}
     </div>
   </div>
 </template>

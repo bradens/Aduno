@@ -1,23 +1,13 @@
 <template name="chat">
-  <div class="nav-header">Chat</div>
-  <div class="chat">      
-    {{#if repo_id}}
-      <div id="chat-content" style="padding: 5px; overflow:auto; height:400px">
-        {{#each messages}}
-          <p><strong>{{ name }}</strong>: {{message}}</p>
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#unless repo_id}}
-      <div class="well well-small">
-        You must connect to a repo to chat
-      </div>
-    {{/unless}}
+  <div id="chat-header" class="nav-header">Chat</div>
+  <div id="chat-content">      
+    {{#each messages}}
+      <div class="chat-message"><strong>{{ name }}</strong>: {{message}}</div>
+    {{/each}}
   </div>
 </template>
 <template name="chatEntry">
-  <div class="well well-small">
+  <div id="chat-entry" class="well well-small">
     <input type="text" placeholder="Type a message..." class="span2" id="message">
   </div>
 </template>
