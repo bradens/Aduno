@@ -51,4 +51,3 @@ Then copy your clientId and secret into the *Configure github auth* dialog that 
 This only has to be done once per mongodb reset (only once unless you mess something up)
 
 Contact me @bradensimpson on twitter for any questions.
-
