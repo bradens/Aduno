@@ -1,0 +1,8 @@
+<template name="labelListPopover">
+  <a class="dropdown-toggle" href="#"><i class="icon-tag"> </i><span> Add label</span></a>
+  <ul class="dropdown-menu add-label-list tags">
+    {{#each labels}}
+      {{> addLabelItem }}
+    {{/each}}
+  </ul>
+</template>

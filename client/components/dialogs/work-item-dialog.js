@@ -22,7 +22,10 @@ Template.wiDialog.events = {
           description: description,
           dirty: true
         }
-        });
+    });
+
+    // Sync the workitem 
+    Meteor.call('synchronizeWorkItem', id);
     WorkItemDialog.clearDetailsDialogFields();
     $('#wiDetailsDialog').modal("hide");
   }
@@ -62,6 +65,7 @@ WorkItemDialog = {
     WorkItems.update(wiId, {$pull: {labels: {'label.name': labelName}}});
     WorkItems.update(wiId, {$set: {dirty: true}});
     WorkItemDialog.renderWiLabels();
+    WorkItemDialog.renderLabelLists();
   },
   removeLinkFromWi: function(e) {
     var linkId = $(this).closest("li").attr("data-link-id");
@@ -71,14 +75,12 @@ WorkItemDialog = {
   renderWiLabels: function() {
     var wi = WorkItems.findOne(WorkItemDialog.currentWiId);
     var labels = wi.labels;
-
     for (var i = 0; i < labels.length; i++) {
       if (labels[i] == null) {         
         labels.splice(i, 1);
         i--;
       }
     }
-
     var fragment = Meteor.render(Template.wiLabelItemList({labels: labels, wiId: id}));
     $("#wiDetailsDialog .wi-labels-controls").html(fragment);
     $("#wiDetailsDialog .label-delete").click(WorkItemDialog.removeLabelFromWi);
@@ -91,11 +93,27 @@ WorkItemDialog = {
     $("#wiDetailsDialog .link-delete").click(WorkItemDialog.removeLinkFromWi);
     $("#wiDetailsDialog .add-link").click(WorkItemDialog.addLink);
   },
+  renderLabelLists: function() {
+    var wiLabels = WorkItems.findOne(WorkItemDialog.currentWiId).labels;
+    var wiLabelsArr = [];
+    _.each(wiLabels, function(item) {
+      wiLabelsArr = wiLabelsArr.concat(item._id);
+    });
+    var allLabels = Labels.find({_id: {$nin: wiLabelsArr}}).fetch();
+
+    // Populate this popover with the labels
+    var labelsHtml = Meteor.render(Template.labelListPopover({labels: allLabels}));
+    $wiLabelList = $('.wi-label-list');
+    $wiLabelList.find("li.add-label").empty();
+    $wiLabelList.find("li.add-label").append(labelsHtml);
+    $wiLabelList.find("li").click(WorkItemDialog.labelClicked);
+  },
   showWiDialog: function(id) {
     wi = WorkItems.findOne({_id: id});
     WorkItemDialog.currentWiId = id;
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderWiLinks();
+    WorkItemDialog.renderLabelLists();
     $('#wiNameDetails').val(wi.name);
     $('#wiDescDetails').val(wi.description);
     $('#wiDetailsDialog').attr('editing-wi-id', id);
@@ -106,33 +124,18 @@ WorkItemDialog = {
       }
     });
   },
-  labelSelectionDialog : {
-    get: function() {
-      return $("#label-selection-dialog");
-    },
-    labelClicked: function(e) {
-      var labelName = $(this).attr('data-label-name');
-      var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': labelName});
-      
-      // Meteor doesn't support $addToSet so we have to find and then add if
-      // doesn't exist
-      if (!WorkItems.findOne({_id: WorkItemDialog.currentWiId, labels: label})){
-        WorkItems.update(WorkItemDialog.currentWiId, {$push: {labels: label}});
-        WorkItems.update(WorkItemDialog.currentWiId, {$set: {dirty: true}});
-      }
-      $(this).unbind('click');
-      WorkItemDialog.labelSelectionDialog.get().modal('hide');
-    },
-    showLabelSelectionDialog: function() {
-      $("#label-selection-dialog").modal().on('hidden', function() {
-        WorkItemDialog.renderWiLabels();
-        $(this).find('li').unbind('click');
-      });
-      $("#label-selection-dialog li").click(WorkItemDialog.labelSelectionDialog.labelClicked);
+  labelClicked: function(e) {
+    var labelName = $(this).attr('data-label-name');
+    var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': labelName});
+    
+    // Meteor doesn't support $addToSet so we have to find and then add if
+    // doesn't exist
+    if (!WorkItems.findOne({_id: WorkItemDialog.currentWiId, labels: label})){
+      WorkItems.update(WorkItemDialog.currentWiId, {$push: {labels: label}});
+      WorkItems.update(WorkItemDialog.currentWiId, {$set: {dirty: true}});
     }
-  },
-  addLabel: function() {
-    WorkItemDialog.labelSelectionDialog.showLabelSelectionDialog();
+    WorkItemDialog.renderWiLabels();
+    WorkItemDialog.renderLabelLists();
   },
   addLink: function() {
     // TODO @bradens

@@ -484,10 +484,9 @@ a.wiDelete:hover, a.wi-sync:hover {
 #wiDetailsDialog, #newLabelDialog, #warningDialog {
   display:none;
 }
-
 #wiDetailsDialog {
   textarea {
-    min-height:100px;
+    min-height:90px;
   }
   .add-label, .add-link {
     cursor: pointer;
@@ -497,10 +496,19 @@ a.wiDelete:hover, a.wi-sync:hover {
     text-shadow: 0 -1px 0 rgba(255,255,255,0.9);
     white-space: nowrap;
     vertical-align: baseline;
-    color:grey;
+    a {
+      color:grey;
+    }
   }
   .add-label:hover, .add-link:hover { 
     background-color: rgba(0, 150, 0, 0.2);
+  }
+  li.dropdown:hover ul.dropdown-menu{
+    display: block;
+    top:0;
+  }
+  a.menu:after, .dropdown-toggle:after {
+    content: none;
   }
 }
 
@@ -713,6 +721,7 @@ input[type="color"]:focus,
 }
 .tooltip {
   z-index:2080;
+  white-space:nowrap;
 }
 .navbar .btn-navbar {
   float:left;
