@@ -23,7 +23,6 @@ Template.wiDialog.events = {
           dirty: true
         }
     });
-
     // Sync the workitem 
     Meteor.call('synchronizeWorkItem', id);
     WorkItemDialog.clearDetailsDialogFields();
@@ -57,6 +56,14 @@ WorkItemDialog = {
   currentWiId: null,
   clearDetailsDialogFields: function() {
     $('#wiDetailsDialog input, #wiDetailsDialog textarea').html('');
+  },
+  getUsersTypeahead: function(value) {
+    var foundUsers = Meteor.users.find({'services.github.username': new RegExp('^' + value)}).fetch();
+    var userArr = [];
+    _.each(foundUsers, function(item) {
+      userArr = userArr.concat(item.services.github.username);
+    });
+    return userArr;
   },
   removeLabelFromWi: function(e) {
     var data = $(this).closest("li");
@@ -114,6 +121,12 @@ WorkItemDialog = {
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
+    $("#wiAssigneeInput").typeahead({
+      source: function(query) {
+        this.process(WorkItemDialog.getUsersTypeahead(query));
+      },
+      minLength: 1
+    });
     $('#wiNameDetails').val(wi.name);
     $('#wiDescDetails').val(wi.description);
     $('#wiDetailsDialog').attr('editing-wi-id', id);

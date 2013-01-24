@@ -13,7 +13,6 @@ this.ActiveUsers = new Meteor.Collection("activeusers");
 this.Issues = new Meteor.Collection("issues");
 this.Labels = new Meteor.Collection("labels");
 this.Messages = new Meteor.Collection("messages");
-
 // Publishing our collections
 if (Meteor.is_server)
 {
