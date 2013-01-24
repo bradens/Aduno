@@ -27,13 +27,21 @@ Template.wiDialog.events = {
     Meteor.call('synchronizeWorkItem', id);
     WorkItemDialog.clearDetailsDialogFields();
     $('#wiDetailsDialog').modal("hide");
+  },
+  'keyup #wiAssigneeInput' : function(e) {
+    if (e.keyCode == '13') {
+      // update the collection
+      var user = Meteor.users.findOne({'services.github.username': e.target.value});
+      if (user != null) {
+        WorkItems.update(WorkItemDialog.currentWiId, {$set: {assignee: user}});
+        WorkItemDialog.renderAssignee();
+      }
+    }
   }
 };
-
 Template.wiDialog.labels = function() {
   return Labels.find({repo_id: Session.get("currentRepoId")});
 };
-
 Template.wiDialog.workitems = function() {
   return WorkItems.find(
     {
@@ -121,6 +129,7 @@ WorkItemDialog = {
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
+    WorkItemDialog.renderAssignee();
     $("#wiAssigneeInput").typeahead({
       source: function(query) {
         this.process(WorkItemDialog.getUsersTypeahead(query));
@@ -136,6 +145,14 @@ WorkItemDialog = {
         WorkItemDialog.currentWiId = null;
       }
     });
+  },
+  renderAssignee: function() { 
+      $("#wiDetailsDialog .wi-assignee-wrapper").remove();
+      var assignee = WorkItems.findOne(WorkItemDialog.currentWiId).assignee;
+      if (assignee != null) { 
+        var frag = Meteor.render(Template.dialogAssigneePerson(assignee));
+        $("#wiDetailsDialog #wiAssigneeInput").after(frag);
+      }
   },
   labelClicked: function(e) {
     var labelName = $(this).attr('data-label-name');

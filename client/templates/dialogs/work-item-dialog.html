@@ -23,15 +23,20 @@
           <textarea id="wiDescDetails"></textarea>
         </div>
       </div>
-      <div class="control-group">
-        <label class="control-label" for="wiLinks">Links: </label>
-        <div class="controls wi-links-controls">
+      <div class="control-group wiAssignee">
+        <label class="control-label" for="wiAssigned">Assignee: </label>
+        <div class="controls">
+          <input id="wiAssigneeInput" class="typeahead" type='text' data-provide="typeahead" placeholder="Type a username...">
+          {{#if isAssigned }}
+            <span class="label {{ assignee.badge }}">
+              {{ getAssignee }}
+            </span>
+          {{/if}}
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="wiAssigned">Assignee: </label>
-        <div class="controls">
-          <input id="wiAssigneeInput" class="typeahead" type='text' data-provide="typeahead">
+        <label class="control-label" for="wiLinks">Links: </label>
+        <div class="controls wi-links-controls">
         </div>
       </div>
     </form>

@@ -19,7 +19,7 @@ Meteor.methods({
 
     assigneeName = null;
     if (item.assignee)
-      assigneeName = item.assignee.login;
+      assigneeName = item.assignee.services.github.username;
     labels = [];
     // For the new items 
     _.each(item.labels, function(aLabel) {
@@ -79,7 +79,7 @@ Meteor.methods({
     _.each(newItems, function(item) {
       assigneeName = null;
       if (item.assignee)
-        assigneeName = item.assignee.login;
+        assigneeName = item.assignee.services.github.username;
       labels = [];
       // For the new items 
       _.each(item.labels, function(aLabel) {
@@ -114,7 +114,7 @@ Meteor.methods({
       console.log(item);
       assigneeName = null;
       if (item.assignee)
-        assigneeName = item.assignee.login;
+        assigneeName = item.assignee.services.github.username;
       Meteor.call('loadAuth');
       github.issues.edit({
         user: owner, 
@@ -209,6 +209,10 @@ Meteor.methods({
               var label = Labels.findOne({'label.name': item.name});
               labels.push(label);
             });
+            // Need to user our assignee object instead of the github one.
+            if (item.assignee && item.assignee.login){
+              item.assignee = Meteor.users.findOne({'services.github.username': item.assignee.login});
+            }
             WorkItems.update(wi._id, {
               $set: {
                 name: item.title, 
