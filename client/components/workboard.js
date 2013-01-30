@@ -38,8 +38,9 @@ $(window).load(function() {
     this.IS_DRAGGING = false;
     this.createNewWorkItem = function () {
       var position = workboard.getNewItemPos();
+      var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name' : Session.get("currentLabel")});
       var id = WorkItems.insert({
-        labels: [Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name' : Session.get("currentLabel")})],
+        labels: ((label == null) ? [] : [label]),
         name: "New WorkItem",
         repo_id: Session.get("currentRepoId"),
         description: "Default description",

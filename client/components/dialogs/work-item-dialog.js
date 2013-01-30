@@ -90,12 +90,6 @@ WorkItemDialog = {
   renderWiLabels: function() {
     var wi = WorkItems.findOne(WorkItemDialog.currentWiId);
     var labels = wi.labels;
-    for (var i = 0; i < labels.length; i++) {
-      if (labels[i] == null) {         
-        labels.splice(i, 1);
-        i--;
-      }
-    }
     var fragment = Meteor.render(Template.wiLabelItemList({labels: labels, wiId: id}));
     $("#wiDetailsDialog .wi-labels-controls").html(fragment);
     $("#wiDetailsDialog .label-delete").click(WorkItemDialog.removeLabelFromWi);
