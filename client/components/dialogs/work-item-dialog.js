@@ -87,6 +87,10 @@ WorkItemDialog = {
     Links.remove(linkId);    
     WorkItemDialog.renderWiLinks();
   },
+  removeAssignee: function(e) {
+    WorkItems.update(WorkItemDialog.currentWiId, {$set: {assignee: null}});
+    WorkItemDialog.renderAssignee();
+  },
   renderWiLabels: function() {
     var wi = WorkItems.findOne(WorkItemDialog.currentWiId);
     var labels = wi.labels;
@@ -141,11 +145,12 @@ WorkItemDialog = {
     });
   },
   renderAssignee: function() { 
-      $("#wiDetailsDialog .wi-assignee-wrapper").remove();
+      $("#wiDetailsDialog .wi-assignee-item").remove();
       var assignee = WorkItems.findOne(WorkItemDialog.currentWiId).assignee;
       if (assignee != null) { 
         var frag = Meteor.render(Template.dialogAssigneePerson(assignee));
         $("#wiDetailsDialog #wiAssigneeInput").after(frag);
+        $("#wiDetailsDialog .wi-assignee-item li a.delete").click(WorkItemDialog.removeAssignee);
       }
   },
   labelClicked: function(e) {

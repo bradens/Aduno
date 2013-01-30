@@ -17,7 +17,7 @@ Meteor.methods({
 
     // TODO @bradens need to embed the links into the workitems
 
-    assigneeName = null;
+    assigneeName = "none";
     if (item.assignee)
       assigneeName = item.assignee.services.github.username;
     labels = [];
@@ -77,7 +77,7 @@ Meteor.methods({
     dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // First add the new work items.
     _.each(newItems, function(item) {
-      assigneeName = null;
+      assigneeName = "none";
       if (item.assignee)
         assigneeName = item.assignee.services.github.username;
       labels = [];
@@ -112,7 +112,7 @@ Meteor.methods({
         labels.push(aLabel.label.name);
       });
       console.log(item);
-      assigneeName = null;
+      assigneeName = "none";
       if (item.assignee)
         assigneeName = item.assignee.services.github.username;
       Meteor.call('loadAuth');
