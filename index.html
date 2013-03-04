@@ -10,91 +10,36 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>Aduno by bradens</title>
+    <title>Aduno</title>
   </head>
 
   <body>
     <div id="container">
       <div class="inner">
-
         <header>
           <h1>Aduno</h1>
-          <h2>Collaborative tool for real time articulation and task creation.</h2>
+          <h2>A Collaborative tool for real time articulation and task creation.</h2>
         </header>
-
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/bradens/Aduno/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/bradens/Aduno/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/bradens/Aduno" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
 
         <hr>
 
         <section id="main_content">
           <h1>Aduno</h1>
-
-<h3><em>To Unite, To Make One</em></h3>
-
-<h3>Dev Environment Setup</h3>
-
-<h4>Install node</h4>
-
-<p>Follow instructions <a href="http://nodejs.org">here</a>.</p>
-
-<h4>Install meteor</h4>
-
-<p><strong>Note</strong> : The normal method of installing meteor(<code>curl install.meteor.com | sh</code>) <strong>won't</strong> work, as we make use of meteor's <em>Auth</em> which is currently not in
-their stable release. </p>
-
-<p>We have to install from a checkout of the meteor project.  </p>
-
-<pre><code>git clone git://github.com/bradens/meteor.git
-cd meteor
-</code></pre>
-
-<p>If you want meteor in your path <code>/usr/local/</code></p>
-
-<pre><code>./install.sh
-meteor --help 
-</code></pre>
-
-<p>this will download all dependencies, so it may take a few minutes</p>
-
-<p>or check out meteor's official readme at their github repo <a href="http://github.com/meteor/meteor">here</a></p>
-
-<h4>Install Aduno</h4>
-
-<p>Now just clone aduno  </p>
-
-<pre><code>git clone git://github.com/bradens/Aduno.git
-cd aduno
-meteor
-</code></pre>
-
-<p>This will create a mongodb instance, so it could take a minute or two the first try, then</p>
-
-<pre><code>http://localhost:3000
-</code></pre>
-
-<p>and it should work!</p>
-
-<h4>Setup github auth</h4>
-
-<p>In order to set up a github auth key (required for testing out your aduno instance), you have to do the following.</p>
-
-<p><strong>Register github app</strong></p>
-
-<p>Go to <a href="https://github.com/settings/applications">https://github.com/settings/applications</a> and click <em>Register new app</em>
-Register a new application and point </p>
-
-<pre><code>url = http://localhost:3000
-callback url = http://localhost:3000/_oauth/github?close
-</code></pre>
-
-<p>Then copy your clientId and secret into the <em>Configure github auth</em> dialog that pops up when trying to sign in.
-This only has to be done once per mongodb reset (only once unless you mess something up)</p>
-
-<p>Contact me @bradensimpson on twitter for any questions.</p>
+          <h3>What is Aduno?</h3>
+          <p>
+            Aduno offers a shared workspace where a software development team with a Github-hosted project, can collaboratively manipulate their workflow using visual components. Teams can sign in with their Github account details and access their repositories, and Aduno imports the project’s issues on the workspace in the form of work items. Users can create, edit, link, and move around work items to organize their joint actions, and coordinate about them by communicating through the tool’s chat area. In real time users can also see all changes that other team members are making on the work board and Aduno’s visual layout allows them to maintain workspace awareness. The contents of the work board can then be exported to Github’s issue tracker, integrated directly into the team’s workflow.
+          </p>
+          <p>
+            Team communication and coordination is an integral part of the software development process and is a challenge whenever collaborating teams are distributed. Although it is typical for project management systems in services such as Github to allow comments on each issue, we have included a chat area in Aduno. The comments on work items in Github are used for asynchronous communication, and this was not sufficient for our tool. A chat system provides users with a secondary communication channel that allows them to engage in a synchronous discussion about work items that would not typically be appropriate for asynchronous work item comments. Since comments in Github must also be attached to only one work item, having this chat area helps teams develop broader goals and facilitates common ground through more in- depth conversation.
+          </p>
+          <p>
+            Persistent project data synchronization is an important and highly functional aspect of Aduno. The data modeled in Aduno is transferred as you work to issue trackers such as Github, meaning teams are able to enjoy the best of both worlds by using Aduno’s highly visual, real-time environment for design tasks, and smoothly integrating with their existing workflow. Once a user signs in Aduno with their Github credentials they have all their repositories and respective issues in place and they can select what they want to work on. When an edit is performed on a work item in Aduno, the “Sync” indicator at the top right of the item turns from green to orange to signal that there is an unsynchronized change. To synchronize with Github, the user may click on the “Sync All” button at the top of the page, or they may click on a work item’s “Sync” button to synchronize it individually. This gives the team more control over what work items get synced with the associated service.
+          </p>
+        </section>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/bradens/Aduno/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/bradens/Aduno/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/bradens/Aduno" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
 
         <footer>
