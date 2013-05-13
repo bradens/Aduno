@@ -5,6 +5,8 @@
  * 
  * Define the methods used for server processing here.
  */
+var Fiber = Npm.require('fibers');
+
 Meteor.methods({
   keepalive: function (user_id) {
     if (!(ActiveUsers.findOne({user_id: user_id}))){
@@ -118,5 +120,8 @@ Meteor.methods({
     owner = Repos.findOne(repoId).owner;
     Meteor.call('updateLabels', owner, reponame, repoId);
     Meteor.call('updateWorkItems', owner, reponame, repoId);
+  },
+  removeEditing: function(username) {
+    WorkItems.update({'usersEditing.name': username}, {$pull: {usersEditing: {name: username}}});
   }
 });

@@ -111,7 +111,7 @@ $(window).load(function() {
       badge = Meteor.user().badge;
       
       // First remove all erroneous edits that might still be going on.  Can't be editing two things at once.
-      WorkItems.update({'usersEditing.name': username}, {$pull: {usersEditing: {name: username}}});
+      Meteor.call('removeEditing', username);
       
       // Now update item with user as editor.
       WorkItems.update(itemId, {$push: {usersEditing: { name: username, badge: badge}}});

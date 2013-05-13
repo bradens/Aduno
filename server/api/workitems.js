@@ -5,7 +5,7 @@
  * 
  * Define the methods used for server processing here.
  */
-
+var Fiber = Npm.require('fibers');
 Meteor.methods({
 	synchronizeWorkItem: function(workItemId) {
     Meteor.call("loadAuth");
@@ -18,7 +18,7 @@ Meteor.methods({
     // TODO @bradens need to embed the links into the workitems
 
     assigneeName = "none";
-    if (item.assignee)
+    if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
       assigneeName = item.assignee.services.github.username;
     labels = [];
     // For the new items 
@@ -136,14 +136,11 @@ Meteor.methods({
   // Once again, github information takes precedence.
   loadIssuesWithLabels: function(username, reponame, labels) {
     //TODO @bradens
-    if (!labels || labels.length == 0) {
-      labels = null;
+    parms = { user: username, repo: reponame };
+    if (labels && labels.length != 0) {
+      parms.labels = labels;
     }
-    github.issues.repoIssues({
-      user: username,
-      repo: reponame,
-      labels: labels
-    }, function(err, res) {
+    github.issues.repoIssues(parms, function(err, res) {
       if (err) { 
         console.log(err);
         return;
@@ -178,13 +175,14 @@ Meteor.methods({
             var label = Labels.findOne({'label.name': item.name});
             labels.push(label);
           });
+          
           WorkItems.insert({
             name : item.title,
             number: item.number,
             repo_id: repoObj._id,
             labels : labels,
             description: item.body,
-            assignee: item.assignee,
+            assignee: item.assignee.name,
             milestone: item.milestone,
             comments : item.comments,
             top: -1,

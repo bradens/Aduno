@@ -5,6 +5,7 @@
  * 
  * Define the methods used for server processing here.
  */
+ var Fiber = Npm.require('fibers');
  Meteor.methods({
   // Load all the labels for a repo
 	loadLabels : function(username, reponame) {

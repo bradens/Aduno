@@ -8,21 +8,15 @@
 
 // returns a jQuery object suitable for setting scrollTop to
 // scroll the page, either directly for via animate()
-var scroller = function() {
+this.scroller = function() {
   return $("html, body").stop();
 };
-
-// Very hacky way to get the login callback..
-// Eventually use 
-//function loginCallback() {
-//  workflow && workflow.loggedIn();
-//}
 
 /**
  * Taken from this stackoverflow
  * http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color
  */
-function LightenDarkenColor(col,amt) {
+this.LightenDarkenColor = function(col,amt) {
   var usePound = false;
   if ( col[0] == "#" ) {
       col = col.slice(1);
@@ -41,28 +35,14 @@ function LightenDarkenColor(col,amt) {
   return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 }
 
-Handlebars.registerHelper('iter', function(context, options) {
-  var fn = options.fn, inverse = options.inverse;
-  var ret = "";
-
-  if(context && context.length > 0) {
-    for(var i=0, j=context.length; i<j; i++) {
-      ret = ret + fn(_.extend({}, context[i], { i: i, iPlus1: i + 1 }));
-    }
-  } else {
-    ret = inverse(this);
-  }
-  return ret;
-});
-
-function scrollto(selector)
+this.scrollto = function(selector)
 {
   scroller().animate({
         scrollTop: $(selector).offset().top
     }, 500, 'swing');  
 }
 
-function scrollToBottom(elm_id) {
+this.scrollToBottom = function(elm_id) {
   var elm = document.getElementById(elm_id);
   try {
     elm.scrollTop = elm.scrollHeight;

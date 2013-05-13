@@ -6,38 +6,17 @@
  * Loading all modules and doing pathing to require 
  * npm packages.
  */
-var require = __meteor_bootstrap__.require;
-var path = require("path"),
-      fs = require('fs'),
-      https = require('https'),
-      url = require('url');
+var path = Npm.require("path"),
+      fs = Npm.require('fs'),
+      https = Npm.require('https'),
+      url = Npm.require('url'),
+      Fiber = Npm.require('fibers');
 
-var GitHubApi;
-var gitPath = 'node_modules/github';
-
-var base = path.resolve('.');
-if (base == '/'){
-  base = path.dirname(global.require.main.filename);   
-}
-//base = base + "/bundle";
-var publicPath = path.resolve(base+'/public/'+gitPath);
-var staticPath = path.resolve(base+'/static/'+gitPath);
-
-if (fs.existsSync(publicPath)){
-  GitHubApi = require(publicPath);
-}
-else if (fs.existsSync(staticPath)){
-  GitHubApi = require(staticPath);
-}
-else{
-  console.log('node_modules not found');
-}
-var github = new GitHubApi({
+github = new GitHub({
     version: "3.0.0"
 });
 
-function randomBadge()
-{
+randomBadge = function() {
   var labels = ['', 'label-success', 'label-warning', 'label-important', 'label-info', 'label-inverse'];
   return labels[Math.round((Math.random()*6))];
 }
