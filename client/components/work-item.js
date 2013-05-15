@@ -74,7 +74,7 @@ Template.workitem.events = {
     $wiEditor.css({
       top: pos.top,
       left: pos.left-5,
-      width: $target.width()+5,
+      width: $target.width(),
       height: $target.height()
     }).show();
 
@@ -95,7 +95,7 @@ Template.workitem.events = {
     $wiEditor.css({
       top: pos.top,
       left: pos.left-5,
-      width: $target.width()+5,
+      width: $target.width(),
       height: $target.height()
     }).show();
 
