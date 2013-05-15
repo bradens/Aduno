@@ -1,5 +1,8 @@
 {
-	"meteor": {
-		"branch": "devel"
-	}
+  "meteor": {
+    "branch": "devel"
+  },
+  "packages": {
+    "aloha-editor": {}
+  }
 }

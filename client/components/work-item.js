@@ -27,7 +27,7 @@ Template.workItemTitleEditor.events = {
     'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
       $wie.find('textarea').val("");
-      $wie.fadeOut('fast');
+      $wie.hide();
       id = $wie.attr('editing-id');
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
@@ -65,15 +65,20 @@ Template.workitem.events = {
   },
   'click h4.workItemTitle' : function(e) {
     if (workboard.IS_LINKING) return;
+
+    // Get the position and title element
     $wiEditor = $("#work-item-title-editor");
-    pos = $(e.target).offset();
-    pos.top = pos.top-10;
-    pos.left = pos.left-10;
+    $target = $(e.target);
+    pos = $target.offset();
+
     $wiEditor.css({
       top: pos.top,
-      left: pos.left
-    }).fadeIn('fast');
-    id = $(e.target).closest('[data-wi-id]').attr('data-wi-id');
+      left: pos.left-5,
+      width: $target.width()+5,
+      height: $target.height()
+    }).show();
+
+    id = $target.closest('[data-wi-id]').attr('data-wi-id');
     $wiEditor.attr('editing-id', id);
     $wiEditor.find('textarea').val(e.target.innerHTML).focus();
     
@@ -84,14 +89,17 @@ Template.workitem.events = {
   'click .description' : function(e) {
     if (workboard.IS_LINKING) return;
     $wiEditor = $("#work-item-description-editor");
+    $target = $(e.target);
     pos = $(e.target).offset();
-    pos.top = pos.top-10; 
-    pos.left = pos.left-10;
+    
     $wiEditor.css({
       top: pos.top,
-      left: pos.left
-    }).fadeIn('fast');
-    id = $(e.target).closest('[data-wi-id]').attr('data-wi-id');
+      left: pos.left-5,
+      width: $target.width()+5,
+      height: $target.height()
+    }).show();
+
+    id = $target.closest('[data-wi-id]').attr('data-wi-id');
     $wiEditor.attr('editing-id', id);
     $wiEditor.find('textarea').val(e.target.innerHTML).focus();
     
@@ -122,7 +130,6 @@ Template.workitem.events = {
     e.stopPropagation();
   },
   'click .workItem' : function (e) {
-    
     // Adjust the z-index
     $(this).addClass('top').removeClass('bottom');
     $(this).siblings().removeClass('top').addClass('bottom');

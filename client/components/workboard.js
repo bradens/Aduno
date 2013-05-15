@@ -24,6 +24,7 @@ $(window).load(function() {
   });
   
   $('body').on('drag', '.workItem', function (e) {
+    $("[id*=-editor]").hide();
     workboard.IS_DRAGGING = true;
     workboard.draw();
   });
