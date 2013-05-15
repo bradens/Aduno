@@ -107,6 +107,8 @@ $(window).load(function() {
       this.ctx.lineTo(e.offsetX, e.offsetY);
         this.ctx.stroke();
     };
+
+    // Add the notification to show that a user is editing an item
     this.userEditingItem = function(itemId) {
       username = Meteor.user().services.github.username;
       badge = Meteor.user().badge;
@@ -117,15 +119,18 @@ $(window).load(function() {
       // Now update item with user as editor.
       WorkItems.update(itemId, {$push: {usersEditing: { name: username, badge: badge}}});
     };
+
+    // Remove the notification to show that a user is editing an item
     this.userStopEditingItem = function(itemId) {
       username = Meteor.user().services.github.username;
       WorkItems.update(itemId, {$pull: {usersEditing: {name: username}}});
     };
+
     // Function that returns a new item position psuedorandomly.
     this.getNewItemPos = function() {
       var $mat = $("#myCanvas");
-      var top = $mat.offset().top + 50 + Math.floor(Math.random() * 31) - 15;
-      var left = $mat.offset().left + $mat.width() / 2 - 72 + Math.floor(Math.random() * 31) - 15;
+      var top = $mat.offset().top + 50 + Math.floor(Math.random() * 60) - 15;
+      var left = $mat.offset().left + $mat.width() / 2 - 72 + Math.floor(Math.random() * 60) - 15;
       return { top: top, left: left };
     };
   }

@@ -7,21 +7,21 @@
  */
 var Fiber = Npm.require('fibers');
 Meteor.methods({
-	synchronizeWorkItem: function(workItemId) {
+  // TODO @bradens need to embed the links into the workitems
+  // SynchronizeWorkitem
+  synchronizeWorkItem: function(workItemId) {
     Meteor.call("loadAuth");
-    console.log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
+    
+    if (ADUNO.debug)
+      console.log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
+    
     item = WorkItems.findOne(workItemId);
     repoObj = Repos.findOne(item.repo_id);
     username = repoObj.owner;
     reponame = repoObj.name;
 
-    // TODO @bradens need to embed the links into the workitems
-
-    assigneeName = "none";
-    if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
-      assigneeName = item.assignee.services.github.username;
+    // construct the label list
     labels = [];
-    // For the new items 
     _.each(item.labels, function(aLabel) {
       if (!aLabel) {
         return;
@@ -29,18 +29,23 @@ Meteor.methods({
       labels.push(aLabel.label.name);
     });
 
+    parms = {
+      user: username,
+      repo: reponame,
+      title: item.name,
+      body: item.description,
+      labels: labels
+    };
+
+    if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
+      parms.assignee = item.assignee.services.github.username;
+    
     if (item.newItem) {
       // The workItem doesn't exist on github
-      github.issues.create({
-        user: username, 
-        repo: reponame,
-        title: item.name, 
-        body: item.description,
-        assignee: assigneeName,
-        labels: labels
-      }, function(err, res) {
+      github.issues.create(parms, function(err, res) {
         if (err) {
-          console.log("Error when synchronizing work items\n" + err);
+          if (ADUNO.debug)
+            console.log("Error when synchronizing work items\n" + err);
         }
         else {
           Fiber(function() {
@@ -50,18 +55,12 @@ Meteor.methods({
       });
     }
     else {
-      // edit it
-      github.issues.edit({
-        user: username,
-        repo: reponame,
-        number: item.number,
-        title: item.name,
-        body: item.description,
-        assignee: assigneeName,
-        labels: labels
-      }, function(err, res) {
+      // Update it
+      parms.number = item.number;
+      github.issues.edit(parms, function(err, res) {
         if (err) {
-          console.log("Error when synchronizing work items\n" + err);
+          if (ADUNO.debug)
+            console.log("Error when synchronizing work items\n" + err);
         }
         else {
           Fiber(function() {
@@ -77,25 +76,30 @@ Meteor.methods({
     dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // First add the new work items.
     _.each(newItems, function(item) {
-      assigneeName = "none";
-      if (item.assignee)
-        assigneeName = item.assignee.services.github.username;
+      
       labels = [];
       // For the new items 
       _.each(item.labels, function(aLabel) {
         labels.push(aLabel.label.name);
       });
-      Meteor.call("loadAuth");
-      github.issues.create({
+
+      parms = {
         user: owner, 
         repo: reponame,
         title: item.name,
         body: item.description,
         assignee: assigneeName,
         labels: labels
-      }, function(err, res) {
+      }
+
+      if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
+        parms.assignee = item.assignee.services.github.username;
+
+      Meteor.call("loadAuth");
+      github.issues.create(parms, function(err, res) {
         if (err){
-          console.log("Error when updating new work items\n" + err);
+          if (ADUNO.debug) 
+            console.log("Error when updating new work items\n" + err);
         }
         else { 
           Fiber(function() {
@@ -111,20 +115,21 @@ Meteor.methods({
       _.each(item.labels, function(aLabel) {
         labels.push(aLabel.label.name);
       });
-      console.log(item);
-      assigneeName = "none";
-      if (item.assignee)
-        assigneeName = item.assignee.services.github.username;
-      Meteor.call('loadAuth');
-      github.issues.edit({
+
+      parms = {
         user: owner, 
-        repo: reponame, 
+        repo: reponame,
         title: item.name,
-        body: item.description,
         number: item.number,
-        assignee: assigneeName,
+        body: item.description,
         labels: labels
-      }, function(err, res) {
+      }
+
+      if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
+        parms.assignee = item.assignee.services.github.username;
+
+      Meteor.call('loadAuth');
+      github.issues.edit(parms, function(err, res) {
         Fiber(function() {
           WorkItems.update(item._id, {$set: { unsync: false, dirty: false }});
         }).run();
@@ -132,18 +137,20 @@ Meteor.methods({
       });
     });    
   },
-  //Load all of the issues for a specific repo
+  // Load all of the issues for a specific repo
   // Once again, github information takes precedence.
   loadIssuesWithLabels: function(username, reponame, labels) {
-    //TODO @bradens
-    parms = { user: username, repo: reponame };
+    parms = { 
+      user: username, 
+      repo: reponame 
+    };
     if (labels && labels.length != 0) {
       parms.labels = labels;
     }
     github.issues.repoIssues(parms, function(err, res) {
       if (err) { 
-        console.log(err);
-        return;
+        if (ADUNO.debug)
+          console.log(err);
       }
       else {
         Fiber(function() {
@@ -152,14 +159,16 @@ Meteor.methods({
       }
     });
   },
+
+  // Called by @method loadIssuesWithLabels
   loadedIssues: function(username, reponame, result, tag) {
     Fiber(function() {
       var repoObj = Repos.findOne({
         owner : username, 
         name : reponame
       });
+
       _.each(result, function(item) {
-        // TODO @braden insert some issues
         var wi = WorkItems.findOne({
           number: item.number,
           repo_id: repoObj._id
@@ -176,13 +185,21 @@ Meteor.methods({
             labels.push(label);
           });
           
+          var assignee;
+          if (!item.assignee) {
+            assignee = null;
+          }
+          else {
+            assignee = item.assignee.name;
+          }
+          
           WorkItems.insert({
             name : item.title,
             number: item.number,
             repo_id: repoObj._id,
             labels : labels,
             description: item.body,
-            assignee: item.assignee.name,
+            assignee: assignee,
             milestone: item.milestone,
             comments : item.comments,
             top: -1,

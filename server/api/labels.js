@@ -93,7 +93,6 @@
     userId = this.userId;
     _.each(labels, function(item) {
       var oldLabelName = item.label.url.substring(item.label.url.lastIndexOf("/") + 1);
-
       // This is a really bad way to do this.  We need to store references to labels rather than objects.
 
       //workItems = WorkItems.update({'labels.label.name': oldLabelName}, {$pull: {'labels.label': $elemMatch{'label.name': oldLabelName}}}}).fetch();

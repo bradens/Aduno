@@ -16,11 +16,18 @@ github = new GitHub({
     version: "3.0.0"
 });
 
+ADUNO = { };
+ADUNO.debug = true;
+
+// Utility function for assigning badges to users, 
+// TODO @bradens replace with hashing function on their names
 randomBadge = function() {
   var labels = ['', 'label-success', 'label-warning', 'label-important', 'label-info', 'label-inverse'];
   return labels[Math.round((Math.random()*6))];
 }
 
+// TODO @bradens
+// Figure out permissions here.
 Meteor.startup(function() {
   var canModify = function(userId, tasks) {
     return _.all(tasks, function(task) {
@@ -52,25 +59,6 @@ Meteor.startup(function() {
     update: function () { return true; },
     remove: function () { return true; }
   });
-//  Repos.allow({
-//    insert: function () { return true; },
-//    update: canModify,
-//    remove: canModify,
-//    fetch: ['privateTo']
-//  });
-  
-//  Meteor.users.allow({
-//    insert: function () { return true; },
-//    update: function () { return true; },
-//    remove: function () { return true; },
-//    fetch: function () { return true; }
-//  });
-//  Meteor.accounts.configuration.allow({
-//    insert: function () { return true; },
-//    update: function () { return true; },
-//    remove: function () { return true; },
-//    fetch: function () { return true; }
-//  });
 })
 
 //server code: clean up dead clients after 5 seconds
