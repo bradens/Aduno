@@ -26,7 +26,7 @@ randomBadge = function() {
   return labels[Math.round((Math.random()*6))];
 }
 
-var log = function(msg) {
+log = function(msg) {
   if (ADUNO.debug) {
     console.log(msg);
   }
