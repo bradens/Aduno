@@ -26,6 +26,12 @@ randomBadge = function() {
   return labels[Math.round((Math.random()*6))];
 }
 
+var log = function(msg) {
+  if (ADUNO.debug) {
+    console.log(msg);
+  }
+}
+
 // TODO @bradens
 // Figure out permissions here.
 Meteor.startup(function() {

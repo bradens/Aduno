@@ -12,8 +12,7 @@ Meteor.methods({
   synchronizeWorkItem: function(workItemId) {
     Meteor.call("loadAuth");
     
-    if (ADUNO.debug)
-      console.log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
+    log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
     
     item = WorkItems.findOne(workItemId);
     repoObj = Repos.findOne(item.repo_id);
@@ -44,8 +43,7 @@ Meteor.methods({
       // The workItem doesn't exist on github
       github.issues.create(parms, function(err, res) {
         if (err) {
-          if (ADUNO.debug)
-            console.log("Error when synchronizing work items\n" + err);
+          log("Error when synchronizing work items\n" + err);
         }
         else {
           Fiber(function() {
@@ -59,8 +57,7 @@ Meteor.methods({
       parms.number = item.number;
       github.issues.edit(parms, function(err, res) {
         if (err) {
-          if (ADUNO.debug)
-            console.log("Error when synchronizing work items\n" + err);
+          log("Error when synchronizing work items\n" + err);
         }
         else {
           Fiber(function() {
@@ -98,8 +95,7 @@ Meteor.methods({
       Meteor.call("loadAuth");
       github.issues.create(parms, function(err, res) {
         if (err){
-          if (ADUNO.debug) 
-            console.log("Error when updating new work items\n" + err);
+          log("Error when updating new work items\n" + err);
         }
         else { 
           Fiber(function() {
@@ -130,10 +126,14 @@ Meteor.methods({
 
       Meteor.call('loadAuth');
       github.issues.edit(parms, function(err, res) {
-        Fiber(function() {
-          WorkItems.update(item._id, {$set: { unsync: false, dirty: false }});
-        }).run();
-        console.log(err);
+        if (err) {
+          log(err);
+        }
+        else {
+          Fiber(function() {
+            WorkItems.update(item._id, {$set: { unsync: false, dirty: false }});
+          }).run();
+        }
       });
     });    
   },
@@ -149,8 +149,7 @@ Meteor.methods({
     }
     github.issues.repoIssues(parms, function(err, res) {
       if (err) { 
-        if (ADUNO.debug)
-          console.log(err);
+        log(err);
       }
       else {
         Fiber(function() {
@@ -192,7 +191,7 @@ Meteor.methods({
           else {
             assignee = item.assignee.name;
           }
-          
+
           WorkItems.insert({
             name : item.title,
             number: item.number,
