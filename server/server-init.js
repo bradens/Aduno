@@ -8,8 +8,6 @@
  */
 var path = Npm.require("path"),
       fs = Npm.require('fs'),
-      https = Npm.require('https'),
-      url = Npm.require('url'),
       Fiber = Npm.require('fibers');
 
 github = new GitHub({

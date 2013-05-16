@@ -7,6 +7,8 @@
   * @param  {Function} cb       This is passed the 'res' object from your request
   * 
   */
+var url = Npm.require('url'),
+    https = Npm.require('https');
 urlReq = function(reqUrl, options, cb){
     if(typeof options === "function"){ cb = options; options = {}; }// incase no options passed in
 
