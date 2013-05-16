@@ -36,14 +36,14 @@ Meteor.startup(function() {
   
   WorkItems.find().observe({
     added: function(item) {
-        if (item.left == -1 && item.top == -1) {
-          // Hacky way to determine if this is a newly added work item.
-          // Need to improve this TODO @bradens
-          var newPosition = workboard.getNewItemPos();
-          Meteor.defer( function() {
-            WorkItems.update(item._id, {$set: {top: newPosition.top, left: newPosition.left}});
-          });
-        }
+      if (item.left == -1 && item.top == -1) {
+        // Hacky way to determine if this is a newly added work item.
+        // Need to improve this TODO @bradens
+        var newPosition = workboard.getNewItemPos();
+        Meteor.defer( function() {
+          WorkItems.update(item._id, {$set: {top: newPosition.top, left: newPosition.left}});
+        });
+      }
     }
   });
   
