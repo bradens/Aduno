@@ -15,7 +15,7 @@
     },
     function(err, res) {
       if (err){
-        console.log(err)
+        log(err);
         return;
       }
       else {
@@ -27,11 +27,13 @@
           _.each(res, function(item) {
             if (!Labels.findOne({
                 repo_id: repoObj._id,
-                'label.name': item.name
+                name: item.name
               })) {
               Labels.insert({
                 repo_id: repoObj._id,
-                label: item
+                name: item.name,
+                color: item.color,
+                url: item.url
               });
             }
           });
@@ -49,12 +51,14 @@
     }, function(err, res){
       Fiber(function() {
         if (err){ 
-          console.log("ERROR");
+          log(err);
           return false;
         }
         else {
           Labels.insert({
-            label: res,
+            name: res.name,
+            color: res.color,
+            url: res.url,
             repo_id: repoId
           });
           return true;
@@ -62,52 +66,57 @@
       }).run();
     });
   },
-  deleteLabel : function (user_id, username, reponame, labelname) {
-    var accessToken = Meteor.users.findOne(user_id).services.github.accessToken;
-    var repoId = Repos.findOne({name: reponame})._id;
-    urlReq("https://api.github.com:443/repos/" + username + "/" + reponame + "/labels/" + labelname.replace(" ", "+"), {
-          method: "DELETE",
-          headers: {"Content-length" : "0", "Authorization" : "bearer " + accessToken}
-        }, function(err, res) {
-          if (err){
-            if (err.message === "Not Found") {
-              // The label doesn't exist on github -- delete it anyways
-              Fiber(function() { 
-                Labels.remove({repo_id: repoId, 'label.name': labelname});
-              }).run();
-            }
-            else {
-              console.log("Error : " + err);
-            }
-          }
-          else {
-              Fiber(function() { 
-                Labels.remove({repo_id: repoId, 'label.name': labelname});
-              }).run();
-            }
-        }
-    );
+  deleteLabel : function (repoId, labelName) {
+    Meteor.call("loadAuth");
+    labelObj = Labels.findOne({repo_id: repoId, name: labelName});
+    repoObj = Repos.findOne(labelObj.repo_id); 
+
+    parms = {
+      user: repoObj.owner,
+      repo: repoObj.name,
+      name: labelObj.name
+    }
+    
+    github.issues.deleteLabel(parms, function(err, res) {
+      if (err) {
+        log(err);
+      }
+      else {
+        Fiber(function() {
+          // Remove all references from the work item's as well.
+          // TODO @bradens
+          Labels.remove(labelObj._id);
+        }).run();
+      }
+    });
   },
-  updateLabels: function(username, reponame, repoId) {
+
+  // Synch our labels with github 
+  updateLabels: function(repoId) {
     var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();
-    userId = this.userId;
     _.each(labels, function(item) {
       var oldLabelName = item.label.url.substring(item.label.url.lastIndexOf("/") + 1);
-      // This is a really bad way to do this.  We need to store references to labels rather than objects.
+      
+      // parms = {
+      //   name: oldLabelName,
+      //   repo: reponame, 
+      //   user: username
+      // }
+      // github.issues.updateLabel(parms)
 
-      //workItems = WorkItems.update({'labels.label.name': oldLabelName}, {$pull: {'labels.label': $elemMatch{'label.name': oldLabelName}}}}).fetch();
-
-      var accessToken = Meteor.users.findOne(userId).services.github.accessToken;
       urlReq("https://api.github.com:443/repos/" + username + "/" + reponame + "/labels/" + oldLabelName, { 
         method: 'PATCH',
         headers: {"Authorization" : "bearer " + accessToken},
         params: {
-          name: item.label.name,
-          color: item.label.color
-        }}, function(body, res) {
-            Fiber(function() {
-              Labels.update(item._id, {$set: {label: JSON.parse(body), dirty: false}});
-            }).run();
+          name: item.name,
+          color: item.color
+        }}, function(err, res) {
+          if (err) {
+            log(err)
+          }
+          Fiber(function() {
+            Labels.update(item._id, {$set: {url: JSON.parse(body).url, dirty: false}});
+          }).run();
       });
     });
   }

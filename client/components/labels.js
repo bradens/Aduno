@@ -1,5 +1,5 @@
 Template.labelItem.labelName = function() {
-  return this.label.name;
+  return this.name;
 };
 Template.labelItem.events = {
     'click .label-delete' : function(e) {
@@ -10,7 +10,7 @@ Template.labelItem.events = {
     }
 }
 Template.labelItem.checkLabelActive = function() { 
-  if (Session.get("currentLabel") != "all" && this.label.name == Session.get("currentLabel")) {
+  if (Session.get("currentLabel") != "all" && this.name == Session.get("currentLabel")) {
     return "active";
   }
   return "";
@@ -33,11 +33,11 @@ Template.labels.totalWorkItemCount = function() {
   return WorkItems.find().count();
 };
 Template.labelItem.getWorkItemCount = function() {
-  return WorkItems.find({ 'labels.label.name' : this.label.name, repo_id : Session.get("currentRepoId") }).count();
+  return WorkItems.find({ 'labels.name' : this.name, repo_id : Session.get("currentRepoId") }).count();
 };
 Template.wiLabelItem.getLabelDarkColor = function() {
-  return LightenDarkenColor(this.label.color, -50);
+  return LightenDarkenColor(this.color, -50);
 };
 Template.addLabelItem.getLabelDarkColor = function() {
-  return LightenDarkenColor(this.label.color, -50);
+  return LightenDarkenColor(this.color, -50);
 };

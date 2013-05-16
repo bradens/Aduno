@@ -51,9 +51,7 @@ Template.workItemDescriptionEditor.events = {
       $wie.find('textarea').val("");
       $wie.fadeOut('fast');
       id = $wie.attr("editing-id");
-      // add current user to editor of WI
       workboard.userStopEditingItem(id);
-      
     }
 }
 Template.workitem.events = {

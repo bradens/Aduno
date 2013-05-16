@@ -3,11 +3,11 @@
  * Aduno project (http://aduno.meteor.com)
  * @author Braden Simpson (@bradensimpson)
  * 
- * Initialization for all client side code.
  */
 Template.wiDialog.events = {
   'click .wiDialogCancel' : function (e) {
     //todo cancel?
+
   },
   'click .wiDialogSave' : function(e) {
     // Update Collection
@@ -63,7 +63,7 @@ Template.wiLinkItem.getOtherName = function() {
 WorkItemDialog = {
   currentWiId: null,
   clearDetailsDialogFields: function() {
-    $('#wiDetailsDialog input, #wiDetailsDialog textarea').html('');
+    $('#wiDetailsDialog input, #wiDetailsDialog textarea').val('');
   },
   getUsersTypeahead: function(value) {
     var foundUsers = Meteor.users.find({'services.github.username': new RegExp('^' + value)}).fetch();
@@ -77,7 +77,7 @@ WorkItemDialog = {
     var data = $(this).closest("li");
     var labelName = data.attr('data-label-name');
     var wiId = $("#wiDetailsDialog").attr('editing-wi-id');
-    WorkItems.update(wiId, {$pull: {labels: {'label.name': labelName}}});
+    WorkItems.update(wiId, {$pull: {labels: {name: labelName}}});
     WorkItems.update(wiId, {$set: {dirty: true}});
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderLabelLists();
@@ -155,7 +155,7 @@ WorkItemDialog = {
   },
   labelClicked: function(e) {
     var labelName = $(this).attr('data-label-name');
-    var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name': labelName});
+    var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'name': labelName});
     
     // Meteor doesn't support $addToSet so we have to find and then add if
     // doesn't exist
@@ -167,7 +167,7 @@ WorkItemDialog = {
     WorkItemDialog.renderLabelLists();
   },
   addLink: function() {
-    // TODO @bradens
+    // TODO @bradensimpson
     alert("Not supported yet.  Add links by clicking the 'link' button.");
   }
 }

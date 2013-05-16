@@ -49,12 +49,12 @@ Template.main.events = {
   },
   'click a.editLabelBtn' : function(e) {
     var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');
-    var label = Labels.findOne({'label.name' : labelname, repo_id: Session.get("currentRepoId")});
+    var label = Labels.findOne({name : labelname, repo_id: Session.get("currentRepoId")});
     $newLabel = $("#newLabelDialog");
     $newLabel.attr("editing", "true");
     $newLabel.attr("editing-label-id", label._id);
-    $newLabel.find("#labelColor").val(label.label.color);
-    $newLabel.find("#labelName").val(label.label.name);
+    $newLabel.find("#labelColor").val(label.color);
+    $newLabel.find("#labelName").val(label.name);
     $newLabel.modal();
     e.stopPropagation();
   },
@@ -98,7 +98,7 @@ Template.main.workitems = function() {
       name: {
         $ne: ""
       },
-      'labels.label.name': Session.get("currentLabel")
+      'labels.name': Session.get("currentLabel")
     }, { 
       sort: {
         name: 1

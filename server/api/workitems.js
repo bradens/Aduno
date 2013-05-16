@@ -25,7 +25,7 @@ Meteor.methods({
       if (!aLabel) {
         return;
       }
-      labels.push(aLabel.label.name);
+      labels.push(aLabel.name);
     });
 
     parms = {
@@ -70,14 +70,13 @@ Meteor.methods({
   // Updates github with the workitems from Aduno.
   updateWorkItems: function(owner, reponame, repoId) {
     newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
-    dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
-    // First add the new work items.
+    // First add the new work items.  
     _.each(newItems, function(item) {
       
       labels = [];
       // For the new items 
       _.each(item.labels, function(aLabel) {
-        labels.push(aLabel.label.name);
+        labels.push(aLabel.name);
       });
 
       parms = {
@@ -85,7 +84,6 @@ Meteor.methods({
         repo: reponame,
         title: item.name,
         body: item.description,
-        assignee: assigneeName,
         labels: labels
       }
 
@@ -105,11 +103,12 @@ Meteor.methods({
       });
     });
     
+    dirtyItems = WorkItems.find({dirty: true, repo_id: repoId}).fetch();
     // Now the dirty (modified) items.
     _.each(dirtyItems, function(item) {
       labels = [];
       _.each(item.labels, function(aLabel) {
-        labels.push(aLabel.label.name);
+        labels.push(aLabel.name);
       });
 
       parms = {
@@ -180,7 +179,7 @@ Meteor.methods({
           // It doesn't exist in the aduno repo
           var labels = [];
           _.each(item.labels, function(item) {
-            var label = Labels.findOne({'label.name': item.name});
+            var label = Labels.findOne({name: item.name});
             labels.push(label);
           });
           
@@ -220,7 +219,7 @@ Meteor.methods({
             //. It's not dirty, but different than ours.  Update it.
             var labels = [];
             _.each(item.labels, function(item) {
-              var label = Labels.findOne({'label.name': item.name});
+              var label = Labels.findOne({name: item.name});
               labels.push(label);
             });
             // Need to user our assignee object instead of the github one.

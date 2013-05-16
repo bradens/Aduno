@@ -39,7 +39,7 @@ $(window).load(function() {
     this.IS_DRAGGING = false;
     this.createNewWorkItem = function () {
       var position = workboard.getNewItemPos();
-      var label = Labels.findOne({repo_id: Session.get("currentRepoId"), 'label.name' : Session.get("currentLabel")});
+      var label = Labels.findOne({repo_id: Session.get("currentRepoId"), name: Session.get("currentLabel")});
       var id = WorkItems.insert({
         labels: ((label == null) ? [] : [label]),
         name: "New WorkItem",
@@ -47,7 +47,8 @@ $(window).load(function() {
         description: "Default description",
         top: position.top,
         left: position.left,
-        newItem: true
+        newItem: true,
+        dirty: true
       });
     };
     this.updateCanvas = function() {

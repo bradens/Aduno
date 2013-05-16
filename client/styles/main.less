@@ -283,9 +283,9 @@ a:hover {
 
 .synchronized {
 	background: #2CC03E;
-border-color: #259A33;
-border-right-color: #2CC03E;
-border-bottom-color: #2CC03E;
+  border-color: #259A33;
+  border-right-color: #2CC03E;
+  border-bottom-color: #2CC03E;
 }
 
 #work-item-title-editor, #work-item-description-editor {
@@ -321,14 +321,9 @@ border-bottom-color: #2CC03E;
     font-size:14px;
     text-shadow: 0 1px 0 white;
     border-radius:3px;
-  }
-  .workItemTitle:hover {
-    background-color: rgba(0,0,0,.05);
-  }
-  .workItemID {
-    display:none;   /* Temporarily disable this as we don't need it for debugging right now */
-    font-size:10px;
-    color:darkgrey;
+    &:hover {
+      background-color: rgba(0,0,0,.05);
+    }
   }
   .btn-toolbar {
     margin:0;
@@ -347,9 +342,9 @@ border-bottom-color: #2CC03E;
     font-size:12px;
     min-height:20px;
     border-radius:3px;
-  }
-  p:hover {
-    background-color: rgba(0,0,0,.05);
+    &:hover {
+      background-color: rgba(0,0,0,.05);
+    }
   }
   .editing-div {
     position:absolute;
@@ -367,7 +362,7 @@ border-bottom-color: #2CC03E;
   .unselectable;
   overflow: hidden;
   width: 215px;
-  min-height: 143px;
+  /*min-height: 143px;*/
   max-height:171px;
   padding: 1px 5px;
   background-color: @lightgrey;
