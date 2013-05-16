@@ -135,7 +135,6 @@ WorkItemDialog = {
       },
       minLength: 1
     });
-    $wiDialog.find("textarea").autosize();
     $('#wiNameDetails').val(wi.name);
     $('#wiDescDetails').val(wi.description);
     $wiDialog.attr('editing-wi-id', id);

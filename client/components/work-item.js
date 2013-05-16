@@ -13,29 +13,29 @@ Template.workitem.title = function() {
 }
 Template.workItemTitleEditor.events = {
     'keyup textarea' : function(e) {
-      if (e.keyCode == 13){
+      if (e.keyCode == 13 && !e.leftShift){
         $(e.target).blur();
         e.stopPropagation();
         return;
       }
-      $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
-      WorkItems.update($id, {$set : {
-        name: e.target.value,
-        dirty: true
-      }});
     },
     'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
       $wie.find('textarea').val("");
       $wie.hide();
       id = $wie.attr('editing-id');
+      $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
+      WorkItems.update($id, {$set : {
+        name: e.target.value,
+        dirty: true
+      }});
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
     }
 }
 Template.workItemDescriptionEditor.events = {
     'keyup textarea' : function(e) {
-      if (e.keyCode == 13){
+      if (e.keyCode == 13 && !e.leftShift){
         $(e.target).blur();
         e.stopPropagation();
         return;
@@ -78,7 +78,7 @@ Template.workitem.events = {
 
     id = $target.closest('[data-wi-id]').attr('data-wi-id');
     $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus();
+    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
     
     // add current user to editor of WI
     workboard.userEditingItem(id);
@@ -99,7 +99,7 @@ Template.workitem.events = {
 
     id = $target.closest('[data-wi-id]').attr('data-wi-id');
     $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus();
+    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
     
     // add current user to editor of WI
     workboard.userEditingItem(id);
