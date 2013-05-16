@@ -128,16 +128,18 @@ WorkItemDialog = {
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
     WorkItemDialog.renderAssignee();
+    $wiDialog = $("#wiDetailsDialog");
     $("#wiAssigneeInput").typeahead({
       source: function(query) {
         this.process(WorkItemDialog.getUsersTypeahead(query));
       },
       minLength: 1
     });
+    $wiDialog.find("textarea").autosize();
     $('#wiNameDetails').val(wi.name);
     $('#wiDescDetails').val(wi.description);
-    $('#wiDetailsDialog').attr('editing-wi-id', id);
-    $('#wiDetailsDialog').modal().on("hidden", function() {
+    $wiDialog.attr('editing-wi-id', id);
+    $wiDialog.modal().on("hidden", function() {
       if ($("#wiDetailsDialog").css("display") === "none"){
         workboard.userStopEditingItem(id);
         WorkItemDialog.currentWiId = null;

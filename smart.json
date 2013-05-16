@@ -3,6 +3,6 @@
     "branch": "devel"
   },
   "packages": {
-    "aloha-editor": {}
+    "github": {}
   }
 }
