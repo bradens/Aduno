@@ -44,7 +44,8 @@
 
 //--------------------------- Colors ---------------------------// 
 
-@orange		: orange;
+@orange		: #e74c3c;
+@darkorange   : #c0392b;
 @white		: white;
 @lightgrey: lightgrey;
 @darkblue : slateblue;
@@ -118,6 +119,24 @@ a:hover {
   vertical-align: baseline;
 }
 
+.navbar-inner {
+  border: 0;
+}
+
+#navbar {
+  border-bottom: 1px solid #AAA;
+}
+
+#user-count {
+  background-color: #f3f3f3;
+  border-radius: 15px;
+  padding: 2px 5px;
+}
+
+.logoutButton {
+  width: 105px;
+  margin: 0 auto;
+}
 
 //--------------------------- Login Splash ---------------------------//
 
@@ -258,19 +277,20 @@ a:hover {
 #chat-container{
   bottom: 38px;
   position: absolute;
-  width: 220px;
+  width: 212px;
 }
 
 #chat-header {
-  border-top: 1px solid #DDD;  
-  background: #DFDFDF;
+  border-top: 1px solid #B6B6B6;  
+  background: #D6D6D6;
+  color: #555;
 }
 
 #chat-content {
   background-color: #fcfcfc;
   padding: 5px;
-  overflow:auto;
-  height:200px; // TODO: make this responsive
+  overflow: auto;
+  height: 200px; // TODO: make this responsive
 }
 
 .chat-messages {
@@ -282,6 +302,16 @@ a:hover {
   display: block;
   border-bottom: 1px dashed #ddd;
 }
+
+#chat-entry {
+  margin-bottom: 2px;
+}
+
+#chat-entry #message {
+  width: 178px;
+  margin: 0;
+}
+
 //--------------------------- WorkItems ---------------------------//
 
 .synchronized {
@@ -407,11 +437,16 @@ a.wiDelete:hover, a.wi-sync:hover {
 //--------------------------- Workboard ---------------------------// 
 .workboard-toolbar {
 	margin-bottom:10px;
-  margin-left: 40px;
+  background: #D6D6D6;
+  height: 40px;
+  border-bottom: 1px solid #1ABC9C;
+  .btn-toolbar {
+    padding: 5px 0 0 10px;
+  }
 }
 .canvas-container {
   margin:40px 0 0 0;
-  padding:20px 0 20px 220px;
+  padding: 0 0 20px 212px;
   border:none;
 }
 .canvas-container > canvas {
@@ -419,6 +454,7 @@ a.wiDelete:hover, a.wi-sync:hover {
   border: 1px solid #EEE;
   .border-radius(4px);
 	.inner-shadow(0, 0, 1px, 1px, 0.05);
+  margin-left: 10px;
 }
 //--------------------------- Workflow ---------------------------// `
 .workflow-panel {
@@ -430,7 +466,7 @@ a.wiDelete:hover, a.wi-sync:hover {
     padding-right: 0;
   }
 	li > a:hover {
-	  background-color: fade(orange, 20%) !important;
+	  background-color: fade(#e74c3c, 20%) !important;
 	}
 	li:hover a.label-delete, li:hover a.editLabelBtn {
 	  display:block;
@@ -489,6 +525,9 @@ a.wiDelete:hover, a.wi-sync:hover {
   }
 }
 //--------------------------- Dialogs ---------------------------// 
+  .modal-body { 
+    padding: 40px 15px;
+  }
 
 #wiDetailsDialog, #newLabelDialog, #warningDialog {
   display:none;
@@ -619,9 +658,21 @@ ul.tags li a.delete:hover {
   vertical-align: top;
   position: fixed;
   top: 0px;
-  padding: 50px 0 0 0;
+  padding: 40px 0 0 0;
   background: whiteSmoke;
-  border-right: 1px solid #eee;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  .nav-tabs {
+    background: #D6D6D6;
+    height: 40px;
+    margin-bottom: 0;
+    border:0;
+    border-bottom: 1px solid #E74C3C;
+    a {
+      border: 0;
+      line-height: 30px;
+      padding: 5px 15px;
+    }
+  }
 }
 
 //--------------------------- Components ---------------------------// 
@@ -693,7 +744,7 @@ ul.tags li a.delete:hover {
 
 ::selection {
   color: white;
-  background-color:darkorange;
+  background-color:@darkorange;
 }
 
 a:focus, .btn:focus{
@@ -704,12 +755,12 @@ a:focus, .btn:focus{
   z-index:1051;
 }
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
-	background-color:orange;
-	background-image: -webkit-linear-gradient(top, orange, darkorange);
-	background-image: -moz-linear-gradient(top, orange, darkorange);
-	background-image: -o-linear-gradient(top, orange, darkorange);
-  background-image: -ms-linear-gradient(top, orange, darkorange);
-  background-image: linear-gradient(top, orange, darkorange);
+	background-color:@orange;
+	background-image: -webkit-linear-gradient(top, @orange, @darkorange);
+	background-image: -moz-linear-gradient(top, @orange, @darkorange);
+	background-image: -o-linear-gradient(top, @orange, @darkorange);
+  background-image: -ms-linear-gradient(top, @orange, @darkorange);
+  background-image: linear-gradient(top, @orange, @darkorange);
 }
 
 textarea:focus,
@@ -728,7 +779,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: orange;
+  border-color: @orange;
   outline: 0;
   outline: thin dotted \9;
   /* IE6-9 */
@@ -745,7 +796,7 @@ input[type="color"]:focus,
   float:left;
 }
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
-  background-color: orange;
+  background-color: @orange;
 }
 .nav {
   margin-bottom: 2px;

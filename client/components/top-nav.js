@@ -55,6 +55,18 @@ Template.topNav.people = function() {
   });
 };
 
+Template.topNav.userCount = function() {
+  return Meteor.users.find().count();
+}
+
+Template.topNav.otherUsersColor = function() {
+  if (Meteor.users.find().count() > 1) {
+    return "#e74c3c";
+  } else {
+    return "#f3f3f3"
+  }
+}
+
 Template.topNav.currentRepoName = function() {
   if (Session.get("currentRepo"))
     return Session.get("currentRepo");

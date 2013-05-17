@@ -5,13 +5,8 @@
 	{{#if areServicesConfigured}}
   	<ul class="nav pull-right">
     	{{#if getRepoID}}
-        <ul class="nav">
-          {{#each people }}
-            {{> person }}
-          {{/each}}
-        </ul>
         <li class="dropdown">
-          <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-people-large"></i> Current Users<span class="caret"></span></a>
+          <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><span id="user-count" style="border-left: 15px solid {{ otherUsersColor }};">{{ userCount }}</span> Current Users<span class="caret"></span></a>
           <ul class="dropdown-menu">
             {{#each people }}
               {{> person }}
@@ -32,9 +27,16 @@
             </ul>
           </li>
           <li class="divider-vertical"></li>
-        <li>
-          <span class="loggedInUserName">{{currentUser.profile.name}}</span><a class="logoutButton btn">Logout</a>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-user"></i> {{currentUser.profile.name}}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="logoutButton btn">Logout</a>
+            </li>
+          </ul>
         </li>
+
         {{/if}}
   	  {{/if}}
 	  </ul>
