@@ -18,6 +18,11 @@ Template.workItemTitleEditor.events = {
         e.stopPropagation();
         return;
       }
+      $id = $(e.target).closest("#work-item-title-editor").attr('editing-id');
+      WorkItems.update($id, {$set : {
+        name: e.target.value,
+        dirty: true
+      }});
     },
     'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
@@ -25,10 +30,6 @@ Template.workItemTitleEditor.events = {
       $wie.hide();
       id = $wie.attr('editing-id');
       $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
-      WorkItems.update($id, {$set : {
-        name: e.target.value,
-        dirty: true
-      }});
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
     }
