@@ -1,6 +1,6 @@
 /**
  * main.less
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  */
 
@@ -369,7 +369,7 @@ a:hover {
   .actions {
     border-top-right-radius:0 !important;
   }
-  p {
+  p.description {
     height:0;
     opacity:0;
     font-size:12px;
@@ -390,10 +390,10 @@ a:hover {
       }
     }
   }
-  &:hover p, #work-item-description-editor:focus p {
+  &:hover p, p.open {
     height:auto;
-    min-height:20px;  
     opacity:1;
+    margin-bottom:30px;
   }
 	.abspos-left;
   .border-radius(4px);
@@ -437,9 +437,9 @@ a.wiDelete:hover, a.wi-sync:hover {
 //--------------------------- Workboard ---------------------------// 
 .workboard-toolbar {
 	margin-bottom:10px;
-  background: #D6D6D6;
+  /*background: #D6D6D6;*/
   height: 40px;
-  border-bottom: 1px solid #1ABC9C;
+  /*border-bottom: 1px solid #1ABC9C;*/
   .btn-toolbar {
     padding: 5px 0 0 10px;
   }
@@ -662,7 +662,7 @@ ul.tags li a.delete:hover {
   background: whiteSmoke;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   .nav-tabs {
-    background: #D6D6D6;
+    /*background: #D6D6D6;*/
     height: 40px;
     margin-bottom: 0;
     border:0;

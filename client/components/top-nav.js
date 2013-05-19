@@ -1,6 +1,6 @@
 /**
  * top-nav.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  */
 Template.topNav.areServicesConfigured = function () {

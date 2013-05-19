@@ -1,6 +1,6 @@
 /**
  * server-init.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Loading all modules and doing pathing to require 

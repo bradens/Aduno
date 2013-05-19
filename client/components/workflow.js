@@ -1,6 +1,6 @@
 /**
  * workboard.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Workboard code.  Used for manipulating the 'workboard' which is the name of the

@@ -1,6 +1,6 @@
 /**
  * main.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Main methods for the template.

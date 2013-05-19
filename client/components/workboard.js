@@ -1,6 +1,6 @@
 /**
  * workboard.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Workboard code.  Used for manipulating the 'workboard' which is the name of the
@@ -68,8 +68,8 @@ $(window).load(function() {
           wiChild = WorkItems.findOne({_id: Link.childID});
         }
         else {
-          wi = WorkItems.findOne({_id: Link.parentID, 'labels.label.name' : Session.get("currentLabel") });
-          wiChild = WorkItems.findOne({_id: Link.childID, 'labels.label.name' : Session.get("currentLabel")});
+          wi = WorkItems.findOne({_id: Link.parentID, 'labels.name' : Session.get("currentLabel") });
+          wiChild = WorkItems.findOne({_id: Link.childID, 'labels.name' : Session.get("currentLabel")});
         }
         
         if (!wi || !wiChild)
