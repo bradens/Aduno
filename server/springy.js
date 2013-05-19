@@ -482,7 +482,6 @@
 			root.setTimeout(callback, 10);
 		}), root);
 
-
 	// start simulation
 	Layout.ForceDirected.prototype.start = function(render, done) {
 		var t = this;
