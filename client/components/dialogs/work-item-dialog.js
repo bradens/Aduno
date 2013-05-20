@@ -136,7 +136,7 @@ WorkItemDialog = {
       minLength: 1
     });
     $('#wiNameDetails').val(wi.name);
-    $('#wiDescDetails').val(wi.description);
+    $('#wiDescDetails').val(wi.description).autosize();
     $wiDialog.attr('editing-wi-id', id);
     $wiDialog.modal().on("hidden", function() {
       if ($("#wiDetailsDialog").css("display") === "none"){
