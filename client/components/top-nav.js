@@ -56,7 +56,9 @@ Template.topNav.people = function() {
 };
 
 Template.topNav.userCount = function() {
-  return Meteor.users.find().count();
+  return Meteor.users.find({
+    idle: false
+  }).count();
 }
 
 Template.topNav.otherUsersColor = function() {
