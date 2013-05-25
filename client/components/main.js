@@ -14,7 +14,7 @@ Template.main.areServicesConfigured = function () {
 };
 
 Template.main.userLogin = function () {
-    return Meteor.user()
+    return Meteor.user();
 };
 
 Template.main.repoID = function () {
@@ -50,12 +50,11 @@ Template.main.events = {
   'click a.editLabelBtn' : function(e) {
     var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');
     var label = Labels.findOne({name : labelname, repo_id: Session.get("currentRepoId")});
-    $newLabel = $("#newLabelDialog");
-    $newLabel.attr("editing", "true");
-    $newLabel.attr("editing-label-id", label._id);
-    $newLabel.find("#labelColor").val(label.color);
-    $newLabel.find("#labelName").val(label.name);
-    $newLabel.modal();
+    $editedLabel = $("#editLabelDialog");
+    $editedLabel.attr("editing-label-id", label._id);
+    $editedLabel.find("#label-color-edit").val(label.color);
+    $editedLabel.find("#labelName").val(label.name);
+    $editedLabel.modal();
     e.stopPropagation();
   },
   'click .filter-labels li:not(".nav-header")' : function(e) {

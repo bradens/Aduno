@@ -10,7 +10,7 @@
     <h4 class="workItemTitle">{{ name }}</h4>
     <a class="btn btn-mini {{ synchronizedClass }} wi-sync"><i class="icon-refresh"> </i></a>
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
-    <p class="description {{{ isOpen }}}" placeholder="Type something here">{{ description }}</p>
+    <div class="description {{{ isOpen }}}" placeholder="Type something here">{{ description }}</div>
     <div class="editing-div">
 	    <ul class="unstyled editing-list">
 	      {{#each usersEditing }}

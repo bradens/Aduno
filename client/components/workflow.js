@@ -32,6 +32,9 @@ $(function() {
       $("#newLabelDialog input").val("");
       $("#newLabelDialog").modal();
     };
+    this.labelColorEdited = function($elem, col) {
+      $elem.css('background-color', col);
+    };
     this.loadedReposCallback = function(res) {
       console.log("finished loading repos");
     };

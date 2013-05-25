@@ -369,7 +369,7 @@ a:hover {
   .actions {
     border-top-right-radius:0 !important;
   }
-  p.description {
+  .description {
     height:0;
     opacity:0;
     font-size:12px;
@@ -390,7 +390,7 @@ a:hover {
       }
     }
   }
-  &:hover p, p.open {
+  &:hover div, div.open {
     height:auto;
     opacity:1;
     margin-bottom:30px;
@@ -525,10 +525,23 @@ a.wiDelete:hover, a.wi-sync:hover {
   }
 }
 //--------------------------- Dialogs ---------------------------// 
-  .modal-body { 
-    padding: 40px 15px;
+.modal-body { 
+  padding: 40px 15px;
+}
+.label-color-wrapper {
+  position:relative;
+  .color-block {
+    outline: 0px;
+    position:absolute;
+    left: 213px;
+    top:0;
+    background-color: grey;
+    height: 30px;
+    width: 30px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
   }
-
+}
 #wiDetailsDialog, #newLabelDialog, #warningDialog {
   display:none;
 }
