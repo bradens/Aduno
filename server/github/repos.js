@@ -7,7 +7,23 @@
  */
 var Fiber = Npm.require('fibers');
 Meteor.methods({
-	  // Load Github repos for a user.
+  loadRepo: function(user, repo) {
+    Meteor.call('loadAuth');
+    github.repos.get({
+      user: user,
+      repo: repo
+    }, function (err, res) {
+      if (err) {
+        log(err);
+      }
+      else {
+        Fiber(function() {
+          log(res);
+        }).run();
+      }
+    });
+  },
+	// Load Github repos for a user.
   // We will *always* give preference to a github repos information
   // since it controls who has access to what.
   // This will update the github repo side, which will be used to switch
@@ -18,8 +34,7 @@ Meteor.methods({
     github.repos.getAll({},
       function(err, res) {
         if (err) {
-          console.log(err);
-          return;
+          log(err);
         }
         else {
           Fiber(function() {

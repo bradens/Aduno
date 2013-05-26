@@ -3,8 +3,13 @@
     <a id="aduno-logo"><img src="aduno-logo-nav.png" alt="Aduno" /></a>
 	</ul>  
 	{{#if areServicesConfigured}}
-  	<ul class="nav pull-right">
-    	{{#if getRepoID}}
+    <ul class="nav pull-right">
+      <!-- <li>
+        <div class="search-form">
+          <input type="text" rel='tooltip' title="Find a repository<br>For example. 'bradens/aduno'" placeholder="bradens/Aduno" id="repo-search-input" />
+        </div>
+      </li> -->
+      {{#if getRepoID}}
         <li class="dropdown">
           <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><span id="user-count" style="border-left: 15px solid {{ otherUsersColor }};">{{ userCount }}</span> Current Users<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -16,7 +21,7 @@
       {{/if}}
       {{#if loggingIn }}
         <li><span class="loadingUser">Loading</span></li>
-  	  {{else}}
+      {{else}}
         {{#if currentUser}}
           <li class="dropdown">
             <a href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
@@ -27,18 +32,16 @@
             </ul>
           </li>
           <li class="divider-vertical"></li>
-
-        <li class="dropdown">
-          <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-user"></i> {{currentUser.profile.name}}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="logoutButton btn">Logout</a>
-            </li>
-          </ul>
-        </li>
-
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-user"></i> {{currentUser.profile.name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="logoutButton btn">Logout</a>
+              </li>
+            </ul>
+          </li>
         {{/if}}
-  	  {{/if}}
-	  </ul>
+      {{/if}}
+    </ul>
   {{/if}}
 </template>

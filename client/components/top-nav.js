@@ -15,8 +15,14 @@ Template.topNav.userLogin = function () {
     return Meteor.user()
 };
 
-
 Template.topNav.events = {
+    'keyup #repo-search-input': function(e) {
+      var value = e.target.value;
+      var user = value.substring(0, value.indexOf("/"));
+      var repo = value.substring(value.indexOf("/") + 1);
+      console.log(user);
+      console.log(repo);
+    },
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");
       Session.set("currentRepo", RepoItem.attr('data-value'));
@@ -45,9 +51,7 @@ Template.topNav.people = function() {
     _id : {
       $ne: ""
     },
-    idle : {
-      $ne : true
-    }
+    idle : false
   }, {
     sort: {
       _id : 1
@@ -62,7 +66,9 @@ Template.topNav.userCount = function() {
 }
 
 Template.topNav.otherUsersColor = function() {
-  if (Meteor.users.find().count() > 1) {
+  if (Meteor.users.find({
+    idle: false
+  }).count() > 1) {
     return "#e74c3c";
   } else {
     return "#f3f3f3"
