@@ -18,7 +18,24 @@ Meteor.methods({
       }
       else {
         Fiber(function() {
-          log(res);
+          var adRepo = Repos.findOne({github_id: res.id});
+          if (adRepo) {
+            // we already have it in the system, do nothing.
+            log("Repo already in db")
+          }
+          else {
+            if (res.has_issues) {
+              // It's new, insert it
+              log("inserting repo " + res.name);
+              Repos.insert({
+                github_id: res.id,
+                name: res.name,
+                owner: res.owner.login,
+                url: res.owner.url
+              });
+            }
+          }
+          // log(res);
         }).run();
       }
     });

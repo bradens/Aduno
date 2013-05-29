@@ -20,8 +20,26 @@ Template.topNav.events = {
       var value = e.target.value;
       var user = value.substring(0, value.indexOf("/"));
       var repo = value.substring(value.indexOf("/") + 1);
-      console.log(user);
-      console.log(repo);
+      
+      if (e.keyCode == 13) {
+        // load the repo
+        if (user && repo) {
+          Meteor.call('loadRepo', user, repo, function() {
+            var RepoObj = Repos.findOne({name: repo, owner: user});
+            Session.set("currentRepo", RepoObj.name);
+            Session.set("currentRepoId", RepoObj._id);
+            Meteor.call('loadLabels',
+                        RepoObj.owner,
+                        RepoObj.name,
+                        workflow.labelsLoaded);
+            Meteor.call('loadIssuesWithLabels',
+                        RepoObj.owner,
+                        RepoObj.name,
+                        [],
+                        workflow.issuesLoaded);
+          });
+        }
+      }
     },
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");
