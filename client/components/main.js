@@ -60,7 +60,7 @@ Template.main.events = {
   'click .filter-labels li:not(".nav-header")' : function(e) {
     if (workflow.IS_EDITING_LABELS) return false;
     Meteor.call('loadIssuesWithLabels', 
-        Meteor.user().services.github.username, 
+        Meteor.user()._id, 
         Session.get('currentRepo'),
         [$(e.target).attr("data-label-name")]
     );
