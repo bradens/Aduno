@@ -13,7 +13,6 @@ Meteor.methods({
     WorkItems.remove(workItemId);
 
     // Remove the Links
-    Links.remove({childID: workItemId});
-    Links.remove({parentID: workItemId});
+    Links.remove({$or : [{childID: workItemId}, {parentID: workItemId}]});
 	}
 });
