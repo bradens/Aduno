@@ -784,12 +784,14 @@ a:focus, .btn:focus{
   z-index:1051;
 }
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
-	background-color:@orange;
-	background-image: -webkit-linear-gradient(top, @orange, @darkorange);
+	background-color: rgb(185,45,37);
+	background-image: -webkit-linear-gradient(to bottom, @orange, @darkorange);
 	background-image: -moz-linear-gradient(top, @orange, @darkorange);
 	background-image: -o-linear-gradient(top, @orange, @darkorange);
   background-image: -ms-linear-gradient(top, @orange, @darkorange);
-  background-image: linear-gradient(top, @orange, @darkorange);
+  background-image: linear-gradient(to bottom, @orange, @darkorange);
+  /*background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);*/
+  background-repeat: repeat-x;
 }
 
 textarea:focus,

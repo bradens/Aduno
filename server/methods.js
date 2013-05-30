@@ -26,7 +26,7 @@ Meteor.methods({
       }});
     }
   },
-  authenticated : function(user_id) {
+  checkBadge: function(user_id) {
     var user = Meteor.users.findOne(user_id);
     var badge = user.badge !== undefined ? user.badge : randomBadge();
     Meteor.users.update({
@@ -37,22 +37,9 @@ Meteor.methods({
         badge: badge
       }
     });
-    github.authenticate ({
-      type: "oauth",  
-      token: Meteor.users.findOne(this.userId).services.github.accessToken
-    });
-    Meteor.call('loadRepos', user_id);
-    Meteor.call("authenticatedCallback");
-  }, 
-  loadAuth: function() {
-    github.authenticate ({
-      type: "oauth",  
-      token: Meteor.users.findOne(this.userId).services.github.accessToken
-    });
   },
-  // TODO @bradens
   synchronize: function(reponame, repoId) {
-    console.log("Synchronizing");
+    log("Synchronizing");
     owner = Repos.findOne(repoId).owner;
     Meteor.call('updateLabels', owner, reponame, repoId);
     Meteor.call('updateWorkItems', owner, reponame, repoId);

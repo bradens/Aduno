@@ -8,7 +8,7 @@
  */
 $(window).load(function() {
   /**
-   * DnD in meteor is currently bonkers, in order to completely get it working,
+   * DnD in meteor is..not fun. In order to completely get it working,
    * you have to attach a .draggable() to the element on mouseover, then listen for a
    * drag event on the body and update the Meteor.Collection accordingly.
    */
@@ -111,7 +111,8 @@ $(window).load(function() {
 
     // Add the notification to show that a user is editing an item
     this.userEditingItem = function(itemId) {
-      username = Meteor.user().services.github.username;
+      username = Meteor.user().uniqueName;
+      
       badge = Meteor.user().badge;
       
       // First remove all erroneous edits that might still be going on.  Can't be editing two things at once.
@@ -123,7 +124,7 @@ $(window).load(function() {
 
     // Remove the notification to show that a user is editing an item
     this.userStopEditingItem = function(itemId) {
-      username = Meteor.user().services.github.username;
+      username = Meteor.user().uniqueName;
       WorkItems.update(itemId, {$pull: {usersEditing: {name: username}}});
     };
 

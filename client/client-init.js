@@ -34,6 +34,8 @@ Meteor.startup(function() {
     return ret;
   });
   
+  // Watch for new workitems being added.
+  // When found, figure out their approximate position.
   WorkItems.find().observe({
     added: function(item) {
       if (item.left == -1 && item.top == -1) {

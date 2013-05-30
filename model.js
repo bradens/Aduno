@@ -34,6 +34,7 @@ if (Meteor.is_server)
     Meteor.publish('users', function() {
       return Meteor.users.find({}, {fields: {
         'profile.name': 1,
+        'uniqueName': 1,
         'services.github.username': 1,
         'idle': 1,
         'badge' : 1

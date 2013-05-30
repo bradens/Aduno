@@ -31,7 +31,7 @@ Template.wiDialog.events = {
   'keyup #wiAssigneeInput' : function(e) {
     if (e.keyCode == '13') {
       // update the collection
-      var user = Meteor.users.findOne({'services.github.username': e.target.value});
+      var user = Meteor.users.findOne({uniqueName: e.target.value});
       if (user != null) {
         WorkItems.update(WorkItemDialog.currentWiId, {$set: {assignee: user}});
         WorkItemDialog.renderAssignee();
@@ -66,10 +66,10 @@ WorkItemDialog = {
     $('#wiDetailsDialog input, #wiDetailsDialog textarea').val('');
   },
   getUsersTypeahead: function(value) {
-    var foundUsers = Meteor.users.find({'services.github.username': new RegExp('^' + value)}).fetch();
+    var foundUsers = Meteor.users.find({uniqueName: new RegExp('^' + value)}).fetch();
     var userArr = [];
     _.each(foundUsers, function(item) {
-      userArr = userArr.concat(item.services.github.username);
+      userArr = userArr.concat(item.uniqueName);
     });
     return userArr;
   },
