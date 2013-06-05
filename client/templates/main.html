@@ -24,14 +24,16 @@
         {{else}}
           {{#unless areServicesConfigured }}
             <div id="configure-aduno">
-              <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up GitHub Application Key</span></a></p>
+              <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up the application</span></a></p>
             </div>
           {{/unless}}
-        
           {{#if areServicesConfigured}}
             {{#unless userLogin}}
               <div id="user-login">
-                <p><a href="#" class="btn btn-danger btn-large" onclick="">Login in with GitHub<br /><span class="button_subtext">Fetch your repositories</span></a></p>
+                <p><a href="#" class="btn btn-danger btn-large">Login<br /><span class="button_subtext">Fetch your repositories</span></a></p>
+              </div>
+              <div id="user-create">
+                <p><a href="#" class="btn btn-warning btn-large">Create Account</a></p>
               </div>
             {{/unless}}
           {{/if}}
@@ -39,7 +41,6 @@
       </div>
     </div>
   {{/unless}}
-  
   {{#if repoID}}
     {{> workflowMenu}}
   	<div class="canvas-container well data-scroll-section" id="wb">
@@ -57,6 +58,10 @@
   	  </div>
   	  <canvas width="1000px" height="1000px" id="myCanvas">          
   	  </canvas>
+      {{#each stories}}
+        {{> story}}
+        {{ storyRedraw }}
+      {{/each}}
   	  {{#each workitems}}
   	     {{> workitem}}
   	     {{ workItemRedraw }}

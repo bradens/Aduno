@@ -38,6 +38,11 @@ Meteor.startup(function() {
       return !task.privateTo || task.privateTo === userId;
     });
   };
+  Stories.allow({
+    insert: function () { return true; },
+    update: function () { return true; },
+    remove: function () { return true; }
+  });
   WorkItems.allow({
     insert: function () { return true; },
     update: function () { return true; },

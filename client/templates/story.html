@@ -1,6 +1,6 @@
-<template name="workitem">
+<template name="story">
   {{ redrawAfterUpdate }}
-  <div class="workItem" id="wi_{{ _id }}" data-item-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
+  <div class="storyItem" id="story_{{ _id }}" data-item-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
     <div class="btn-toolbar">
       <div class="btn-group">
         <a class="linkWI btn btn-mini btn-success">Link</a>
@@ -20,14 +20,13 @@
     </div>
   </div>
 </template>
-
-<template name="workItemTitleEditor">
-  <div id="work-item-title-editor">
+<template name="storyItemTitleEditor">
+  <div id="story-item-title-editor">
     <textarea class="expand" id="work-item-title-input" />
   </div>
 </template>
-<template name="workItemDescriptionEditor">
-  <div id="work-item-description-editor">
+<template name="storyItemDescriptionEditor">
+  <div id="story-item-description-editor">
     <textarea class="expand" id="work-item-description-input" />
   </div>
 </template>

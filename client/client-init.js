@@ -36,6 +36,16 @@ Meteor.startup(function() {
   
   // Watch for new workitems being added.
   // When found, figure out their approximate position.
+  Stories.find().observe({
+    added: function(item) {
+      if (item.left == -1 && item.top == -1) {
+        var newPosition = workboard.getNewItemPos();
+        Meteor.defer( function() {
+          Stories.update(item._id, {$set: {top: newPosition.top, left: newPosition.left}});
+        });
+      }
+    }
+  });
   WorkItems.find().observe({
     added: function(item) {
       if (item.left == -1 && item.top == -1) {
@@ -51,8 +61,9 @@ Meteor.startup(function() {
   
   Meteor.setInterval(clientKeepalive, 1*1000);
   Meteor.autosubscribe(function() {
-    Meteor.subscribe('workitems', Session.get("currentRepoId"));
+    Meteor.subscribe('workitems', Session.get("currentStoryId"));
     Meteor.subscribe('users');
+    Meteor.subscribe('stories', Session.get("currentRepoId"))
     Meteor.subscribe('links', Session.get("currentRepoId"));
     Meteor.subscribe('labels', Session.get("currentRepoId"));
     Meteor.subscribe('repos', Session.get("user_id"));

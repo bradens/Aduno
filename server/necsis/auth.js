@@ -7,12 +7,21 @@
  */
 var Fiber = Npm.require('fibers');
 Meteor.methods({
-	createAccount: function(name, username, email, password) {
-		log(Accounts.createUser({username:username, password:password, email:email, name: name}));
+	createAccount: function(options) {
+		log(Accounts.createUser(options));
 	},
 	authenticated : function(user_id) {
 		Meteor.call("checkBadge", user_id);
     Meteor.call('loadRepos', user_id);
     Meteor.call("authenticatedCallback");
   }
+});
+
+// Need to add the uniqueName on the user
+Accounts.onCreateUser(function(options, user) {
+  user.uniqueName = user.username;
+  // We still want the default hook's 'profile' behavior.
+  if (options.profile)
+    user.profile = options.profile;
+  return user;
 });

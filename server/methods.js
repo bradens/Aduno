@@ -46,5 +46,6 @@ Meteor.methods({
   },
   removeEditing: function(username) {
     WorkItems.update({'usersEditing.name': username}, {$pull: {usersEditing: {name: username}}});
+    Stories.update({'usersEditing.name': username}, {$pull: {usersEditing: {name: username}}});
   }
 });
