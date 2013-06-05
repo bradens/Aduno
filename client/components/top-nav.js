@@ -45,6 +45,7 @@ Template.topNav.events = {
       var RepoItem = $(e.target).closest("li.repo-item");
       Session.set("currentRepo", RepoItem.attr('data-value'));
       Session.set("currentRepoId", RepoItem.attr('data-repo-id'));
+      Session.set("STORY_VIEW", true);
       Meteor.call('loadLabels',
                   RepoItem.attr('data-repo-owner'),
                   RepoItem.attr('data-value'),

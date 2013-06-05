@@ -65,6 +65,7 @@ Meteor.startup(function() {
     Meteor.subscribe('users');
     Meteor.subscribe('stories', Session.get("currentRepoId"))
     Meteor.subscribe('links', Session.get("currentRepoId"));
+    Meteor.subscribe('storylinks', Session.get("currentRepoId"));
     Meteor.subscribe('labels', Session.get("currentRepoId"));
     Meteor.subscribe('repos', Session.get("user_id"));
     Meteor.subscribe('messages', Session.get("currentRepoId"));

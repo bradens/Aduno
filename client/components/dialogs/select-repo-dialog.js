@@ -10,6 +10,7 @@ Template.selectRepoDialog.events = {
     var RepoItem = $(e.target).closest("a.repo-grid-item");
     Session.set("currentRepo", RepoItem.attr('data-repo-name'));
     Session.set("currentRepoId", RepoItem.attr('data-repo-id'));
+    Session.set("STORY_VIEW", true);
     Meteor.call('loadLabels',
                 RepoItem.attr('data-repo-owner'),
                 RepoItem.attr('data-repo-name'),

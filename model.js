@@ -8,6 +8,7 @@
  */
 this.WorkItems = new Meteor.Collection("workitems");
 this.Links = new Meteor.Collection("links");
+this.StoryLinks = new Meteor.Collection("storylinks");
 this.Repos = new Meteor.Collection("repos");
 this.ActiveUsers = new Meteor.Collection("activeusers");
 this.Issues = new Meteor.Collection("issues");
@@ -30,6 +31,11 @@ if (Meteor.is_server)
     })
     Meteor.publish('links', function(repoId) {
       return Links.find({
+        repo_id: repoId
+      });
+    });
+    Meteor.publish("storylinks", function(repoId) {
+      return StoryLinks.find({
         repo_id: repoId
       });
     });
