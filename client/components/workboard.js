@@ -22,8 +22,18 @@ $(window).load(function() {
       }});
       workboard.draw();
   });
+  $('body').on('dragstop', '.storyItem', function (e) {
+    workboard.IS_DRAGGING = false;
+      var position = $(e.target).position();
+      Stories.update($(e.currentTarget).attr('data-item-id'), {$set: {
+        top: position.top,
+        left: position.left,
+        zIndex: $(this).css('z-index')
+      }});
+      workboard.draw();
+  });
   
-  $('body').on('drag', '.workItem', function (e) {
+  $('body').on('drag', '.workItem,.storyItem', function (e) {
     $("[id*=-editor]").hide();
     workboard.IS_DRAGGING = true;
     workboard.draw();
@@ -51,8 +61,11 @@ $(window).load(function() {
         dirty: true
       });
     };
+    this.createNewStoryItem = function() {
+      // TODO @braden
+    };
     this.updateCanvas = function() {
-      $("#myCanvas")[0].addEventListener('mousemove', workboard.ev_canvas, false);
+      document.getElementById("myCanvas").addEventListener('mousemove', workboard.ev_canvas, false);
       workboard.canvas = document.getElementById('myCanvas');
       workboard.ctx = workboard.canvas.getContext('2d');
     };
@@ -61,22 +74,48 @@ $(window).load(function() {
       if (!($("#myCanvas")[0])) return; 
       this.updateCanvas();
       workboard.ctx.clearRect(0,0,workboard.canvas.width, workboard.canvas.height);
-      Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
-        workboard.ctx.beginPath();
-        if (Session.get("currentLabel") === "all") {
-          wi = WorkItems.findOne({_id: Link.parentID });
-          wiChild = WorkItems.findOne({_id: Link.childID});
-        }
-        else {
-          wi = WorkItems.findOne({_id: Link.parentID, 'labels.name' : Session.get("currentLabel") });
-          wiChild = WorkItems.findOne({_id: Link.childID, 'labels.name' : Session.get("currentLabel")});
-        }
-        
-        if (!wi || !wiChild)
-          return;
-        $wi = $("[data-item-id="+Link.parentID+"]");
-        $wiChild = $("[data-item-id="+Link.childID+"]");
-        
+      
+      if (Session.get("STORY_VIEW")) {
+        StoryLinks.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
+          workboard.ctx.beginPath();
+          if (Session.get("currentLabel") === "all") {
+            si = Stories.findOne({_id: Link.parentID});
+            siChild = Stories.findOne({_id: Link.childID});
+          }
+          else {
+            si = Stories.findOne({_id: Link.parentID, "labels.name" : Session.get("currentLabel")});
+            siChild = Stories.findOne({_id: Link.childID, "labels.name" : Session.get("currentLabel")});
+          }
+
+          if (!si || !siChild)
+            return;
+          $si = $("[data-item-id="+Link.parentID+"]");
+          $siChild = $("[data-item-id="+Link.childID+"]");
+
+          drawLinks($si, $siChild, si, siChild);
+        });
+      }
+      else {
+        Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
+          workboard.ctx.beginPath();
+          if (Session.get("currentLabel") === "all") {
+            wi = WorkItems.findOne({_id: Link.parentID });
+            wiChild = WorkItems.findOne({_id: Link.childID});
+          }
+          else {
+            wi = WorkItems.findOne({_id: Link.parentID, 'labels.name' : Session.get("currentLabel") });
+            wiChild = WorkItems.findOne({_id: Link.childID, 'labels.name' : Session.get("currentLabel")});
+          }
+          
+          if (!wi || !wiChild)
+            return;
+          $wi = $("[data-item-id="+Link.parentID+"]");
+          $wiChild = $("[data-item-id="+Link.childID+"]");
+          
+          drawLinks($wi, $wiChild, wi, wiChild);
+        });
+      }
+      function drawLinks($wi, $wiChild, wi, wiChild) {
         if (workboard.IS_DRAGGING) {
           // Use the temp position specified by the position of the 'dragging' workitem
           workboard.ctx.moveTo($wi.position().left - $(workboard.canvas).offset().left + $wi.width()/2,($wi.position().top + $wi.height()/2) - $(workboard.canvas).offset().top);
@@ -87,7 +126,7 @@ $(window).load(function() {
           workboard.ctx.lineTo(wiChild.left - $(workboard.canvas).offset().left + $wiChild.width()/2,(wiChild.top + $wiChild.height()/2) - $(workboard.canvas).offset().top);
         }
         workboard.ctx.stroke();
-      });
+      }
     };
     
     // Event handler for the canvas animation
@@ -102,9 +141,15 @@ $(window).load(function() {
     this.drawLine = function (e) {
       this.updateCanvas();
       this.ctx.beginPath();
-      wi = WorkItems.findOne({_id: this.currentLineID});
+      var item;
+      if (Session.get("STORY_VIEW")) {
+        item = Stories.findOne({_id: this.currentLineID});
+      }
+      else {
+        item = WorkItems.findOne({_id: this.currentLineID});
+      }      
       $wi = $("[data-item-id="+this.currentLineID+"]");
-        this.ctx.moveTo(wi.left - $(this.canvas).offset().left + $wi.width()/2,wi.top - $(this.canvas).offset().top);
+        this.ctx.moveTo(item.left - $(this.canvas).offset().left + $wi.width()/2,item.top - $(this.canvas).offset().top);
       this.ctx.lineTo(e.offsetX, e.offsetY);
         this.ctx.stroke();
     };

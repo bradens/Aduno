@@ -108,24 +108,24 @@ Template.story.events = {
     e.stopPropagation();
   },
   'click .wi-sync' : function(e) {
-    var wiId = $(e.currentTarget).closest(".story").attr('data-item-id');
+    var wiId = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
     // TODO @bradens 
     // Session.set('loading','true');
     Meteor.call('synchronizeWorkItem', wiId);
   },
   'click .wiDelete' : function (e) {
-    var wiID = $(e.currentTarget).closest(".story").attr('data-item-id');
+    var wiID = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
     Meteor.call("removeWorkItem", wiID);
   },
   'click .linkWI' : function(e) {
     workboard.IS_LINKING = true;
-    workboard.currentLineID = $(e.currentTarget).closest(".story").attr("data-item-id");
+    workboard.currentLineID = $(e.currentTarget).closest(".storyItem").attr("data-item-id");
     
     // add current user to editor of WI
     workboard.userEditingStoryItem(workboard.currentLineID);
     e.stopPropagation();
   },
-  'click .story' : function (e) {
+  'click .storyItem' : function (e) {
     // Adjust the z-index
     $(this).addClass('top').removeClass('bottom');
     $(this).siblings().removeClass('top').addClass('bottom');
@@ -136,22 +136,21 @@ Template.story.events = {
       workboard.IS_LINKING = false;
       // finish the link;
       
-      $cId = $(e.currentTarget).closest(".story").attr('data-item-id');
-      Links.insert({
+      $cId = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
+      StoryLinks.insert({
         repo_id: Session.get("currentRepoId"),
         parentID: workboard.currentLineID,
         childID: $cId
       });
 
-      WorkItems.update(workboard.currentLineID, {$set: {dirty: true}});
-      WorkItems.update($cId, {$set: {dirty: true}});
+      Stories.update(workboard.currentLineID, {$set: {dirty: true}});
+      Stories.update($cId, {$set: {dirty: true}});
       
-      // add current user to editor of WI
       workboard.userStopEditingItem(workboard.currentLineID);
     }
   },
-  'mouseover .story' : function() {
-    $('#wi_'+this._id).draggable({
+  'mouseover .storyItem' : function() {
+    $('#story_'+this._id).draggable({
       containment: '#myCanvas',
       start: function(event, ui) {
         $(this).css("z-index", workboard.zIndexBuffer++);  // TODO @bradens wrap if we reach Number.MAX_VALUE
