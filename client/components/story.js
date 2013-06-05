@@ -34,7 +34,7 @@ Template.storyItemTitleEditor.events = {
 Template.storyItemDescriptionEditor.events = {
     'keydown textarea' : function(e) {
       $id = $(e.target).closest("#story-item-description-editor").attr('editing-id');
-      WorkItems.update($id, {$set : {
+      Stories.update($id, {$set : {
         description: e.target.value,
         dirty: true
       }});
@@ -56,7 +56,7 @@ Template.storyItemDescriptionEditor.events = {
 Template.story.events = {
   'click .details' : function (e) {
     id = $(e.currentTarget).closest(".workItem").attr('data-item-id');
-    WorkItemDialog.showWiDialog(id);
+    StoryItemDialog.showWiDialog(id);
     // add current user to editor of WI
     workboard.userEditingStoryItem(id);
   },
@@ -65,7 +65,7 @@ Template.story.events = {
     if (workboard.IS_LINKING) return;
 
     // Get the position and title element
-    $wiEditor = $("#work-item-title-editor");
+    $wiEditor = $("#story-item-title-editor");
     $target = $(e.target);
     pos = $target.offset();
 
@@ -86,7 +86,7 @@ Template.story.events = {
   },
   'click .description' : function(e) {
     if (workboard.IS_LINKING) return;
-    $wiEditor = $("#work-item-description-editor");
+    $wiEditor = $("#story-item-description-editor");
     $target = $(e.target);
     pos = $(e.target).offset();
 
@@ -115,7 +115,7 @@ Template.story.events = {
   },
   'click .wiDelete' : function (e) {
     var wiID = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
-    Meteor.call("removeWorkItem", wiID);
+    Meteor.call("removeStoryItem", wiID);
   },
   'click .linkWI' : function(e) {
     workboard.IS_LINKING = true;
@@ -124,6 +124,10 @@ Template.story.events = {
     // add current user to editor of WI
     workboard.userEditingStoryItem(workboard.currentLineID);
     e.stopPropagation();
+  },
+  'click .explore': function(e) {
+    Session.set("STORY_VIEW", false);
+    Session.set("currentStoryId", $(e.target).closest(".storyItem").attr("data-item-id"));
   },
   'click .storyItem' : function (e) {
     // Adjust the z-index

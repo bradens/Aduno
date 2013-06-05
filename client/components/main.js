@@ -73,6 +73,10 @@ Template.main.events = {
       Session.set("currentLabel", $(e.target).attr('data-label-name'));
     }
   },
+  'click #back' : function() {
+    Session.set("STORY_VIEW", true);
+    Session.set("currentStoryId", null);
+  },
   'click #synchronize' : function() {
     Meteor.call(
         'synchronize', 
@@ -94,27 +98,32 @@ Template.main.events = {
   }
 };
 Template.main.stories = function() {
-  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
-    return  Stories.find({
-      name: {
-        $ne: ""
-      },
-      'labels.name': Session.get("currentLabel")
-    }, { 
-      sort: {
-        name: 1
-      }
-    });
-  } else {
-    return Stories.find({
-      name: {
-        $ne: ""
-      },
-    }, { 
-      sort: {
-        name: 1
-      }
-    });
+  if (Session.get("STORY_VIEW")) {
+    if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+      return  Stories.find({
+        name: {
+          $ne: ""
+        },
+        'labels.name': Session.get("currentLabel")
+      }, { 
+        sort: {
+          name: 1
+        }
+      });
+    } else {
+      return Stories.find({
+        name: {
+          $ne: ""
+        },
+      }, { 
+        sort: {
+          name: 1
+        }
+      });
+    }
+  }
+  else {
+    return {};
   }
 };
 Template.main.workitems = function() {

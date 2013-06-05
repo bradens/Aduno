@@ -2,12 +2,10 @@
  * work-item-dialog.js
  * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
- * 
  */
 Template.wiDialog.events = {
   'click .wiDialogCancel' : function (e) {
     //todo cancel?
-
   },
   'click .wiDialogSave' : function(e) {
     // Update Collection
