@@ -5,13 +5,13 @@
  * 
  * Work-item template javascript.  
  */
-Template.workitem.title = function() {
-  return "New WorkItem";
-}
-Template.workItemTitleEditor.events = {
+Template.story.title = function() {
+  return "New Story";
+};
+Template.storyItemTitleEditor.events = {
     'keydown textarea' : function(e) {
-      $id = $(e.target).closest("#work-item-title-editor").attr('editing-id');
-      WorkItems.update($id, {$set : {
+      $id = $(e.target).closest("#story-item-title-editor").attr('editing-id');
+      Stories.update($id, {$set : {
         name: e.target.value,
         dirty: true
       }});
@@ -22,18 +22,18 @@ Template.workItemTitleEditor.events = {
       }
     },
     'blur textarea' : function(e) {
-      $wie = $("#work-item-title-editor");
+      $wie = $("#story-item-title-editor");
       $wie.find('textarea').val("");
       $wie.hide();
       id = $wie.attr('editing-id');
-      $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
+      $id = $(e.target).closest('#story-item-title-editor').attr('editing-id');
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
     }
 }
-Template.workItemDescriptionEditor.events = {
+Template.storyItemDescriptionEditor.events = {
     'keydown textarea' : function(e) {
-      $id = $(e.target).closest("#work-item-description-editor").attr('editing-id');
+      $id = $(e.target).closest("#story-item-description-editor").attr('editing-id');
       WorkItems.update($id, {$set : {
         description: e.target.value,
         dirty: true
@@ -45,7 +45,7 @@ Template.workItemDescriptionEditor.events = {
       }
     },
     'blur textarea' : function(e) {
-      $wie = $("#work-item-description-editor");
+      $wie = $("#story-item-description-editor");
       $wie.find('textarea').val("");
       $wie.fadeOut('fast');
       id = $wie.attr("editing-id");
@@ -53,12 +53,12 @@ Template.workItemDescriptionEditor.events = {
       workboard.userStopEditingItem(id);
     }
 }
-Template.workitem.events = {
+Template.story.events = {
   'click .details' : function (e) {
     id = $(e.currentTarget).closest(".workItem").attr('data-item-id');
     WorkItemDialog.showWiDialog(id);
     // add current user to editor of WI
-    workboard.userEditingWorkItem(id);
+    workboard.userEditingStoryItem(id);
   },
   'click h4.itemTitle' : function(e) {
     // If we're linking, don't open the editor.
@@ -81,7 +81,7 @@ Template.workitem.events = {
     $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
     
     // add current user to editor of WI
-    workboard.userEditingWorkItem(id);
+    workboard.userEditingStoryItem(id);
     e.stopPropagation();
   },
   'click .description' : function(e) {
@@ -104,28 +104,28 @@ Template.workitem.events = {
     Session.set("OPEN_WI_ID", id);
 
     // add current user to editor of WI
-    workboard.userEditingWorkItem(id);
+    workboard.userEditingStoryItem(id);
     e.stopPropagation();
   },
   'click .wi-sync' : function(e) {
-    var wiId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
+    var wiId = $(e.currentTarget).closest(".story").attr('data-item-id');
     // TODO @bradens 
     // Session.set('loading','true');
     Meteor.call('synchronizeWorkItem', wiId);
   },
   'click .wiDelete' : function (e) {
-    var wiID = $(e.currentTarget).closest(".workItem").attr('data-item-id');
+    var wiID = $(e.currentTarget).closest(".story").attr('data-item-id');
     Meteor.call("removeWorkItem", wiID);
   },
   'click .linkWI' : function(e) {
     workboard.IS_LINKING = true;
-    workboard.currentLineID = $(e.currentTarget).closest(".workItem").attr("data-item-id");
+    workboard.currentLineID = $(e.currentTarget).closest(".story").attr("data-item-id");
     
     // add current user to editor of WI
-    workboard.userEditingWorkItem(workboard.currentLineID);
+    workboard.userEditingStoryItem(workboard.currentLineID);
     e.stopPropagation();
   },
-  'click .workItem' : function (e) {
+  'click .story' : function (e) {
     // Adjust the z-index
     $(this).addClass('top').removeClass('bottom');
     $(this).siblings().removeClass('top').addClass('bottom');
@@ -136,7 +136,7 @@ Template.workitem.events = {
       workboard.IS_LINKING = false;
       // finish the link;
       
-      $cId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
+      $cId = $(e.currentTarget).closest(".story").attr('data-item-id');
       Links.insert({
         repo_id: Session.get("currentRepoId"),
         parentID: workboard.currentLineID,
@@ -150,7 +150,7 @@ Template.workitem.events = {
       workboard.userStopEditingItem(workboard.currentLineID);
     }
   },
-  'mouseover .workItem' : function() {
+  'mouseover .story' : function() {
     $('#wi_'+this._id).draggable({
       containment: '#myCanvas',
       start: function(event, ui) {
@@ -158,4 +158,4 @@ Template.workitem.events = {
       }
     });
   }
-};
+}

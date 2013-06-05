@@ -13,14 +13,21 @@ this.ActiveUsers = new Meteor.Collection("activeusers");
 this.Issues = new Meteor.Collection("issues");
 this.Labels = new Meteor.Collection("labels");
 this.Messages = new Meteor.Collection("messages");
+this.Stories = new Meteor.Collection("stories");
+
 // Publishing our collections
 if (Meteor.is_server)
 {
-    Meteor.publish('workitems', function(repoId) {
+    Meteor.publish('workitems', function(storyId) {
       return WorkItems.find({
-        repo_id: repoId
+        story_id: storyId
       });
     });
+    Meteor.publish('stories', function(repoId) {
+      return Stories.find({
+        repo_id: repoId
+      });
+    })
     Meteor.publish('links', function(repoId) {
       return Links.find({
         repo_id: repoId
@@ -35,6 +42,7 @@ if (Meteor.is_server)
       return Meteor.users.find({}, {fields: {
         'profile.name': 1,
         'uniqueName': 1,
+        'username': 1,
         'services.github.username': 1,
         'idle': 1,
         'badge' : 1

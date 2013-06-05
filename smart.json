@@ -3,6 +3,7 @@
     "branch": "devel"
   },
   "packages": {
-    "github": {}
+    "github": {},
+    "jqbootstrapvalidation": {}
   }
 }

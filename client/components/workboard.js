@@ -15,7 +15,7 @@ $(window).load(function() {
   $('body').on('dragstop', '.workItem', function (e) {
     workboard.IS_DRAGGING = false;
       var position = $(e.target).position();
-      WorkItems.update($(e.currentTarget).attr('data-wi-id'), {$set: {
+      WorkItems.update($(e.currentTarget).attr('data-item-id'), {$set: {
         top: position.top,
         left: position.left,
         zIndex: $(this).css('z-index')
@@ -74,8 +74,8 @@ $(window).load(function() {
         
         if (!wi || !wiChild)
           return;
-        $wi = $("[data-wi-id="+Link.parentID+"]");
-        $wiChild = $("[data-wi-id="+Link.childID+"]");
+        $wi = $("[data-item-id="+Link.parentID+"]");
+        $wiChild = $("[data-item-id="+Link.childID+"]");
         
         if (workboard.IS_DRAGGING) {
           // Use the temp position specified by the position of the 'dragging' workitem
@@ -103,29 +103,36 @@ $(window).load(function() {
       this.updateCanvas();
       this.ctx.beginPath();
       wi = WorkItems.findOne({_id: this.currentLineID});
-      $wi = $("[data-wi-id="+this.currentLineID+"]");
+      $wi = $("[data-item-id="+this.currentLineID+"]");
         this.ctx.moveTo(wi.left - $(this.canvas).offset().left + $wi.width()/2,wi.top - $(this.canvas).offset().top);
       this.ctx.lineTo(e.offsetX, e.offsetY);
         this.ctx.stroke();
     };
 
-    // Add the notification to show that a user is editing an item
-    this.userEditingItem = function(itemId) {
+    this.userEditingStoryItem = function(itemId) {
       username = Meteor.user().uniqueName;
-      
       badge = Meteor.user().badge;
-      
-      // First remove all erroneous edits that might still be going on.  Can't be editing two things at once.
-      Meteor.call('removeEditing', username);
-      
-      // Now update item with user as editor.
-      WorkItems.update(itemId, {$push: {usersEditing: { name: username, badge: badge}}});
+      Meteor.call('removeEditing', username, function() {
+        // Now update item with user as editor.
+        Stories.update(itemId, {$push: {usersEditing: { name: username, badge: badge}}});       
+      });
+    };
+
+    // Add the notification to show that a user is editing an item
+    this.userEditingWorkItem = function(itemId) {
+      username = Meteor.user().uniqueName;
+      badge = Meteor.user().badge;
+      Meteor.call('removeEditing', username, function() {
+        // Now update item with user as editor.
+        WorkItems.update(itemId, {$push: {usersEditing: { name: username, badge: badge}}});
+      })
     };
 
     // Remove the notification to show that a user is editing an item
     this.userStopEditingItem = function(itemId) {
       username = Meteor.user().uniqueName;
       WorkItems.update(itemId, {$pull: {usersEditing: {name: username}}});
+      Stories.update(itemId, {$pull: {usersEditing: {name: username}}});
     };
 
     // Function that returns a new item position psuedorandomly.

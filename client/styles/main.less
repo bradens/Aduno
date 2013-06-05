@@ -362,8 +362,8 @@ a:hover {
     font-size:12px;
   }
 }
-.workItem {
-  .workItemTitle {
+.workItem, .storyItem {
+  .itemTitle, .itemTitle {
     margin-top:25px;
     font-size:14px;
     text-shadow: 0 1px 0 white;
@@ -423,7 +423,7 @@ a:hover {
   border: thin solid @darkgrey;
   .box-shadow(0, 0, 5px, 1px, rgb(180, 180, 250));
 }
-.workItem:hover .btn-toolbar {
+.workItem:hover .btn-toolbar, .storyItem:hover .btn-toolbar {
   opacity:1;  
 }
 .top {

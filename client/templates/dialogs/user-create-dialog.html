@@ -1,0 +1,40 @@
+<template name="userCreateDialog">
+  <div class="modal hide" id="user-create-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>Create User</h3>
+    </div>
+    <div class="modal-body">
+    <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
+      <div class="control-group">
+        <label class="control-label" for="realName">Name: </label>
+        <div class="controls">
+          <input type="text" placeholder="Peter Gibbons" id="realName" required>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="username">Username: </label>
+        <div class="controls">
+          <input type="text" placeholder="Type a username..." id="username" required>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password">Password: </label>
+        <div class="controls">
+          <input type="password" placeholder="something here" id="password" required>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="email">Email: </label>
+        <div class="controls">
+          <input type="email" placeholder="me@example.com" id="email">
+        </div>
+      </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary btn-ok">Create</button>
+    </div>
+  </div>
+</template>

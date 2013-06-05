@@ -32,6 +32,9 @@ Template.main.rendered = function() {
 }
 
 Template.main.events = {
+  'click #user-create' : function() {
+    $("#user-create-dialog").modal();
+  },
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
@@ -45,7 +48,7 @@ Template.main.events = {
     $('#configDialog').modal();
   },
   'click #user-login a': function() {
-    Meteor.loginWithGithub({requestPermissions: ['user', 'public_repo']});
+    $("#login-dialog").modal();
   },
   'click a.editLabelBtn' : function(e) {
     var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');
@@ -58,7 +61,6 @@ Template.main.events = {
     e.stopPropagation();
   },
   'click .filter-labels li:not(".nav-header")' : function(e) {
-    if (workflow.IS_EDITING_LABELS) return false;
     Meteor.call('loadIssuesWithLabels', 
         Meteor.user()._id, 
         Session.get('currentRepo'),
@@ -91,9 +93,9 @@ Template.main.events = {
     })
   }
 };
-Template.main.workitems = function() {
+Template.main.stories = function() {
   if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
-    return  WorkItems.find({
+    return  Stories.find({
       name: {
         $ne: ""
       },
@@ -104,11 +106,23 @@ Template.main.workitems = function() {
       }
     });
   } else {
-    return WorkItems.find({
+    return Stories.find({
       name: {
         $ne: ""
       },
     }, { 
+      sort: {
+        name: 1
+      }
+    });
+  }
+};
+Template.main.workitems = function() {
+  if (Session.get("currentStoryId")) {
+    return WorkItems.find({
+      story_id: Session.get("currentStoryId")
+    },
+    {
       sort: {
         name: 1
       }
