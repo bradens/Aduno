@@ -1,0 +1,7 @@
+<template name='storyListItem'>	
+	<li class="{{{ isShown }}}" >
+    <a class="workflow-item second-button" rel="tooltip" title="Delete story" placement="left"><span>×</span></a>
+    <a rel="tooltip" title="Edit story" class="editStoryBtn first-button" placement="left"><i class="icon-pencil"> </i></a>
+    <a class='story-list-item' data-story-id="{{ _id }}" href="#">{{ name }} ({{ getStoryTaskCount }})</a>
+  </li>
+</template>

@@ -7,8 +7,14 @@
  */
 
 var helpers = {
+	getHidden: function() {
+		if (Stories.findOne(this._id).hidden)
+			return "hide";
+		else 
+			return "";
+	},
 	redrawAfterUpdate: function() {
-		workboard.draw();
+		if (workboard) workboard.draw();
 	},
 	isOpen: function() {
 		return (this._id == Session.get("OPEN_WI_ID") ? "open" : "");

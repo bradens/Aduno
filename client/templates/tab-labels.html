@@ -1,7 +1,6 @@
 <template name="labels">
   <div class="nav-header">Filter by label </div>
   <div class="workflow-panel well-small">
-    <a rel="tooltip" title="Click to toggle editing labels" class="editLabelBtn" ><i class="icon-edit"> </i></a>
     <ul class="filter-labels nav nav-list">
       <li class=" {{checkAllLabel}}"><a data-label-name="all" href="#" class="all">all ({{ totalWorkItemCount }})</a></li>
       {{#each labels }}

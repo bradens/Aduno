@@ -56,7 +56,7 @@ Template.storyItemDescriptionEditor.events = {
 Template.story.events = {
   'click .details' : function (e) {
     id = $(e.currentTarget).closest(".workItem").attr('data-item-id');
-    StoryItemDialog.showWiDialog(id);
+    // StoryItemDialog.showWiDialog(id);
     // add current user to editor of WI
     workboard.userEditingStoryItem(id);
   },

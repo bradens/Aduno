@@ -115,7 +115,7 @@ Template.workitem.events = {
   },
   'click .wiDelete' : function (e) {
     var siId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
-    Meteor.call("removeStoryItem", siId);
+    Meteor.call("removeWorkItem", siId);
   },
   'click .linkWI' : function(e) {
     workboard.IS_LINKING = true;

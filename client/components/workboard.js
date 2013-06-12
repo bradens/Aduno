@@ -79,12 +79,12 @@ $(window).load(function() {
         StoryLinks.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
           workboard.ctx.beginPath();
           if (Session.get("currentLabel") === "all") {
-            si = Stories.findOne({_id: Link.parentID});
-            siChild = Stories.findOne({_id: Link.childID});
+            si = Stories.findOne({_id: Link.parentID, hidden: false});
+            siChild = Stories.findOne({_id: Link.childID, hidden: false});
           }
           else {
-            si = Stories.findOne({_id: Link.parentID, "labels.name" : Session.get("currentLabel")});
-            siChild = Stories.findOne({_id: Link.childID, "labels.name" : Session.get("currentLabel")});
+            si = Stories.findOne({_id: Link.parentID, hidden: false, "labels.name" : Session.get("currentLabel")});
+            siChild = Stories.findOne({_id: Link.childID, hidden: false, "labels.name" : Session.get("currentLabel")});
           }
 
           if (!si || !siChild)
@@ -99,7 +99,7 @@ $(window).load(function() {
         Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
           workboard.ctx.beginPath();
           if (Session.get("currentLabel") === "all") {
-            wi = WorkItems.findOne({_id: Link.parentID });
+            wi = WorkItems.findOne({_id: Link.parentID});
             wiChild = WorkItems.findOne({_id: Link.childID});
           }
           else {

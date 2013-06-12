@@ -73,7 +73,7 @@ a:hover {
 .search-form {
   height:100%;
   margin-bottom:0px;
-  display:inline-block;
+  display:none;
   input {
     width:250px;
     margin-bottom:0;
@@ -291,7 +291,7 @@ a:hover {
 //--------------------------- Chat ---------------------------//
 
 #chat-container{
-  bottom: 38px;
+  bottom: 50px;
   position: absolute;
   width: 212px;
 }
@@ -374,7 +374,8 @@ a:hover {
     }
   }
   .btn-toolbar {
-    margin:0;
+    margin:0; 
+    height: 25px !important;
 	  opacity: .5;
     .abspos-left;
     border-top-right-radius:0px;
@@ -413,16 +414,16 @@ a:hover {
     margin-bottom:30px;
   }
 	.abspos-left;
-  .border-radius(4px);
   .unselectable;
   overflow: hidden;
+  .border-radius(0);
+  border: thin solid lightgrey;
+  background-color: #edeff1;
   width: 215px;
-  /*min-height: 143px;*/
-  /*max-height:171px;*/
   padding: 1px 5px;
-  background-color: @lightgrey;
-  border: thin solid @darkgrey;
-  .box-shadow(0, 0, 5px, 1px, rgb(180, 180, 250));
+  /*background-color: @lightgrey;*/
+  /*border: thin solid @darkgrey;*/
+  /*.box-shadow(0, 0, 5px, 1px, rgb(180, 180, 250));*/
 }
 .workItem:hover .btn-toolbar, .storyItem:hover .btn-toolbar {
   opacity:1;  
@@ -485,7 +486,7 @@ a.wiDelete:hover, a.wi-sync:hover {
 	li > a:hover {
 	  background-color: fade(#e74c3c, 20%) !important;
 	}
-	li:hover a.label-delete, li:hover a.editLabelBtn {
+	li:hover a.workflow-item {
 	  display:block;
 	} 
 	li:nth-child(2n) > a {
@@ -504,12 +505,15 @@ a.wiDelete:hover, a.wi-sync:hover {
     background-color:fade(@orange, 80%) !important
   }
 	li > a {
-	  color: #444;
+	  height:13px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    color: #444;
 	  font-size: 11.844px;
 		font-weight: bold;
 		line-height: 14px;
 	}
-  a.editLabelBtn {
+  a.first-button {
     cursor: pointer;
     border:none !important;
     position:relative;
@@ -522,13 +526,13 @@ a.wiDelete:hover, a.wi-sync:hover {
     height:16px;
     width:19px;
   }
-  a.editLabelBtn:hover {
+  a.first-button:hover {
     background-color: rgba(100, 255, 100, .5) !important;
   }
-  a.label-delete:hover {
+  a.second-button:hover {
     background-color: rgba(255, 100, 100, .5) !important;
   }
-  a.label-delete {
+  a.second-button {
     right:0px;
     text-align:center;
     padding:3px;
@@ -563,6 +567,14 @@ a.wiDelete:hover, a.wi-sync:hover {
   display:none;
 }
 #wiDetailsDialog {
+  #assignee-stages-list {
+    margin:0;
+    padding-top:5px;
+    li {
+      padding-left:0;
+    }
+    list-style:none;
+  }
   .wi-assignee-wrapper {
     padding: 5px 5px;
   }
@@ -571,6 +583,13 @@ a.wiDelete:hover, a.wi-sync:hover {
   }
   textarea {
     min-height:90px;
+  }
+  .wi-link-item { 
+    span {
+      width: 80%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
   .add-label, .add-link {
     cursor: pointer;
@@ -587,13 +606,14 @@ a.wiDelete:hover, a.wi-sync:hover {
   .add-label:hover, .add-link:hover { 
     background-color: rgba(0, 150, 0, 0.2);
   }
-  li.dropdown:hover ul.dropdown-menu{
+  /*li.dropdown:hover ul.dropdown-menu{
+    opacity:1;
     display: block;
     top:0;
   }
   a.menu:after, .dropdown-toggle:after {
     content: none;
-  }
+  }*/
 }
 
 #label-selection-dialog {
@@ -627,6 +647,10 @@ ul.tags li:hover {
 ul.tags li a.delete:hover {
   background:rgba(255,0,0,.5);
   color: white;
+}
+.modal.fade {
+  .transition-all(.15s);
+  top: 8%;
 }
 #select-repo-dialog { 
   .repo-grid-item {
@@ -688,7 +712,7 @@ ul.tags li a.delete:hover {
   vertical-align: top;
   position: fixed;
   top: 0px;
-  padding: 40px 0 0 0;
+  padding: 50px 0 0 0;
   background: whiteSmoke;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   .nav-tabs {
@@ -771,7 +795,9 @@ ul.tags li a.delete:hover {
 
 //--------------------------- Bootstrap Overrides ---------------------------// 
 
-
+.btn, .modal, .badge, input[type=text], input[type=password], textarea, .tooltip, {
+  .border-radius(0) !important;
+}
 ::selection {
   color: white;
   background-color:@darkorange;
@@ -782,7 +808,16 @@ a:focus, .btn:focus{
 }
 
 .dropdown-menu {
+  display:block;
+  visibility: hidden;
+  opacity:0;
+  .transition-all(.25s);
   z-index:1051;
+}
+ul li.dropdown:hover ul.dropdown-menu{
+  visibility: visible;
+  opacity:1;
+  margin-top:-4px;
 }
 .dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a {
 	background-color: rgb(185,45,37);
