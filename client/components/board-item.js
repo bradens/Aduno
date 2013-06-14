@@ -16,9 +16,6 @@ var helpers = {
 	redrawAfterUpdate: function() {
 		if (workboard) workboard.draw();
 	},
-	isOpen: function() {
-		return (this._id == Session.get("OPEN_WI_ID") ? "open" : "");
-	},
 	usersEditing: function() {
 		return this.usersEditing;
 	},

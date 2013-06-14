@@ -136,7 +136,7 @@ WorkItemDialog = {
     $('#wiNameDetails').val(wi.name);
     $('#wiDescDetails').val(wi.description).autosize();
     $wiDialog.attr('editing-wi-id', id);
-    $wiDialog.modal().on("hidden", function() {
+    $wiDialog.modal({dynamic: true}).on("hidden", function() {
       if ($("#wiDetailsDialog").css("display") === "none"){
         workboard.userStopEditingItem(id);
         WorkItemDialog.currentWiId = null;

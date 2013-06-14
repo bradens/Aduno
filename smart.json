@@ -4,6 +4,7 @@
   },
   "packages": {
     "github": {},
-    "jqbootstrapvalidation": {}
+    "jqbootstrapvalidation": {},
+    "flatstrap": {}
   }
 }

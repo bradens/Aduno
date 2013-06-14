@@ -5,7 +5,11 @@ Template.labelItem.events = {
     'click .label-delete' : function(e) {
       $("#warningDialog .warning-dialog-message").html("Deleting a label also removes it from each workitem it is associated with.");
       $("#warningDialog .warning-dialog-ok").html("Delete Label");
-      $("#warningDialog").attr('current-label-name', $(e.target).closest('[data-label-name]').attr('data-label-name')).modal();
+      $("#warningDialog")
+        .attr('current-label-name', $(e.target)
+          .closest('[data-label-name]')
+          .attr('data-label-name'))
+        .modal();
       e.stopPropagation();
     }
 }

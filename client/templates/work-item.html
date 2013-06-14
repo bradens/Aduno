@@ -9,7 +9,6 @@
     </div>
     <h4 class="itemTitle">{{ name }}</h4>
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
-    <div class="description {{{ isOpen }}}" placeholder="Type something here">{{ description }}</div>
     <div class="editing-div">
 	    <ul class="unstyled editing-list">
 	      {{#each usersEditing }}
@@ -23,10 +22,5 @@
 <template name="workItemTitleEditor">
   <div id="work-item-title-editor">
     <textarea class="expand" id="work-item-title-input" />
-  </div>
-</template>
-<template name="workItemDescriptionEditor">
-  <div id="work-item-description-editor">
-    <textarea class="expand" id="work-item-description-input" />
   </div>
 </template>

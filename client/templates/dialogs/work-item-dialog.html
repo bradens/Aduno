@@ -1,5 +1,8 @@
 <template name="wiDialog">
-  <div class="modal fade hide" id="wiDetailsDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="wiDialogLabel" aria-hidden="true">
+  <div class="modal fade hide" data-toggle="modal" data-dynamic="true" id="wiDetailsDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="wiDialogLabel" aria-hidden="true">
+    <!-- <div class="wi-details-sidebar">
+      test
+    </div> -->
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="detailsTitle">Workitem Details</h3>
@@ -56,8 +59,8 @@
     </form>
     </div>
     <div class="modal-footer">
-      <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close without syncing</button>
-      <button class="btn btn-primary wiDialogSave">Save and Sync</button>
+      <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary wiDialogSave">Save</button>
     </div>
   </div>
 </template>

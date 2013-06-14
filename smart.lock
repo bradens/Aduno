@@ -2,12 +2,13 @@
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
     "branch": "devel",
-    "commit": "d27a3b4aa6beae7e51d7a8c35b85ec02c4487b44"
+    "commit": "0ecf4650d004e67ea97efceb5b754382798e281a"
   },
   "dependencies": {
     "basePackages": {
       "github": {},
-      "jqbootstrapvalidation": {}
+      "jqbootstrapvalidation": {},
+      "flatstrap": {}
     },
     "packages": {
       "github": {
@@ -19,6 +20,11 @@
         "git": "https://github.com/nate-strauser/meteor-jqbootstrapvalidation.git",
         "tag": "v0.1.0",
         "commit": "2af4625d41a9b24311544a53790f14fa38c27b10"
+      },
+      "flatstrap": {
+        "git": "https://github.com/fraherm/flatstrap.git",
+        "tag": "v1.0.0",
+        "commit": "f6f79e940524bdd1aa379fd708d8eda0f83dc557"
       }
     }
   }
