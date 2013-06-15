@@ -27,8 +27,8 @@ Template.main.rendered = function() {
     window.workboard.draw();
   $('.tooltip').remove(); 
   // re-init our tooltip
-  $('[rel=tooltip]').tooltip();
-  $('[rel=popover]').popover();
+  $('[rel=tooltip]').tooltip({container: "body"});
+  $('[rel=popover]').popover({container: "body"});
 }
 
 Template.main.events = {

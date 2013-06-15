@@ -1,10 +1,10 @@
 <template name="workflowMenu">
   <div id="left-menu" class="tabbable">
     <ul class="nav nav-tabs">
-      <li class="active">
+      <li class="{{{ getLabelPaneActive }}}">
         <a href="#tab-labels" data-toggle="tab" rel="tooltip" data-placement="bottom" title="Labels"><i class="icon-tags"></i> </a>
       </li>
-      <li>
+      <li class="{{{ getStoryPaneActive }}}">
         <a href="#tab-stories" data-toggle="tab" rel="tooltip" data-placement="bottom" title="Stories"><i class="icon-flag"></i> </a>
       </li>
       <li>
@@ -15,10 +15,10 @@
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="tab-labels">
+      <div class="tab-pane {{{ getLabelPaneActive }}}" id="tab-labels">
         {{> labels }}
       </div>
-      <div class="tab-pane" id="tab-stories">
+      <div class="tab-pane {{{ getStoryPaneActive }}}" id="tab-stories">
         {{> tabStories }}
       </div>
       <div class="tab-pane" id="tab-workitems">

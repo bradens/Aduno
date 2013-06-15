@@ -3,9 +3,14 @@
  * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
- * Workboard code.  Used for manipulating the 'workboard' which is the name of the
- * main working area of Aduno.
  */
+Template.workflowMenu.getLabelPaneActive = function() {
+  return (Session.get("STORY_VIEW") ? "" : "active");
+}
+Template.workflowMenu.getStoryPaneActive = function() {
+  return (Session.get("STORY_VIEW") ? "active" : "");
+}
+
 $(function() {
   if (window.workflow == undefined)
   {
