@@ -78,7 +78,7 @@ $(window).load(function() {
       if (Session.get("STORY_VIEW")) {
         StoryLinks.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
           workboard.ctx.beginPath();
-          if (Session.get("currentLabel") === "all") {
+          if (!Session.get("currentLabel") || Session.get("currentLabel") === "all") {
             si = Stories.findOne({_id: Link.parentID, hidden: false});
             siChild = Stories.findOne({_id: Link.childID, hidden: false});
           }
@@ -98,7 +98,7 @@ $(window).load(function() {
       else {
         Links.find({repo_id: Session.get("currentRepoId")}).forEach(function(Link) {
           workboard.ctx.beginPath();
-          if (Session.get("currentLabel") === "all") {
+          if (!Session.get("currentLabel") || Session.get("currentLabel") === "all") {
             wi = WorkItems.findOne({_id: Link.parentID});
             wiChild = WorkItems.findOne({_id: Link.childID});
           }

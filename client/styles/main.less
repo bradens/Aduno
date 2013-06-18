@@ -303,6 +303,12 @@ a:hover {
   background: #D6D6D6;
   color: #555;
 }
+.chat-closed {
+  display:none;
+}
+.chat-closed + #chat-entry {
+  display:none;
+}
 
 #chat-content {
   background-color: #fcfcfc;
@@ -338,7 +344,7 @@ a:hover {
 #work-item-title-editor, #story-item-title-editor {
 	display:none;
   position:absolute;
-  z-index:9999999;
+  z-index:1060;
   textarea {
     resize: none;
     width:100%;
@@ -844,7 +850,7 @@ input[type="color"]:focus,
   .tooltip-inner {
     .border-radius(0);
   }
-  z-index:1030;
+  z-index:1080;
   white-space:nowrap;
 }
 .navbar .btn-navbar {
