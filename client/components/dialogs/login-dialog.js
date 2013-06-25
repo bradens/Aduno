@@ -1,6 +1,7 @@
 Template.loginDialog.events = {
     'click .github-login' : function() { 
       Meteor.loginWithGithub({requestPermissions: ['user', 'public_repo']});
+      $("#login-dialog").modal('hide');
     },
     'click .login-dialog-login' : function() {
       Template.loginDialog.login();

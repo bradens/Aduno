@@ -5,6 +5,9 @@
   		{{#each stories}}
   			{{> storyListItem }}
   		{{/each}}
+  		<li class="all-stories-item">
+		    <a class='story-list-item dangling-stories-btn' rel="tooltip" title="Click to explore workitems without a story." data-placement="right" id="{{{ getDanglingStoryBtnId }}}">Workitems without parent ({{ getDanglingWorkItemCount }})</a>
+		  </li>
   	</ul>
   </div>
 </template>

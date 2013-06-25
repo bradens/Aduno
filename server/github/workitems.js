@@ -1,5 +1,5 @@
 /**
- * methods.js
+ * workitems.js
  * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
@@ -12,7 +12,7 @@ Meteor.methods({
   synchronizeWorkItem: function(workItemId) {
     Meteor.call("loadAuth");
     
-    log("\nuserId : " + this.userId, "\nworkItemId : " + workItemId);
+    log("\nuserId : " + this.userId + "\nworkItemId : " + workItemId);
     
     item = WorkItems.findOne(workItemId);
     repoObj = Repos.findOne(item.repo_id);
@@ -183,22 +183,34 @@ Meteor.methods({
             labels.push(label);
           });
           
-          var assignee;
+          var assignee = null, milestone = null;
           if (!item.assignee) {
             assignee = null;
           }
           else {
             assignee = item.assignee.name;
           }
-
+          
+          if (item.milestone) {
+            milestone = Stories.findOne({number: item.milestone.number, repo_id: repoObj._id});
+            console.log(item.milestone);
+            console.log(milestone);
+            if (!milestone) {
+              // This means the milestone not yet in our db
+            }
+          }
+          else {
+            milestone = defines.DANGLING_WORKITEMS_STORY_ID;
+          }
           WorkItems.insert({
+            state: item.state,
+            story_id: milestone,
             name : item.title,
             number: item.number,
             repo_id: repoObj._id,
             labels : labels,
             description: item.body,
             assignee: assignee,
-            milestone: item.milestone,
             comments : item.comments,
             top: -1,
             left: -1

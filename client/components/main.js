@@ -62,7 +62,7 @@ Template.main.events = {
   },
   'click .filter-labels li:not(".nav-header")' : function(e) {
     Meteor.call('loadIssuesWithLabels', 
-        Meteor.user()._id, 
+        Meteor.user().uniqueName, 
         Session.get('currentRepo'),
         [$(e.target).attr("data-label-name")]
     );

@@ -9,11 +9,23 @@ Template.storyListItem.events = {
 		Meteor.call("toggleStory", this._id);
 	}
 }
+Template.tabStories.events = {
+	'click a.dangling-stories-btn' : function(e) {
+		Session.set("STORY_VIEW", false);
+		Session.set("currentStoryId", defines.DANGLING_WORKITEMS_STORY_ID);
+	}
+};
 Template.storyListItem.isShown = function() {
 	if (!Stories.findOne(this._id).hidden)
 		return "active";
 	else 
 			return "";
+};
+Template.tabStories.getDanglingWorkItemCount = function() {
+	return WorkItems.find({story_id: null}).count();
+}
+Template.tabStories.getDanglingStoryBtnId = function() { 
+	return defines.SHOW_DANGLING_WORKITEMS_BTN_ID;
 };
 Template.tabStories.stories = function() { 
 	return Stories.find({
