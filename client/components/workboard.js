@@ -51,14 +51,14 @@ $(window).load(function() {
       var position = workboard.getNewItemPos();
       var label = Labels.findOne({repo_id: Session.get("currentRepoId"), name: Session.get("currentLabel")});
       var id = WorkItems.insert({
+        story_id: Session.get("currentStoryId"),
         labels: ((label == null) ? [] : [label]),
         name: "New WorkItem",
         repo_id: Session.get("currentRepoId"),
         description: "Default description",
         top: position.top,
         left: position.left,
-        newItem: true,
-        dirty: true
+        hidden: false
       });
     };
     this.createNewStoryItem = function() {
@@ -183,8 +183,11 @@ $(window).load(function() {
     // Function that returns a new item position psuedorandomly.
     this.getNewItemPos = function() {
       var $mat = $("#myCanvas");
-      var top = $mat.offset().top + 50 + Math.floor(Math.random() * 60) - 15;
-      var left = $mat.offset().left + $mat.width() / 2 - 72 + Math.floor(Math.random() * 60) - 15;
+      var top = $mat.offset().top + Math.floor(Math.random() * $mat.height()) - 200;
+      if (top <= $mat.offset().top) {
+        top = $mat.offset().top + 10;
+      }
+      var left = $mat.offset().left + Math.floor(Math.random() * $mat.width());
       return { top: top, left: left };
     };
   }

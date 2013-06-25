@@ -119,13 +119,26 @@ WorkItemDialog = {
     $wiLabelList.find("li.add-label").append(labelsHtml);
     $wiLabelList.find("li").click(WorkItemDialog.labelClicked);
   },
+  renderStageAssigneeList: function() {
+    var i = 0;
+    var assigneeList = _.map(wi.assignee_list, function(person) {
+      return {name: person, num: i++};
+    });
+
+    // Populate this popover with the labels
+    var listHtml = Meteor.render(Template.assigneeStagesList({people: assigneeList }));
+    $assigneeWrapper = $('#assignee-stages-wrapper');
+    $assigneeWrapper.empty();
+    $assigneeWrapper.append(listHtml);
+  },
   showWiDialog: function(id) {
     wi = WorkItems.findOne({_id: id});
     WorkItemDialog.currentWiId = id;
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
-    WorkItemDialog.renderAssignee();
+    WorkItemDialog.renderStageAssigneeList();
+    // WorkItemDialog.renderAssignee();
     $wiDialog = $("#wiDetailsDialog");
     $("#wiAssigneeInput").typeahead({
       source: function(query) {
@@ -133,10 +146,10 @@ WorkItemDialog = {
       },
       minLength: 1
     });
-    $('#wiNameDetails').val(wi.name);
+    $('#wiNameDetails').val(wi.name).autosize();
     $('#wiDescDetails').val(wi.description).autosize();
     $wiDialog.attr('editing-wi-id', id);
-    $wiDialog.modal({dynamic: true}).on("hidden", function() {
+    $wiDialog.modal({dynamic: true, keyboard: true}).on("hidden", function() {
       if ($("#wiDetailsDialog").css("display") === "none"){
         workboard.userStopEditingItem(id);
         WorkItemDialog.currentWiId = null;
