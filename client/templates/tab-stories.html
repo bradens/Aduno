@@ -1,0 +1,10 @@
+<template name="tabStories">
+  <div class="nav-header">Stories</div>
+  <div class="story-list workflow-panel">
+  	<ul class="filter-labels nav nav-list">
+  		{{#each stories}}
+  			{{> storyListItem }}
+  		{{/each}}
+  	</ul>
+  </div>
+</template>

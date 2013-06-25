@@ -13,6 +13,12 @@ var helpers = {
 	isOpen: function() {
 		return (this._id == Session.get("OPEN_WI_ID") ? "open" : "");
 	},
+	getHidden: function() {
+		if (Stories.findOne(this._id).hidden)
+			return "hide";
+		else 
+			return "";
+	},
 	usersEditing: function() {
 		return this.usersEditing;
 	},

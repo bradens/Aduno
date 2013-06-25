@@ -27,8 +27,8 @@ Template.main.rendered = function() {
     window.workboard.draw();
   $('.tooltip').remove(); 
   // re-init our tooltip
-  $('[rel=tooltip]').tooltip();
-  $('[rel=popover]').popover();
+  $('[rel=tooltip]').tooltip({container: "body"});
+  $('[rel=popover]').popover({container: "body"});
 }
 
 Template.main.events = {
@@ -128,14 +128,28 @@ Template.main.stories = function() {
 };
 Template.main.workitems = function() {
   if (Session.get("currentStoryId")) {
-    return WorkItems.find({
-      story_id: Session.get("currentStoryId")
-    },
-    {
-      sort: {
-        name: 1
-      }
-    });
+    if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+      return WorkItems.find({
+        story_id: Session.get("currentStoryId"),
+        'labels.name': Session.get("currentLabel")
+      },
+      { 
+        sort: {
+          name: 1
+        }
+      });
+    }
+    else {
+      return WorkItems.find({
+        name: {
+          $ne: ""
+        },
+      }, { 
+        sort: {
+          name: 1
+        }
+      });
+    }
   }
 };
 Template.main.links = function() {

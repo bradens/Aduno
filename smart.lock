@@ -2,12 +2,12 @@
   "meteor": {
     "git": "https://github.com/meteor/meteor.git",
     "branch": "devel",
-    "commit": "d27a3b4aa6beae7e51d7a8c35b85ec02c4487b44"
+    "commit": "0ecf4650d004e67ea97efceb5b754382798e281a"
   },
   "dependencies": {
     "basePackages": {
       "github": {},
-      "jqbootstrapvalidation": {}
+      "jqbootstrapvalidation": {},
     },
     "packages": {
       "github": {

@@ -1,6 +1,6 @@
 <template name="chat">
-  <div id="chat-header" class="nav-header">Chat</div>
-  <div id="chat-content">      
+  <a id="chat-header" rel="tooltip" data-original-title="Click to toggle chat." class="nav-header">Chat</a>
+  <div id="chat-content" class="{{{isOpen}}}">      
     {{#each messages}}
       <div class="chat-message"><strong>{{ name }}</strong>: {{message}}</div>
     {{/each}}

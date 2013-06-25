@@ -6,7 +6,19 @@ Template.chatEntry.events = {
         }
     }
 };
-
+Template.chat.events = {
+  'click #chat-header' : function(e) {
+    if (Session.get("CHAT_HEADER_OPEN")) {
+      Session.set("CHAT_HEADER_OPEN", false);
+    }
+    else {
+      Session.set("CHAT_HEADER_OPEN", true); 
+    }
+  }
+}
+Template.chat.isOpen = function() {
+  return (Session.get("CHAT_HEADER_OPEN") ? "" : "chat-closed");
+}
 Template.chat.messages = function () {
     // fetch array of all the items
     var items = Messages.find({repo_id: Session.get('currentRepoId')}, {sort: {time: -1}}).fetch();

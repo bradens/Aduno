@@ -15,7 +15,7 @@ Template.workItemTitleEditor.events = {
         name: e.target.value,
         dirty: true
       }});
-      if (e.keyCode == 13){
+      if (e.keyCode == 13 && !e.shiftKey){
         $(e.target).blur();
         e.stopPropagation();
         return;
@@ -30,29 +30,7 @@ Template.workItemTitleEditor.events = {
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
     }
-}
-Template.workItemDescriptionEditor.events = {
-    'keydown textarea' : function(e) {
-      $id = $(e.target).closest("#work-item-description-editor").attr('editing-id');
-      WorkItems.update($id, {$set : {
-        description: e.target.value,
-        dirty: true
-      }});
-      if (e.keyCode == 13 && !e.shiftKey){
-        $(e.target).blur();
-        e.stopPropagation();
-        return;
-      }
-    },
-    'blur textarea' : function(e) {
-      $wie = $("#work-item-description-editor");
-      $wie.find('textarea').val("");
-      $wie.fadeOut('fast');
-      id = $wie.attr("editing-id");
-      Session.set("OPEN_WI_ID", null);
-      workboard.userStopEditingItem(id);
-    }
-}
+};
 Template.workitem.events = {
   'click .details' : function (e) {
     id = $(e.currentTarget).closest(".workItem").attr('data-item-id');
@@ -78,31 +56,8 @@ Template.workitem.events = {
 
     id = $target.closest('[data-item-id]').attr('data-item-id');
     $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
+    $wiEditor.find('textarea').val(WorkItems.findOne(id).name).focus().autosize().resize();
     
-    // add current user to editor of WI
-    workboard.userEditingWorkItem(id);
-    e.stopPropagation();
-  },
-  'click .description' : function(e) {
-    if (workboard.IS_LINKING) return;
-    $wiEditor = $("#work-item-description-editor");
-    $target = $(e.target);
-    pos = $(e.target).offset();
-
-    $wiEditor.css({
-      top: pos.top,
-      left: pos.left-5,
-      width: $target.width(),
-      height: $target.height()
-    }).show();
-
-    id = $target.closest('[data-item-id]').attr('data-item-id');
-    $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
-    
-    Session.set("OPEN_WI_ID", id);
-
     // add current user to editor of WI
     workboard.userEditingWorkItem(id);
     e.stopPropagation();
@@ -115,7 +70,7 @@ Template.workitem.events = {
   },
   'click .wiDelete' : function (e) {
     var siId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
-    Meteor.call("removeStoryItem", siId);
+    Meteor.call("removeWorkItem", siId);
   },
   'click .linkWI' : function(e) {
     workboard.IS_LINKING = true;

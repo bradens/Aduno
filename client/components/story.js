@@ -31,32 +31,10 @@ Template.storyItemTitleEditor.events = {
       workboard.userStopEditingItem(id);
     }
 }
-Template.storyItemDescriptionEditor.events = {
-    'keydown textarea' : function(e) {
-      $id = $(e.target).closest("#story-item-description-editor").attr('editing-id');
-      Stories.update($id, {$set : {
-        description: e.target.value,
-        dirty: true
-      }});
-      if (e.keyCode == 13 && !e.shiftKey){
-        $(e.target).blur();
-        e.stopPropagation();
-        return;
-      }
-    },
-    'blur textarea' : function(e) {
-      $wie = $("#story-item-description-editor");
-      $wie.find('textarea').val("");
-      $wie.fadeOut('fast');
-      id = $wie.attr("editing-id");
-      Session.set("OPEN_WI_ID", null);
-      workboard.userStopEditingItem(id);
-    }
-}
 Template.story.events = {
   'click .details' : function (e) {
     id = $(e.currentTarget).closest(".workItem").attr('data-item-id');
-    StoryItemDialog.showWiDialog(id);
+    // StoryItemDialog.showWiDialog(id);
     // add current user to editor of WI
     workboard.userEditingStoryItem(id);
   },
@@ -80,29 +58,6 @@ Template.story.events = {
     $wiEditor.attr('editing-id', id);
     $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
     
-    // add current user to editor of WI
-    workboard.userEditingStoryItem(id);
-    e.stopPropagation();
-  },
-  'click .description' : function(e) {
-    if (workboard.IS_LINKING) return;
-    $wiEditor = $("#story-item-description-editor");
-    $target = $(e.target);
-    pos = $(e.target).offset();
-
-    $wiEditor.css({
-      top: pos.top,
-      left: pos.left-5,
-      width: $target.width(),
-      height: $target.height()
-    }).show();
-
-    id = $target.closest('[data-item-id]').attr('data-item-id');
-    $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
-    
-    Session.set("OPEN_WI_ID", id);
-
     // add current user to editor of WI
     workboard.userEditingStoryItem(id);
     e.stopPropagation();
