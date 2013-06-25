@@ -6,29 +6,20 @@
 Follow instructions [here](http://nodejs.org).
 
 ####Install meteor####
-**Note** : The normal method of installing meteor(`curl install.meteor.com | sh`) **won't** work, as we make use of meteor's *Auth* which is currently not in
-their stable release. 
+`curl install.meteor.com | sh`
 
-We have to install from a checkout of the meteor project.  
+###Install meteorite 
 
-    git clone git://github.com/bradens/meteor.git
-    cd meteor
-
-If you want meteor in your path ```/usr/local/```
-
-    ./install.sh
-    meteor --help 
-
-this will download all dependencies, so it may take a few minutes
-
-or check out meteor's official readme at their github repo [here](http://github.com/meteor/meteor)
+    npm install -g meteorite
+    
+if you have problems, check out the installation [instructions](https://github.com/oortcloud/meteorite)
 
 ####Install Aduno####
 Now just clone aduno  
 
     git clone git://github.com/bradens/Aduno.git
     cd aduno
-    meteor
+    mrt
     
 This will create a mongodb instance, so it could take a minute or two the first try, then
 
