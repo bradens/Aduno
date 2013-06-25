@@ -32,7 +32,7 @@ Template.main.rendered = function() {
 }
 
 Template.main.events = {
-  'click #user-create' : function() {
+  'click #user-create a' : function() {
     $("#user-create-dialog").modal();
   },
   'click #newWorkItem' : function () {
