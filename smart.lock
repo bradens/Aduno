@@ -7,7 +7,7 @@
   "dependencies": {
     "basePackages": {
       "github": {},
-      "jqbootstrapvalidation": {},
+      "jqbootstrapvalidation": {}
     },
     "packages": {
       "github": {
