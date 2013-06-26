@@ -21,9 +21,6 @@ Template.storyListItem.isShown = function() {
 	else 
 			return "";
 };
-Template.tabStories.getDanglingWorkItemCount = function() {
-	return WorkItems.find({story_id: null}).count();
-}
 Template.tabStories.getDanglingStoryBtnId = function() { 
 	return defines.SHOW_DANGLING_WORKITEMS_BTN_ID;
 };

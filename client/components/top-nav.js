@@ -37,6 +37,7 @@ Template.topNav.events = {
                         RepoObj.name,
                         [],
                         workflow.issuesLoaded);
+            Session.set("STORY_VIEW", true);
           });
         }
       }
@@ -56,6 +57,7 @@ Template.topNav.events = {
                   RepoItem.attr('data-value'),
                   [],
                   workflow.issuesLoaded);
+      Session.set("STORY_VIEW", true);
     },
     'click li a.logoutButton': function(){
       Meteor.logout(function() {

@@ -14,7 +14,7 @@ var helpers = {
 		return (this._id == Session.get("OPEN_WI_ID") ? "open" : "");
 	},
 	getHidden: function() {
-		if (Stories.findOne(this._id).hidden)
+		if (Stories.findOne(this._id) && Stories.findOne(this._id).hidden)
 			return "hide";
 		else 
 			return "";

@@ -6,6 +6,7 @@
  * Define the Collections used, and common client/server
  * code here.
  */
+ 
 this.WorkItems = new Meteor.Collection("workitems");
 this.Links = new Meteor.Collection("links");
 this.StoryLinks = new Meteor.Collection("storylinks");

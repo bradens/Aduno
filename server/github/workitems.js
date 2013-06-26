@@ -193,10 +193,13 @@ Meteor.methods({
           
           if (item.milestone) {
             milestone = Stories.findOne({number: item.milestone.number, repo_id: repoObj._id});
-            console.log(item.milestone);
-            console.log(milestone);
             if (!milestone) {
               // This means the milestone not yet in our db
+              Meteor.call('loadStories', repoObj._id);
+              milestone = Stories.findOne({number: item.milestone.number, repo_id: repoObj._id});
+            }
+            else {
+              milestone = milestone._id;
             }
           }
           else {

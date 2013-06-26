@@ -22,6 +22,7 @@ Template.selectRepoDialog.events = {
                 [],
                 workflow.issuesLoaded);
     $("#select-repo-dialog").modal('hide');
+    Session.set("STORY_VIEW", true);
   } 
 };
 Template.selectRepoDialog.repos = function() {

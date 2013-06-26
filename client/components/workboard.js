@@ -187,7 +187,7 @@ $(window).load(function() {
       if (top <= $mat.offset().top) {
         top = $mat.offset().top + 10;
       }
-      var left = $mat.offset().left + Math.floor(Math.random() * $mat.width()) - 200;
+      var left = $mat.offset().left + Math.floor(Math.random() * $mat.width()) - 227;
       if (left <= $mat.offset().left) {
         left = $mat.offset().left + 10;
       }
