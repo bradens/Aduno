@@ -64,7 +64,8 @@ Template.main.events = {
     Meteor.call('loadIssuesWithLabels', 
         Meteor.user().uniqueName, 
         Session.get('currentRepo'),
-        [$(e.target).attr("data-label-name")]
+        [$(e.target).attr("data-label-name")],
+        defines.noop
     );
     if ($(e.target).attr('data-label-name') == "all") {
       Session.set("currentLabel", "all");
@@ -82,9 +83,7 @@ Template.main.events = {
         'synchronize', 
         Session.get("currentRepo"),
         Session.get("currentRepoId"),
-        function(e) {
-          console.log("synchronized");
-        }
+        defines.noop
     );
   },
   'keyup #usernameInput' : function (e) {

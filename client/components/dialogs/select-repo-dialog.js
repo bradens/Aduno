@@ -8,21 +8,10 @@
 Template.selectRepoDialog.events = {
   'click .repo-grid-item': function(e) {
     var RepoItem = $(e.target).closest("a.repo-grid-item");
-    Session.set("currentRepo", RepoItem.attr('data-repo-name'));
-    Session.set("currentRepoId", RepoItem.attr('data-repo-id'));
-    Session.set("STORY_VIEW", true);
-    Meteor.call("loadStories", Session.get("currentRepoId"));
-    Meteor.call('loadLabels',
-                RepoItem.attr('data-repo-owner'),
-                RepoItem.attr('data-repo-name'),
-                workflow.labelsLoaded);
-    Meteor.call('loadIssuesWithLabels', 
-                RepoItem.attr('data-repo-owner'), 
-                RepoItem.attr('data-repo-name'),
-                [],
-                workflow.issuesLoaded);
+    workflow.loadRepository(RepoItem.attr('data-repo-name'),
+                            RepoItem.attr('data-repo-id'),
+                            RepoItem.attr('data-repo-owner'));
     $("#select-repo-dialog").modal('hide');
-    Session.set("STORY_VIEW", true);
   } 
 };
 Template.selectRepoDialog.repos = function() {

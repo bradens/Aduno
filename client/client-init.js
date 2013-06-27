@@ -6,6 +6,24 @@
  * Initialization for all client side code.
  */
 Meteor.startup(function() {
+  // Need to wrap out meteor.call function and check if we're doing an async call.
+  // If we are then make it show the loading notification and queue up the count.
+  Meteor.call = (function(func){
+    return function(){
+      // If the last argument is a function then we are going to call something async
+      if (typeof arguments[arguments.length - 1] === typeof Function) {
+        arguments[arguments.length - 1] = (function(cb) {
+          return function() {
+            cb.apply(this, arguments);
+            workflow.loadingCallback();   
+          }
+        })(arguments[arguments.length-1]);
+        workflow.loading();
+      }
+      func.apply(this, arguments);
+    }
+  })(Meteor.call)
+
   Session.set("user_id", null);
   Session.set("currentLabel", "all");
   function clientKeepalive() {  
@@ -61,7 +79,7 @@ Meteor.startup(function() {
   
   Meteor.setInterval(clientKeepalive, 1*1000);
   Meteor.autosubscribe(function() {
-    Meteor.subscribe('workitems', Session.get("currentStoryId"));
+    Meteor.subscribe('workitems', Session.get("currentStoryId"), Session.get("currentRepoId"));
     Meteor.subscribe('users');
     Meteor.subscribe('stories', Session.get("currentRepoId"))
     Meteor.subscribe('links', Session.get("currentRepoId"));

@@ -6,6 +6,8 @@
  * Utility methods.
  */
 
+jQuery.fn.exists = function(){return this.length>0;}
+
 // returns a jQuery object suitable for setting scrollTop to
 // scroll the page, either directly for via animate()
 this.scroller = function() {

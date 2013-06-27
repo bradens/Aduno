@@ -44,20 +44,9 @@ Template.topNav.events = {
     },
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");
-      Session.set("currentRepo", RepoItem.attr('data-value'));
-      Session.set("currentRepoId", RepoItem.attr('data-repo-id'));
-      Session.set("STORY_VIEW", true);
-      Meteor.call("loadStories", Session.get("currentRepoId"));
-      Meteor.call('loadLabels',
-                  RepoItem.attr('data-repo-owner'),
-                  RepoItem.attr('data-value'),
-                  workflow.labelsLoaded);
-      Meteor.call('loadIssuesWithLabels', 
-                  RepoItem.attr('data-repo-owner'), 
-                  RepoItem.attr('data-value'),
-                  [],
-                  workflow.issuesLoaded);
-      Session.set("STORY_VIEW", true);
+      workflow.loadRepository(RepoItem.attr('data-value'),
+                              RepoItem.attr('data-repo-id'),
+                              RepoItem.attr('data-repo-owner'));
     },
     'click li a.logoutButton': function(){
       Meteor.logout(function() {

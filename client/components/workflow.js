@@ -40,14 +40,82 @@ $(function() {
     this.labelColorEdited = function($elem, col) {
       $elem.css('background-color', col);
     };
-    this.loadedReposCallback = function(res) {
-      console.log("finished loading repos");
+
+    this.loadRepository = function(repoName, repoId, repoOwner) {
+      Session.set("currentRepo", repoName);
+      Session.set("currentRepoId", repoId);
+      Meteor.call("loadStories", Session.get("currentRepoId"), defines.noop);
+      Meteor.call('loadLabels',
+                  repoOwner,
+                  repoName, defines.noop);
+      Meteor.call('loadIssuesWithLabels', 
+                  repoOwner,
+                  repoName,
+                  [], defines.noop);
+      Session.set("STORY_VIEW", true);
     };
-    this.issuesLoaded = function() {
-      console.log('issuesLoaded');
+
+    this.loadingCallback = function() {
+      if (Session.get("loadingQueueCount") !== undefined &&
+          typeof Session.get("loadingQueueCount") === "number") {
+        Session.set("loadingQueueCount", Session.get("loadingQueueCount") - 1);
+      }
+      if (Session.get("loadingQueueCount") <= 0) {
+        // Clear the notification
+        workflow.hideNotification();
+      }
+      console.log(Session.get("loadingQueueCount"));
     };
-    this.labelsLoaded = function() {
-      console.log('labelsLoaded');
+
+    this.loading = function() {
+      if (Session.get("loadingQueueCount") !== undefined &&
+          typeof Session.get("loadingQueueCount") === "number") {
+        Session.set("loadingQueueCount", Session.get("loadingQueueCount") + 1);
+      }
+      else {
+        Session.set("loadingQueueCount", 1);
+      }
+      if (Session.get("loadingQueueCount") >= 1) {
+        workflow.showNotification({ 
+          type: 'loading', 
+          imageHtml: "", 
+          title: "Loading...", 
+          subtext: "Hang tight" 
+        });
+      }
+      console.log(Session.get("loadingQueueCount"));
+    };
+
+    // Displays a notification which is rendered as 
+    // Template.notifier (notifier.html)
+    // Requires: 
+    // params {
+    //   type: defines.notificationType,
+    //   imageHtml: htmlString  // an image html tag for your notification (spinner?)
+    //   title: String
+    //   subtext: String   
+    // }
+    this.showNotification = function(params) {
+      if (defines.notificationTypes.indexOf(params.type) === -1) {
+        console.log("ERROR: Wrong notification type");
+        return;
+      }
+      $not = $("#notifier-wrapper");
+      if (!$not.exists()) {
+        $("body").append(Meteor.render(Template.notifier(params)));
+        $not = $("#notifier-wrapper");
+      }
+      $not.fadeIn();
+    };
+
+    // Removes the notification.
+    this.hideNotification = function() {
+      $not = $("#notifier-wrapper");
+      if ($not.exists()) {
+        $not.fadeOut(function() { 
+          $not.remove();
+        });
+      }
     };
   }
 });

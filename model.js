@@ -20,9 +20,10 @@ this.Stories = new Meteor.Collection("stories");
 // Publishing our collections
 if (Meteor.is_server)
 {
-    Meteor.publish('workitems', function(storyId) {
+    Meteor.publish('workitems', function(storyId, repoId) {
       return WorkItems.find({
-        story_id: storyId
+        story_id: storyId,
+        repo_id: repoId
       });
     });
     Meteor.publish('stories', function(repoId) {

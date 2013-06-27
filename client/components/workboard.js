@@ -170,7 +170,7 @@ $(window).load(function() {
       Meteor.call('removeEditing', username, function() {
         // Now update item with user as editor.
         WorkItems.update(itemId, {$push: {usersEditing: { name: username, badge: badge}}});
-      })
+      });
     };
 
     // Remove the notification to show that a user is editing an item

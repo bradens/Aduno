@@ -72,6 +72,20 @@ a:hover {
 }
 
 //--------------------------- Banner ---------------------------// 
+
+#notifier-wrapper {
+  display:none;
+  position:absolute;
+  width:100%;
+  top:42px;
+  text-align:center;
+  .alert {
+    text-align: left;
+    width:auto;
+    margin: 0 auto;
+    display: inline-block;
+  }
+}
 .search-form {
   height:100%;
   margin-bottom:0px;
@@ -557,7 +571,6 @@ a.wiDelete:hover, a.wi-sync:hover {
   right:-@wi-sidebar-width;
   width: @wi-sidebar-width;
   background-color:white;
-  /*visibility: hidden;*/
   position: absolute;
 }
 #wiDetailsDialog {
@@ -603,14 +616,6 @@ a.wiDelete:hover, a.wi-sync:hover {
   .add-label:hover, .add-link:hover { 
     background-color: rgba(0, 150, 0, 0.2);
   }
-  /*li.dropdown:hover ul.dropdown-menu{
-    opacity:1;
-    display: block;
-    top:0;
-  }
-  a.menu:after, .dropdown-toggle:after {
-    content: none;
-  }*/
 }
 
 #label-selection-dialog {
@@ -684,6 +689,11 @@ ul.tags li a.delete:hover {
 
 //--------------------------- About ---------------------------// 
 
+.darkWell {
+  background-color: rgba(0,0,0,.5);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  color:slategrey;
+}
 .about {
   h1, h2, h3 {
     color:white;
@@ -752,67 +762,6 @@ ul.tags li a.delete:hover {
 
 //--------------------------- Components ---------------------------// 
 
-.darkWell {
-  background-color: rgba(0,0,0,.5);
-  border: 1px solid rgba(0, 0, 0, 0.7);
-  color:slategrey;
-}
-/*
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb:hover {
-	background-color: rgba(0,0,0,.4);
-}
-::-webkit-scrollbar-thumb {
-	background-color:  rgba(0, 0, 0, .2);
-	background-clip: padding-box;
-	border: solid transparent;
-	border-width: 1px 3px 1px 3px;
-	min-height: 28px;
-	padding: 100px 0 0;
-	box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1),inset 0 -1px 0 rgba(0, 0, 0, .07);
-}
-::-webkit-scrollbar:hover {
-    background-color:rgba(0,0,0,.1);
-}
-::-webkit-scrollbar {
-	overflow: visible;
-	width: 12px;
-	background-color: rgba(0,0,0,.1);
-}
-*/
-.sep {  
-  background-size: 100% 1px, 100% 1px, auto;
-  background-position: 50% 100%, 50% 100%, 50% 0;
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-origin: padding-box, border-box, padding-box;
-  border-bottom: 1px solid transparent;
-  background-image:
-      linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
-      linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
-      radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
-  background-image:
-      -o-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
-      -o-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
-      -o-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
-  background-image:
-      -ms-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
-      -ms-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
-      -ms-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
-  background-image:
-      -moz-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
-      -moz-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
-      -moz-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
-  background-image:
-      -webkit-linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.1) 50%, rgba(0,0,0,0)),
-      -webkit-linear-gradient(0deg, rgba(255,255,255,0), rgba(255,255,255,0.8) 50%, rgba(255,255,255,0)),
-      -webkit-radial-gradient(50% 100%, ellipse cover, rgba(0,0,0, 0.05), rgba(0,0,0,0) 50%);
-  width:100%;
-  clear:both;
-  height:1px;
-  margin:9px 0 10px 0;
-}
 
 //--------------------------- Bootstrap Overrides ---------------------------// 
 

@@ -66,7 +66,7 @@ Template.story.events = {
     var wiId = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
     // TODO @bradens 
     // Session.set('loading','true');
-    Meteor.call('synchronizeWorkItem', wiId);
+    Meteor.call('synchronizeWorkItem', wiId, workflow.loadingCallback);
   },
   'click .wiDelete' : function (e) {
     var wiID = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
