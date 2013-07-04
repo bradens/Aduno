@@ -39,10 +39,14 @@ Meteor.methods({
       labels: labels
     };
 
+    if (item.story_id) {
+      parms.milestone = Stories.findOne(item.story_id).number;
+    }
+
     if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
       parms.assignee = item.assignee.services.github.username;
     
-    if (item.newItem) {
+    if (!item.number) {
       // The workItem doesn't exist on github
       github.issues.create(parms, function(err, res) {
         if (err) {
@@ -90,6 +94,10 @@ Meteor.methods({
         labels: labels
       }
 
+      if (item.story_id) {
+        parms.milestone = Stories.findOne(item.story_id).number;
+      }
+
       if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
         parms.assignee = item.assignee.services.github.username;
 
@@ -113,6 +121,10 @@ Meteor.methods({
       _.each(item.labels, function(aLabel) {
         labels.push(aLabel.name);
       });
+
+      if (item.story_id) {
+        parms.milestone = Stories.findOne(item.story_id).number;
+      } 
 
       parms = {
         user: owner, 

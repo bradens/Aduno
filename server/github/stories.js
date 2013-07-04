@@ -68,5 +68,47 @@ Meteor.methods({
 				}).run();
 			}
 		});
+	},
+	syncStory: function(storyId) {
+		Meteor.call('loadAuth');
+		var storyItem = Stories.findOne(storyId);
+		var	repoObj = Repos.findOne(storyItem.repo_id);
+		var	username = repoObj.owner,
+			reponame = repoObj.name;
+
+		parms = {
+			user: username,
+			repo: reponame,
+			title: storyItem.name,
+			description: storyItem.description
+		}
+
+		if (storyItem.number) {
+			parms.number = storyItem.number;
+			github.issues.updateMilestone(parms, function(err, res) {
+				if (err) {
+					log(err);
+					return;
+				}
+				else {
+					Fiber(function() {
+						Stories.udpate(storyId, {$set: {dirty: false}});
+					}).run();
+				}
+			})
+		}
+		else {
+			github.issues.createMilestone(parms, function(err, res) {
+				if (err) {
+					log(err);
+					return;
+				}
+				else {
+					Fiber(function() {
+						Stories.update(storyId, {$set: {dirty: false, number: res.number}});
+					}).run();
+				}
+			});
+		}
 	}
 });

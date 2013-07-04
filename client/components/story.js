@@ -63,10 +63,8 @@ Template.story.events = {
     e.stopPropagation();
   },
   'click .wi-sync' : function(e) {
-    var wiId = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
-    // TODO @bradens 
-    // Session.set('loading','true');
-    Meteor.call('synchronizeWorkItem', wiId, workflow.loadingCallback);
+    var sId = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
+    Meteor.call('syncStory', sId, workflow.loadingCallback);
   },
   'click .wiDelete' : function (e) {
     var wiID = $(e.currentTarget).closest(".storyItem").attr('data-item-id');
