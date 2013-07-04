@@ -131,6 +131,12 @@ WorkItemDialog = {
     $assigneeWrapper.empty();
     $assigneeWrapper.append(listHtml);
   },
+  renderStatus: function() {
+    var statusHtml = Meteor.render(Template.wiDialogStatus({wiId: WorkItemDialog.currentWiId}));
+    $("#workitem-status-wrapper").empty();
+    $("#workitem-status-wrapper").append(statusHtml);
+    Template.wiDialogStatus.setupEvents();
+  },
   showWiDialog: function(id) {
     wi = WorkItems.findOne({_id: id});
     WorkItemDialog.currentWiId = id;
@@ -138,6 +144,7 @@ WorkItemDialog = {
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
     WorkItemDialog.renderStageAssigneeList();
+    WorkItemDialog.renderStatus();
     // WorkItemDialog.renderAssignee();
     $wiDialog = $("#wiDetailsDialog");
     $("#wiAssigneeInput").typeahead({

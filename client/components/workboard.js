@@ -47,6 +47,7 @@ $(window).load(function() {
     this.zIndexBuffer = 20;       // TODO @bradens @fixme This is a hacky way to alter the z-index for stacking elements.
     this.currentLineID = '';
     this.IS_DRAGGING = false;
+
     this.createNewWorkItem = function () {
       var position = workboard.getNewItemPos();
       var label = Labels.findOne({repo_id: Session.get("currentRepoId"), name: Session.get("currentLabel")});
@@ -61,9 +62,19 @@ $(window).load(function() {
         hidden: false
       });
     };
+
     this.createNewStoryItem = function() {
-      // TODO @braden
+      var position = workboard.getNewItemPos();
+      var id = Stories.insert({
+        repo_id: Session.get("currentRepoId"),
+        name: "New Story",
+        descrioption: "Default description",
+        top: position.top,
+        left: position.left,
+        hidden: false
+      });
     };
+    
     this.updateCanvas = function() {
       document.getElementById("myCanvas").addEventListener('mousemove', workboard.ev_canvas, false);
       workboard.canvas = document.getElementById('myCanvas');

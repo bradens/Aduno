@@ -11,7 +11,7 @@
       </li>
       {{#if getRepoID}}
         <li class="dropdown">
-          <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><span id="user-count" style="border-left: 15px solid {{ otherUsersColor }};">{{ userCount }}</span> Current Users<span class="caret"></span></a>
+          <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span id="user-count" style="border-left: 15px solid {{ otherUsersColor }};">{{ userCount }}</span> Current Users<span class="caret"></span></a>
           <ul class="dropdown-menu">
             {{#each people }}
               {{> person }}

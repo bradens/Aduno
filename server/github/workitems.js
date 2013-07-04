@@ -7,13 +7,16 @@
  */
 var Fiber = Npm.require('fibers');
 Meteor.methods({
+  openWorkItem: function(workItemId) {
+    WorkItems.update(workItemId, {$set: {dirty: true, state: defines.WI_OPEN_STATE}});
+  },
+  closeWorkItem: function(workItemId) {
+    WorkItems.update(workItemId, {$set: {dirty: true, state: defines.WI_CLOSED_STATE}});
+  },
   // TODO @bradens need to embed the links into the workitems
   // SynchronizeWorkitem
   synchronizeWorkItem: function(workItemId) {
-    Meteor.call("loadAuth");
-    
-    log("\nuserId : " + this.userId + "\nworkItemId : " + workItemId);
-    
+    Meteor.call("loadAuth");    
     item = WorkItems.findOne(workItemId);
     repoObj = Repos.findOne(item.repo_id);
     username = repoObj.owner;

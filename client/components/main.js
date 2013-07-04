@@ -38,6 +38,9 @@ Template.main.events = {
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
   },
+  'click #newStoryItem': function() {
+    workboard.createNewStoryItem();
+  },
   'click #newLabel' : function() {
     workflow.createLabel();
   },

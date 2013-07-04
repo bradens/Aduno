@@ -11,6 +11,7 @@ Meteor.startup(function() {
   Meteor.call = (function(func){
     return function(){
       // If the last argument is a function then we are going to call something async
+      // Somewhat hacky, should probably do something better in future.
       if (typeof arguments[arguments.length - 1] === typeof Function) {
         arguments[arguments.length - 1] = (function(cb) {
           return function() {

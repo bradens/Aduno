@@ -5,5 +5,7 @@ this.defines = {
 		"loading",
 		"error"
 	], 
-	noop: function() { }
+	noop: function() { },
+	WI_OPEN_STATE: "open",
+	WI_CLOSED_STATE: "closed"
 };

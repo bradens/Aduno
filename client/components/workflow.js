@@ -53,6 +53,7 @@ $(function() {
                   repoName,
                   [], defines.noop);
       Session.set("STORY_VIEW", true);
+      Session.set("currentStoryId", null);
     };
 
     this.loadingCallback = function() {

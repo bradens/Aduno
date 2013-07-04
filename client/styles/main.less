@@ -138,9 +138,6 @@ a:hover {
   margin-right:50px;
   min-width:660px;
 }
-.peopleList li {
-  list-style-type:none;
-}
 .navbar .nav > li > a.btn {
   float: none;
   padding: 4px 15px;
@@ -764,6 +761,13 @@ ul.tags li a.delete:hover {
 
 
 //--------------------------- Bootstrap Overrides ---------------------------// 
+
+ul {
+  li {
+    list-style-type:none;
+  }
+  margin:0;
+}
 
 .btn, .modal, .badge, input[type=text], input[type=password], textarea {
   .border-radius(0) !important;
