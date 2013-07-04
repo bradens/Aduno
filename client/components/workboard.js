@@ -194,7 +194,7 @@ $(window).load(function() {
     // Function that returns a new item position psuedorandomly.
     this.getNewItemPos = function() {
       var $mat = $("#myCanvas");
-      var top = $mat.offset().top + Math.floor(Math.random() * $mat.height()) - 200;
+      var top = $mat.offset().top + Math.floor(Math.random() * $mat.height()) - 400;
       if (top <= $mat.offset().top) {
         top = $mat.offset().top + 10;
       }

@@ -58,7 +58,8 @@ Template.main.events = {
     var label = Labels.findOne({name : labelname, repo_id: Session.get("currentRepoId")});
     $editedLabel = $("#editLabelDialog");
     $editedLabel.attr("editing-label-id", label._id);
-    $editedLabel.find("#label-color-edit").val(label.color);
+    $editedLabel.find("#label-edit-color").val("#" + label.color);
+    workflow.labelColorEdited($(".color-block"), "#"+label.color);
     $editedLabel.find("#labelName").val(label.name);
     $editedLabel.modal();
     e.stopPropagation();
@@ -102,22 +103,17 @@ Template.main.events = {
 Template.main.stories = function() {
   if (Session.get("STORY_VIEW")) {
     if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
-      return  Stories.find({
-        name: {
-          $ne: ""
-        },
-        'labels.name': Session.get("currentLabel")
-      }, { 
+      return  Stories.find(
+        {
+          'labels.name': Session.get("currentLabel")
+        }, { 
         sort: {
           name: 1
         }
       });
     } else {
-      return Stories.find({
-        name: {
-          $ne: ""
-        },
-      }, { 
+      return Stories.find({},
+      { 
         sort: {
           name: 1
         }
@@ -130,7 +126,7 @@ Template.main.stories = function() {
 };
 Template.main.workitems = function() {
   if (Session.get("currentStoryId")) {
-    if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+    if (Session.get("currentLabel") && Session.get("currentLabel") !== "all") {
       return WorkItems.find({
         story_id: Session.get("currentStoryId"),
         'labels.name': Session.get("currentLabel")
@@ -142,11 +138,8 @@ Template.main.workitems = function() {
       });
     }
     else {
-      return WorkItems.find({
-        name: {
-          $ne: ""
-        },
-      }, { 
+      return WorkItems.find({}, 
+      { 
         sort: {
           name: 1
         }

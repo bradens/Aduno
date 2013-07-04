@@ -2,7 +2,7 @@ Template.wiDialogStatus.getOpenState = function() {
   return defines.WI_OPEN_STATE;
 }
 Template.wiDialogStatus.getClosedState = function() {
-  return defines.WI_CLOSED_STATE;
+  return "close";
 }
 Template.wiDialogStatus.getOpenDisabled = function() {
   if (!WorkItemDialog.currentWiId) return "";

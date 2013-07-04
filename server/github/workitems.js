@@ -36,11 +36,17 @@ Meteor.methods({
       repo: reponame,
       title: item.name,
       body: item.description,
-      labels: labels
+      labels: labels,
+      state: item.state
     };
 
-    if (item.story_id) {
-      parms.milestone = Stories.findOne(item.story_id).number;
+    if (item.story_id && item.story_id !== defines.DANGLING_WORKITEMS_STORY_ID) {
+      var storyItem = Stories.findOne(item.story_id);
+      if (storyItem.number === undefined || storyItem.number === null) {
+        // sync the story first.
+        Meteor.call("syncStory", storyItem._id);
+      }
+      parms.milestone = storyItem.number;
     }
 
     if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
@@ -54,7 +60,7 @@ Meteor.methods({
         }
         else {
           Fiber(function() {
-            WorkItems.update(workItemId, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
+            WorkItems.update(workItemId, {$set: {number: res.number, dirty: false }});
           }).run();
         }      
       });
@@ -68,7 +74,7 @@ Meteor.methods({
         }
         else {
           Fiber(function() {
-            WorkItems.update(workItemId, {$set: { unsync: false, dirty: false }});
+            WorkItems.update(workItemId, {$set: {dirty: false }});
           }).run();
         }
       });
@@ -76,7 +82,7 @@ Meteor.methods({
   },
   // Updates github with the workitems from Aduno.
   updateWorkItems: function(owner, reponame, repoId) {
-    newItems = WorkItems.find({newItem: true, repo_id: repoId}).fetch();
+    newItems = WorkItems.find({number: null, repo_id: repoId}).fetch();
     // First add the new work items.  
     _.each(newItems, function(item) {
       
@@ -91,11 +97,17 @@ Meteor.methods({
         repo: reponame,
         title: item.name,
         body: item.description,
-        labels: labels
+        labels: labels,
+        state: item.state
       }
 
-      if (item.story_id) {
-        parms.milestone = Stories.findOne(item.story_id).number;
+      if (item.story_id && item.story_id !== defines.DANGLING_WORKITEMS_STORY_ID) {
+        var storyItem = Stories.findOne(item.story_id);
+        if (storyItem.number === undefined || storyItem.number === null) {
+          // sync the story first.
+          Meteor.call("syncStory", storyItem._id);
+        }
+        parms.milestone = storyItem.number;
       }
 
       if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
@@ -108,7 +120,7 @@ Meteor.methods({
         }
         else { 
           Fiber(function() {
-            WorkItems.update(item._id, {$set: { newItem: false, unsync: false, number: res.number, dirty: false }});
+            WorkItems.update(item._id, {$set: {number: res.number, dirty: false }});
           }).run();
         }
       });
@@ -122,9 +134,7 @@ Meteor.methods({
         labels.push(aLabel.name);
       });
 
-      if (item.story_id) {
-        parms.milestone = Stories.findOne(item.story_id).number;
-      } 
+      log(item.newItem);
 
       parms = {
         user: owner, 
@@ -132,8 +142,18 @@ Meteor.methods({
         title: item.name,
         number: item.number,
         body: item.description,
-        labels: labels
+        labels: labels,
+        state: item.state
       }
+
+      if (item.story_id && item.story_id !== defines.DANGLING_WORKITEMS_STORY_ID) {
+        var storyItem = Stories.findOne(item.story_id);
+        if (storyItem.number === undefined || storyItem.number === null) {
+          // sync the story first.
+          Meteor.call("syncStory", storyItem._id);
+        }
+        parms.milestone = storyItem.number;
+      } 
 
       if (!_.isUndefined(item.assignee) && !_.isNull(item.assignee))
         parms.assignee = item.assignee.services.github.username;
@@ -145,7 +165,7 @@ Meteor.methods({
         }
         else {
           Fiber(function() {
-            WorkItems.update(item._id, {$set: { unsync: false, dirty: false }});
+            WorkItems.update(item._id, {$set: {dirty: false }});
           }).run();
         }
       });
@@ -258,6 +278,7 @@ Meteor.methods({
             }
             WorkItems.update(wi._id, {
               $set: {
+                state: item.state,
                 name: item.title, 
                 number: item.number,
                 repo_id: repoObj._id,
