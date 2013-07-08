@@ -92,7 +92,7 @@ Meteor.methods({
 				}
 				else {
 					Fiber(function() {
-						Stories.udpate(storyId, {$set: {dirty: false}});
+						Stories.update(storyId, {$set: {dirty: false}});
 					}).run();
 				}
 			})
