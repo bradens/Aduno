@@ -27,6 +27,7 @@ Meteor.startup(function() {
 
   Session.set("user_id", null);
   Session.set("currentLabel", "all");
+
   function clientKeepalive() {  
     if (Meteor.user()) {
       if (workflow && !workflow.IS_LOGGED_IN && !Meteor.user().loading)
@@ -34,7 +35,6 @@ Meteor.startup(function() {
       Meteor.call('keepalive', Meteor.user()._id);
     }
   }
-  // Hack to make a keepalive as soon as meteor connects
   $(window).load(function() {
     clientKeepalive();
   });

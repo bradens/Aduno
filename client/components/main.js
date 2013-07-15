@@ -25,6 +25,10 @@ Template.main.rendered = function() {
   // redraw our canvas
   if (window.workboard !== undefined)
     window.workboard.draw();
+
+  // Initialize our workboard if it's here.
+  $('#myCanvas').resizable();
+
   $('.tooltip').remove(); 
   // re-init our tooltip
   $('[rel=tooltip]').tooltip({container: "body"});
