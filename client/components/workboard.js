@@ -59,7 +59,8 @@ $(window).load(function() {
         description: "Default description",
         top: position.top,
         left: position.left,
-        hidden: false
+        hidden: false,
+        dirty: true
       });
     };
 
@@ -71,7 +72,8 @@ $(window).load(function() {
         descrioption: "Default description",
         top: position.top,
         left: position.left,
-        hidden: false
+        hidden: false,
+        dirty: true
       });
     };
     
