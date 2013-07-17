@@ -1,8 +1,10 @@
 {
   "meteor": {
-    "branch": "devel"
+    "tag": "release/0.6.3-rc3",
+    "git": "https://github.com/meteor/meteor.git"
   },
   "packages": {
-    "github": {}
+    "github": {},
+    "jqbootstrapvalidation": {}
   }
 }

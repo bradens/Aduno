@@ -1,11 +1,16 @@
 /**
  * workboard.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
- * Workboard code.  Used for manipulating the 'workboard' which is the name of the
- * main working area of Aduno.
  */
+Template.workflowMenu.getLabelPaneActive = function() {
+  return (Session.get("STORY_VIEW") ? "" : "active");
+}
+Template.workflowMenu.getStoryPaneActive = function() {
+  return (Session.get("STORY_VIEW") ? "active" : "");
+}
+
 $(function() {
   if (window.workflow == undefined)
   {
@@ -32,14 +37,86 @@ $(function() {
       $("#newLabelDialog input").val("");
       $("#newLabelDialog").modal();
     };
-    this.loadedReposCallback = function(res) {
-      console.log("finished loading repos");
+    this.labelColorEdited = function($elem, col) {
+      $elem.css('background-color', col);
     };
-    this.issuesLoaded = function() {
-      console.log('issuesLoaded');
+
+    this.loadRepository = function(repoName, repoId, repoOwner) {
+      Session.set("currentRepo", repoName);
+      Session.set("currentRepoId", repoId);
+      Meteor.call("loadStories", Session.get("currentRepoId"), defines.noop);
+      Meteor.call('loadLabels',
+                  repoOwner,
+                  repoName, defines.noop);
+      Meteor.call('loadIssuesWithLabels', 
+                  repoOwner,
+                  repoName,
+                  [], defines.noop);
+      Session.set("STORY_VIEW", true);
+      Session.set("currentStoryId", null);
     };
-    this.labelsLoaded = function() {
-      console.log('labelsLoaded');
+
+    this.loadingCallback = function() {
+      if (Session.get("loadingQueueCount") !== undefined &&
+          typeof Session.get("loadingQueueCount") === "number") {
+        Session.set("loadingQueueCount", Session.get("loadingQueueCount") - 1);
+      }
+      if (Session.get("loadingQueueCount") <= 0) {
+        // Clear the notification
+        workflow.hideNotification();
+      }
+      console.log(Session.get("loadingQueueCount"));
+    };
+
+    this.loading = function() {
+      if (Session.get("loadingQueueCount") !== undefined &&
+          typeof Session.get("loadingQueueCount") === "number") {
+        Session.set("loadingQueueCount", Session.get("loadingQueueCount") + 1);
+      }
+      else {
+        Session.set("loadingQueueCount", 1);
+      }
+      if (Session.get("loadingQueueCount") >= 1) {
+        workflow.showNotification({ 
+          type: 'loading', 
+          imageHtml: "", 
+          title: "Loading...", 
+          subtext: "Hang tight" 
+        });
+      }
+      console.log(Session.get("loadingQueueCount"));
+    };
+
+    // Displays a notification which is rendered as 
+    // Template.notifier (notifier.html)
+    // Requires: 
+    // params {
+    //   type: defines.notificationType,
+    //   imageHtml: htmlString  // an image html tag for your notification (spinner?)
+    //   title: String
+    //   subtext: String   
+    // }
+    this.showNotification = function(params) {
+      if (defines.notificationTypes.indexOf(params.type) === -1) {
+        console.log("ERROR: Wrong notification type");
+        return;
+      }
+      $not = $("#notifier-wrapper");
+      if (!$not.exists()) {
+        $("body").append(Meteor.render(Template.notifier(params)));
+        $not = $("#notifier-wrapper");
+      }
+      $not.fadeIn();
+    };
+
+    // Removes the notification.
+    this.hideNotification = function() {
+      $not = $("#notifier-wrapper");
+      if ($not.exists()) {
+        $not.fadeOut(function() { 
+          $not.remove();
+        });
+      }
     };
   }
 });

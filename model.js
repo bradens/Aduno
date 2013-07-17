@@ -1,28 +1,43 @@
 /**
  * model.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Define the Collections used, and common client/server
  * code here.
  */
+ 
 this.WorkItems = new Meteor.Collection("workitems");
 this.Links = new Meteor.Collection("links");
+this.StoryLinks = new Meteor.Collection("storylinks");
 this.Repos = new Meteor.Collection("repos");
 this.ActiveUsers = new Meteor.Collection("activeusers");
 this.Issues = new Meteor.Collection("issues");
 this.Labels = new Meteor.Collection("labels");
 this.Messages = new Meteor.Collection("messages");
+this.Stories = new Meteor.Collection("stories");
+
 // Publishing our collections
 if (Meteor.is_server)
 {
-    Meteor.publish('workitems', function(repoId) {
+    Meteor.publish('workitems', function(storyId, repoId) {
       return WorkItems.find({
+        story_id: storyId,
         repo_id: repoId
       });
     });
+    Meteor.publish('stories', function(repoId) {
+      return Stories.find({
+        repo_id: repoId
+      });
+    })
     Meteor.publish('links', function(repoId) {
       return Links.find({
+        repo_id: repoId
+      });
+    });
+    Meteor.publish("storylinks", function(repoId) {
+      return StoryLinks.find({
         repo_id: repoId
       });
     });
@@ -34,6 +49,8 @@ if (Meteor.is_server)
     Meteor.publish('users', function() {
       return Meteor.users.find({}, {fields: {
         'profile.name': 1,
+        'uniqueName': 1,
+        'username': 1,
         'services.github.username': 1,
         'idle': 1,
         'badge' : 1

@@ -1,0 +1,13 @@
+<template name="tabStories">
+  <div class="nav-header">Stories</div>
+  <div class="story-list workflow-panel">
+  	<ul class="filter-labels nav nav-list">
+  		{{#each stories}}
+  			{{> storyListItem }}
+  		{{/each}}
+  		<li class="all-stories-item">
+		    <a href="#" class='story-list-item dangling-stories-btn' rel="tooltip" title="Click to explore workitems without a story." data-placement="right" id="{{{ getDanglingStoryBtnId }}}">Workitems Without Story</a>
+		  </li>
+  	</ul>
+  </div>
+</template>

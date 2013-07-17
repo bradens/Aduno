@@ -1,0 +1,26 @@
+<template name="story">
+  <div class="storyItem {{{ getHidden }}}" id="story_{{ _id }}" data-item-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
+    <div class="btn-toolbar">
+      <div class="btn-group">
+        <a class="linkWI btn btn-mini btn-success">Link</a>
+        <!-- <a class="btn btn-mini btn-info details">Details</a> -->
+        <a class="btn btn-mini btn-inverse explore">Explore</a>
+      </div>
+    </div>
+    <h4 class="itemTitle">{{ name }}</h4>
+    <a class="btn btn-mini {{ synchronizedClass }} wi-sync"><i class="icon-refresh"> </i></a>
+    <a class="btn btn-mini btn-danger wiDelete">×</a> 
+    <div class="editing-div">
+	    <ul class="unstyled editing-list">
+	      {{#each usersEditing }}
+	        {{> editingUserItem }}
+	      {{/each}}
+	    </ul>
+    </div>
+  </div>
+</template>
+<template name="storyItemTitleEditor">
+  <div id="story-item-title-editor">
+    <textarea class="expand" id="work-item-title-input" />
+  </div>
+</template>

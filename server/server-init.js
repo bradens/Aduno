@@ -1,6 +1,6 @@
 /**
  * server-init.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Loading all modules and doing pathing to require 
@@ -38,6 +38,16 @@ Meteor.startup(function() {
       return !task.privateTo || task.privateTo === userId;
     });
   };
+  StoryLinks.allow({
+    insert: function () { return true; },
+    update: function () { return true; },
+    remove: function () { return true; }
+  });
+  Stories.allow({
+    insert: function () { return true; },
+    update: function () { return true; },
+    remove: function () { return true; }
+  });
   WorkItems.allow({
     insert: function () { return true; },
     update: function () { return true; },
@@ -58,7 +68,7 @@ Meteor.startup(function() {
     update: function () { return true; },
     remove: function () { return true; }
   });
-    Messages.allow({
+  Messages.allow({
     insert: function () { return true; },
     update: function () { return true; },
     remove: function () { return true; }

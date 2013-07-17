@@ -1,13 +1,11 @@
 /**
  * work-item-dialog.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
- * 
  */
 Template.wiDialog.events = {
   'click .wiDialogCancel' : function (e) {
     //todo cancel?
-
   },
   'click .wiDialogSave' : function(e) {
     // Update Collection
@@ -31,7 +29,7 @@ Template.wiDialog.events = {
   'keyup #wiAssigneeInput' : function(e) {
     if (e.keyCode == '13') {
       // update the collection
-      var user = Meteor.users.findOne({'services.github.username': e.target.value});
+      var user = Meteor.users.findOne({uniqueName: e.target.value});
       if (user != null) {
         WorkItems.update(WorkItemDialog.currentWiId, {$set: {assignee: user}});
         WorkItemDialog.renderAssignee();
@@ -66,10 +64,10 @@ WorkItemDialog = {
     $('#wiDetailsDialog input, #wiDetailsDialog textarea').val('');
   },
   getUsersTypeahead: function(value) {
-    var foundUsers = Meteor.users.find({'services.github.username': new RegExp('^' + value)}).fetch();
+    var foundUsers = Meteor.users.find({uniqueName: new RegExp('^' + value)}).fetch();
     var userArr = [];
     _.each(foundUsers, function(item) {
-      userArr = userArr.concat(item.services.github.username);
+      userArr = userArr.concat(item.uniqueName);
     });
     return userArr;
   },
@@ -121,13 +119,33 @@ WorkItemDialog = {
     $wiLabelList.find("li.add-label").append(labelsHtml);
     $wiLabelList.find("li").click(WorkItemDialog.labelClicked);
   },
+  renderStageAssigneeList: function() {
+    var i = 0;
+    var assigneeList = _.map(wi.assignee_list, function(person) {
+      return {name: person, num: i++};
+    });
+
+    // Populate this popover with the labels
+    var listHtml = Meteor.render(Template.assigneeStagesList({people: assigneeList }));
+    $assigneeWrapper = $('#assignee-stages-wrapper');
+    $assigneeWrapper.empty();
+    $assigneeWrapper.append(listHtml);
+  },
+  renderStatus: function() {
+    var statusHtml = Meteor.render(Template.wiDialogStatus({wiId: WorkItemDialog.currentWiId}));
+    $("#workitem-status-wrapper").empty();
+    $("#workitem-status-wrapper").append(statusHtml);
+    Template.wiDialogStatus.setupEvents();
+  },
   showWiDialog: function(id) {
     wi = WorkItems.findOne({_id: id});
     WorkItemDialog.currentWiId = id;
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
-    WorkItemDialog.renderAssignee();
+    WorkItemDialog.renderStageAssigneeList();
+    WorkItemDialog.renderStatus();
+    // WorkItemDialog.renderAssignee();
     $wiDialog = $("#wiDetailsDialog");
     $("#wiAssigneeInput").typeahead({
       source: function(query) {
@@ -135,10 +153,10 @@ WorkItemDialog = {
       },
       minLength: 1
     });
-    $('#wiNameDetails').val(wi.name);
-    $('#wiDescDetails').val(wi.description);
+    $('#wiNameDetails').val(wi.name).autosize();
+    $('#wiDescDetails').val(wi.description).autosize();
     $wiDialog.attr('editing-wi-id', id);
-    $wiDialog.modal().on("hidden", function() {
+    $wiDialog.modal({dynamic: true, keyboard: true}).on("hidden", function() {
       if ($("#wiDetailsDialog").css("display") === "none"){
         workboard.userStopEditingItem(id);
         WorkItemDialog.currentWiId = null;

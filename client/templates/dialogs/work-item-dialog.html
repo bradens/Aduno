@@ -1,15 +1,19 @@
 <template name="wiDialog">
-  <div class="modal hide" id="wiDetailsDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="wiDialogLabel" aria-hidden="true">
+  <div class="modal fade hide" data-toggle="modal" data-dynamic="true" id="wiDetailsDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="wiDialogLabel" aria-hidden="true">
+    <!-- <div class="wi-details-sidebar">
+      test
+    </div> -->
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="detailsTitle">Workitem Details</h3>
+      <div id="workitem-status-wrapper"></div>
     </div>
     <div class="modal-body">
     <form class="form-horizontal">
       <div class="control-group">
         <label class="control-label" for="wiNameDetails">Name: </label>
         <div class="controls">
-          <input type="text" id="wiNameDetails"></input>
+          <textarea type="text" id="wiNameDetails"></textarea>
         </div>
       </div>
       <div class="control-group">
@@ -24,14 +28,33 @@
         </div>
       </div>
       <div class="control-group wiAssignee">
-        <label class="control-label" for="wiAssigned">Assignee: </label>
-        <div class="controls">
-          <input id="wiAssigneeInput" class="typeahead" type='text' data-provide="typeahead" placeholder="Type a username...">
-          {{#if isAssigned }}
+        <label class="control-label" for="wiAssigned">Assignees: </label>
+        <div class="controls"><!-- 
+          <input id="wiAssigneeInput" class="typeahead" type='text' data-provide="typeahead" placeholder="Type a username...">-->
+          <div id="assignee-stages-wrapper"> 
+          </div>
+          <!-- <ul id="assignee-stages-list">
+            {{#each assignee_list }}
+              {{> assigneeListItem}}
+            {{/each}}
+            <li>
+              <span>Stage 1: </span>
+              <span class="label label-info">Braden Simpson</span>
+            </li>
+            <li>
+              <span>Stage 2: </span>
+              <span class="label label-warning">Jordan Ell</span>
+            </li>
+            <li>
+              <span>Stage 3: </span>
+              <span class="label label-success">Eirini Kalliamvakou</span>
+            </li>
+          </ul> -->
+          <!-- {{#if isAssigned }}
             <span class="label {{ assignee.badge }}">
               {{ getAssignee }}
             </span>
-          {{/if}}
+          {{/if}} -->
         </div>
       </div>
       <div class="control-group">
@@ -42,8 +65,8 @@
     </form>
     </div>
     <div class="modal-footer">
-      <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close without syncing</button>
-      <button class="btn btn-primary wiDialogSave">Save and Sync</button>
+      <button class="btn wiDialogCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary wiDialogSave">Save</button>
     </div>
   </div>
 </template>

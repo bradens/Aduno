@@ -1,6 +1,6 @@
 /**
  * top-nav.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  */
 Template.topNav.areServicesConfigured = function () {
@@ -15,21 +15,38 @@ Template.topNav.userLogin = function () {
     return Meteor.user()
 };
 
-
 Template.topNav.events = {
+    'keyup #repo-search-input': function(e) {
+      var value = e.target.value;
+      var user = value.substring(0, value.indexOf("/"));
+      var repo = value.substring(value.indexOf("/") + 1);
+      
+      if (e.keyCode == 13) {
+        // load the repo
+        if (user && repo) {
+          Meteor.call('loadRepo', user, repo, function() {
+            var RepoObj = Repos.findOne({name: repo, owner: user});
+            Session.set("currentRepo", RepoObj.name);
+            Session.set("currentRepoId", RepoObj._id);
+            Meteor.call('loadLabels',
+                        RepoObj.owner,
+                        RepoObj.name,
+                        workflow.labelsLoaded);
+            Meteor.call('loadIssuesWithLabels',
+                        RepoObj.owner,
+                        RepoObj.name,
+                        [],
+                        workflow.issuesLoaded);
+            Session.set("STORY_VIEW", true);
+          });
+        }
+      }
+    },
     'click li.repo-item' : function(e) {
       var RepoItem = $(e.target).closest("li.repo-item");
-      Session.set("currentRepo", RepoItem.attr('data-value'));
-      Session.set("currentRepoId", RepoItem.attr('data-repo-id'));
-      Meteor.call('loadLabels',
-                  RepoItem.attr('data-repo-owner'),
-                  RepoItem.attr('data-value'),
-                  workflow.labelsLoaded);
-      Meteor.call('loadIssuesWithLabels', 
-                  RepoItem.attr('data-repo-owner'), 
-                  RepoItem.attr('data-value'),
-                  [],
-                  workflow.issuesLoaded);
+      workflow.loadRepository(RepoItem.attr('data-value'),
+                              RepoItem.attr('data-repo-id'),
+                              RepoItem.attr('data-repo-owner'));
     },
     'click li a.logoutButton': function(){
       Meteor.logout(function() {
@@ -45,9 +62,7 @@ Template.topNav.people = function() {
     _id : {
       $ne: ""
     },
-    idle : {
-      $ne : true
-    }
+    idle : false
   }, {
     sort: {
       _id : 1
@@ -56,11 +71,15 @@ Template.topNav.people = function() {
 };
 
 Template.topNav.userCount = function() {
-  return Meteor.users.find().count();
+  return Meteor.users.find({
+    idle: false
+  }).count();
 }
 
 Template.topNav.otherUsersColor = function() {
-  if (Meteor.users.find().count() > 1) {
+  if (Meteor.users.find({
+    idle: false
+  }).count() > 1) {
     return "#e74c3c";
   } else {
     return "#f3f3f3"

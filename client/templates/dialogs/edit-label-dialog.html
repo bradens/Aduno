@@ -1,0 +1,29 @@
+<template name="editLabelDialog">
+  <div class="modal fade hide" id="editLabelDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="labelDialogLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>Edit Label</h3>
+    </div>
+    <div class="modal-body">
+    <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
+      <div class="control-group">
+        <label class="control-label" for="labelName">Name: </label>
+        <div class="controls">
+          <input disabled type="text" placeholder="Label name editing not supported." id="labelName"></input>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="label-edit-color">Color: </label>
+        <div class="controls label-color-wrapper">
+          <input id="label-edit-color" type="text" placeholder="#AA342E"></input>
+          <div class="color-block"></div>
+        </div>
+      </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn edit-label-dialog-cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary edit-label-dialog-save">Save and Synchronize</button>
+    </div>
+  </div>
+</template>

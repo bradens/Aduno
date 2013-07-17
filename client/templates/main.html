@@ -8,7 +8,7 @@
     <div class="jumbotron masthead">
       <div class="container">
         <h1><img src="/aduno-logo-white.png" alt="Aduno" /></h1>
-        <p>Open-source, real-time collaborative articulation and task creation tool that plays nice with GitHub.</p>
+        <p>Open-source, real-time collaborative articulation and task creation tool.</p>
         {{#if currentUser }}
           {{#if loggingIn }}
             <div id="loading-aduno">
@@ -24,14 +24,16 @@
         {{else}}
           {{#unless areServicesConfigured }}
             <div id="configure-aduno">
-              <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up GitHub Application Key</span></a></p>
+              <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up the application</span></a></p>
             </div>
           {{/unless}}
-        
           {{#if areServicesConfigured}}
             {{#unless userLogin}}
               <div id="user-login">
-                <p><a href="#" class="btn btn-danger btn-large" onclick="">Login in with GitHub<br /><span class="button_subtext">Fetch your repositories</span></a></p>
+                <p><a href="#" class="btn btn-danger btn-large">Login<br /><span class="button_subtext">Fetch your repositories</span></a></p>
+              </div>
+              <div id="user-create">
+                <p><a href="#" class="btn btn-warning btn-large">Create Account</a></p>
               </div>
             {{/unless}}
           {{/if}}
@@ -39,24 +41,30 @@
       </div>
     </div>
   {{/unless}}
-  
   {{#if repoID}}
     {{> workflowMenu}}
   	<div class="canvas-container well data-scroll-section" id="wb">
   	  <div class="workboard-toolbar">
         <div class="btn-toolbar">
   		    <div class="btn-group">
+            <a id="back" rel="tooltip" title="View Stories" class="btn"><i class="icon-arrow-left"></i> </a>
+          </div>
+          <div class="btn-group">
   			    <a id="synchronize" rel="tooltip" title="Synchronize All" class="btn"><i class="icon-refresh"></i> </a>
           </div>
           <div class="btn-group">
             <a id="newWorkItem" rel="tooltip" title="New Work Item" class="btn"><i class="icon-briefcase"></i><i class="icon-plus"></i> </a>
+            <a id="newStoryItem" rel="tooltip" title="New Story" class="btn"></i><i class="icon-flag"></i> <i class="icon-plus"></i> </a>
             <a id="newLabel" rel="tooltip" title="New Label" class="btn"><i class="icon-tag"></i><i class="icon-plus"></i>  </a>
-            <a id="newMilestone" rel="tooltip" title="New Milestone" class="btn"></i><i class="icon-flag"></i> <i class="icon-plus"></i> </a>
   		    </div>
   	    </div>
   	  </div>
   	  <canvas width="1000px" height="1000px" id="myCanvas">          
   	  </canvas>
+      {{#each stories}}
+        {{> story}}
+        {{ storyRedraw }}
+      {{/each}}
   	  {{#each workitems}}
   	     {{> workitem}}
   	     {{ workItemRedraw }}

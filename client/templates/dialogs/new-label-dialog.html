@@ -1,21 +1,22 @@
 <template name="newLabelDialog">
-  <div class="modal hide" id="newLabelDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="labelDialogLabel" aria-hidden="true">
+  <div class="modal fade hide" id="newLabelDialog" editing-wi-id='' tabindex="-1" role="dialog" aria-labelledby="labelDialogLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3>Edit Label</h3>
+      <h3>New Label</h3>
     </div>
     <div class="modal-body">
     <form class="form-horizontal" onkeypress="return event.keyCode != 13;">
       <div class="control-group">
         <label class="control-label" for="labelName">Name: </label>
         <div class="controls">
-          <input disabled type="text" placeholder="Type a name..." id="labelName"></input>
+          <input type="text" placeholder="Type a name..." id="labelName"></input>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="labelColor">Color: </label>
-        <div class="controls">
-          <input id="labelColor" type="text" placeholder="#AA342E"></input>
+        <label class="control-label" for="label-new-color">Color: </label>
+        <div class="controls label-color-wrapper">
+          <input id="label-new-color" placeholder="#AA342E" type="text">
+          <div class="color-block"></div>
         </div>
       </div>
     </form>

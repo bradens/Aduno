@@ -1,19 +1,21 @@
 /**
  * work-item.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Work-item template javascript.  
  */
-Template.workitem.redrawAfterUpdate = function() {
-    workboard.draw();
-};
 Template.workitem.title = function() {
   return "New WorkItem";
 }
 Template.workItemTitleEditor.events = {
-    'keyup textarea' : function(e) {
-      if (e.keyCode == 13 && !e.leftShift){
+    'keydown textarea' : function(e) {
+      $id = $(e.target).closest("#work-item-title-editor").attr('editing-id');
+      WorkItems.update($id, {$set : {
+        name: e.target.value,
+        dirty: true
+      }});
+      if (e.keyCode == 13 && !e.shiftKey){
         $(e.target).blur();
         e.stopPropagation();
         return;
@@ -25,43 +27,19 @@ Template.workItemTitleEditor.events = {
       $wie.hide();
       id = $wie.attr('editing-id');
       $id = $(e.target).closest('#work-item-title-editor').attr('editing-id');
-      WorkItems.update($id, {$set : {
-        name: e.target.value,
-        dirty: true
-      }});
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
     }
-}
-Template.workItemDescriptionEditor.events = {
-    'keyup textarea' : function(e) {
-      if (e.keyCode == 13 && !e.leftShift){
-        $(e.target).blur();
-        e.stopPropagation();
-        return;
-      }
-      $id = $(e.target).closest("#work-item-description-editor").attr('editing-id');
-      WorkItems.update($id, {$set : {
-        description: e.target.value,
-        dirty: true
-      }});
-    },
-    'blur textarea' : function(e) {
-      $wie = $("#work-item-description-editor");
-      $wie.find('textarea').val("");
-      $wie.fadeOut('fast');
-      id = $wie.attr("editing-id");
-      workboard.userStopEditingItem(id);
-    }
-}
+};
 Template.workitem.events = {
   'click .details' : function (e) {
-    id = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+    id = $(e.currentTarget).closest(".workItem").attr('data-item-id');
     WorkItemDialog.showWiDialog(id);
     // add current user to editor of WI
-    workboard.userEditingItem(id);
+    workboard.userEditingWorkItem(id);
   },
-  'click h4.workItemTitle' : function(e) {
+  'click h4.itemTitle' : function(e) {
+    // If we're linking, don't open the editor.
     if (workboard.IS_LINKING) return;
 
     // Get the position and title element
@@ -76,55 +54,30 @@ Template.workitem.events = {
       height: $target.height()
     }).show();
 
-    id = $target.closest('[data-wi-id]').attr('data-wi-id');
+    id = $target.closest('[data-item-id]').attr('data-item-id');
     $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
+    $wiEditor.find('textarea').val(WorkItems.findOne(id).name).focus().autosize().resize();
     
     // add current user to editor of WI
-    workboard.userEditingItem(id);
-    e.stopPropagation();
-  },
-  'click .description' : function(e) {
-    if (workboard.IS_LINKING) return;
-    $wiEditor = $("#work-item-description-editor");
-    $target = $(e.target);
-    pos = $(e.target).offset();
-    
-    $wiEditor.css({
-      top: pos.top,
-      left: pos.left-5,
-      width: $target.width(),
-      height: $target.height()
-    }).show();
-
-    id = $target.closest('[data-wi-id]').attr('data-wi-id');
-    $wiEditor.attr('editing-id', id);
-    $wiEditor.find('textarea').val(e.target.innerHTML).focus().autosize().resize();
-    
-    // add current user to editor of WI
-    workboard.userEditingItem(id);
+    workboard.userEditingWorkItem(id);
     e.stopPropagation();
   },
   'click .wi-sync' : function(e) {
-    var wiId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+    var wiId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
     // TODO @bradens 
     // Session.set('loading','true');
-    Meteor.call('synchronizeWorkItem', wiId);
+    Meteor.call('synchronizeWorkItem', wiId, defines.noop);
   },
   'click .wiDelete' : function (e) {
-    var wiID = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
-    // Remove the WorkItem
-    WorkItems.remove({_id: wiID});
-    // Remove the Links
-    Links.remove({parentID: wiID});
-    Links.remove({childID: wiID});
+    var siId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
+    Meteor.call("removeWorkItem", siId);
   },
   'click .linkWI' : function(e) {
     workboard.IS_LINKING = true;
-    workboard.currentLineID = $(e.currentTarget).closest(".workItem").attr("data-wi-id");
+    workboard.currentLineID = $(e.currentTarget).closest(".workItem").attr("data-item-id");
     
     // add current user to editor of WI
-    workboard.userEditingItem(workboard.currentLineID);
+    workboard.userEditingWorkItem(workboard.currentLineID);
     e.stopPropagation();
   },
   'click .workItem' : function (e) {
@@ -138,7 +91,7 @@ Template.workitem.events = {
       workboard.IS_LINKING = false;
       // finish the link;
       
-      $cId = $(e.currentTarget).closest(".workItem").attr('data-wi-id');
+      $cId = $(e.currentTarget).closest(".workItem").attr('data-item-id');
       Links.insert({
         repo_id: Session.get("currentRepoId"),
         parentID: workboard.currentLineID,
@@ -160,10 +113,4 @@ Template.workitem.events = {
       }
     });
   }
-};
-Template.workitem.usersEditing = function() {
-  return this.usersEditing;
-};
-Template.workitem.synchronizedClass = function() {
-  return (this.dirty ? "btn-warning" : "btn-success");
 };

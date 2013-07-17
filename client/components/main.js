@@ -1,6 +1,6 @@
 /**
  * main.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Main methods for the template.
@@ -14,7 +14,7 @@ Template.main.areServicesConfigured = function () {
 };
 
 Template.main.userLogin = function () {
-    return Meteor.user()
+    return Meteor.user();
 };
 
 Template.main.repoID = function () {
@@ -25,15 +25,25 @@ Template.main.rendered = function() {
   // redraw our canvas
   if (window.workboard !== undefined)
     window.workboard.draw();
+
+  // Initialize our workboard if it's here.
+  $('#myCanvas').resizable();
+
   $('.tooltip').remove(); 
   // re-init our tooltip
-  $('[rel=tooltip]').tooltip();
-  $('[rel=popover]').popover();
+  $('[rel=tooltip]').tooltip({container: "body"});
+  $('[rel=popover]').popover({container: "body"});
 }
 
 Template.main.events = {
+  'click #user-create a' : function() {
+    $("#user-create-dialog").modal();
+  },
   'click #newWorkItem' : function () {
     workboard.createNewWorkItem();
+  },
+  'click #newStoryItem': function() {
+    workboard.createNewStoryItem();
   },
   'click #newLabel' : function() {
     workflow.createLabel();
@@ -45,25 +55,25 @@ Template.main.events = {
     $('#configDialog').modal();
   },
   'click #user-login a': function() {
-    Meteor.loginWithGithub({requestPermissions: ['user', 'public_repo']});
+    $("#login-dialog").modal();
   },
   'click a.editLabelBtn' : function(e) {
     var labelname = $(e.target).closest("[data-label-name]").attr('data-label-name');
     var label = Labels.findOne({name : labelname, repo_id: Session.get("currentRepoId")});
-    $newLabel = $("#newLabelDialog");
-    $newLabel.attr("editing", "true");
-    $newLabel.attr("editing-label-id", label._id);
-    $newLabel.find("#labelColor").val(label.color);
-    $newLabel.find("#labelName").val(label.name);
-    $newLabel.modal();
+    $editedLabel = $("#editLabelDialog");
+    $editedLabel.attr("editing-label-id", label._id);
+    $editedLabel.find("#label-edit-color").val("#" + label.color);
+    workflow.labelColorEdited($(".color-block"), "#"+label.color);
+    $editedLabel.find("#labelName").val(label.name);
+    $editedLabel.modal();
     e.stopPropagation();
   },
   'click .filter-labels li:not(".nav-header")' : function(e) {
-    if (workflow.IS_EDITING_LABELS) return false;
     Meteor.call('loadIssuesWithLabels', 
-        Meteor.user().services.github.username, 
+        Meteor.user().uniqueName, 
         Session.get('currentRepo'),
-        [$(e.target).attr("data-label-name")]
+        [$(e.target).attr("data-label-name")],
+        defines.noop
     );
     if ($(e.target).attr('data-label-name') == "all") {
       Session.set("currentLabel", "all");
@@ -72,14 +82,16 @@ Template.main.events = {
       Session.set("currentLabel", $(e.target).attr('data-label-name'));
     }
   },
+  'click #back' : function() {
+    Session.set("STORY_VIEW", true);
+    Session.set("currentStoryId", null);
+  },
   'click #synchronize' : function() {
     Meteor.call(
         'synchronize', 
         Session.get("currentRepo"),
         Session.get("currentRepoId"),
-        function(e) {
-          console.log("synchronized");
-        }
+        defines.noop
     );
   },
   'keyup #usernameInput' : function (e) {
@@ -92,28 +104,51 @@ Template.main.events = {
     })
   }
 };
+Template.main.stories = function() {
+  if (Session.get("STORY_VIEW")) {
+    if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
+      return  Stories.find(
+        {
+          'labels.name': Session.get("currentLabel")
+        }, { 
+        sort: {
+          name: 1
+        }
+      });
+    } else {
+      return Stories.find({},
+      { 
+        sort: {
+          name: 1
+        }
+      });
+    }
+  }
+  else {
+    return {};
+  }
+};
 Template.main.workitems = function() {
-  if (Session.get("currentLabel") && Session.get("currentLabel") != "all") {
-    return  WorkItems.find({
-      name: {
-        $ne: ""
+  if (Session.get("currentStoryId")) {
+    if (Session.get("currentLabel") && Session.get("currentLabel") !== "all") {
+      return WorkItems.find({
+        story_id: Session.get("currentStoryId"),
+        'labels.name': Session.get("currentLabel")
       },
-      'labels.name': Session.get("currentLabel")
-    }, { 
-      sort: {
-        name: 1
-      }
-    });
-  } else {
-    return WorkItems.find({
-      name: {
-        $ne: ""
-      },
-    }, { 
-      sort: {
-        name: 1
-      }
-    });
+      { 
+        sort: {
+          name: 1
+        }
+      });
+    }
+    else {
+      return WorkItems.find({}, 
+      { 
+        sort: {
+          name: 1
+        }
+      });
+    }
   }
 };
 Template.main.links = function() {

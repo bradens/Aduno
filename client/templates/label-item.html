@@ -1,7 +1,7 @@
 <template name="labelItem">
   <li data-label-name="{{ labelName }}"  class="{{ checkLabelActive }}">
-    <a class="label-delete" rel="tooltip" title="Delete label" placement="left"><span>×</span></a>
-    <a rel="tooltip" title="Edit Label" class="editLabelBtn" placement="left"><i class="icon-pencil"> </i></a>
+    <a class="label-delete second-button workflow-item" rel="tooltip" title="Delete label" placement="left"><span>×</span></a>
+    <a rel="tooltip" title="Edit Label" class="editLabelBtn first-button workflow-item" placement="left"><i class="icon-pencil"> </i></a>
     <a data-label-name="{{ labelName }}"  data-label-id="{{ _id }}" href="#">{{ labelName }} ({{ getWorkItemCount }})</a>
   </li>
 </template>

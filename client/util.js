@@ -1,10 +1,12 @@
 /**
  * util.js
- * Aduno project (http://aduno.meteor.com)
+ * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  * 
  * Utility methods.
  */
+
+jQuery.fn.exists = function(){return this.length>0;}
 
 // returns a jQuery object suitable for setting scrollTop to
 // scroll the page, either directly for via animate()

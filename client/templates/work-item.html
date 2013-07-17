@@ -1,16 +1,14 @@
 <template name="workitem">
-  {{ redrawAfterUpdate }}
-  <div class="workItem" id="wi_{{ _id }}" data-wi-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
+  <div class="workItem" id="wi_{{ _id }}" data-item-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
     <div class="btn-toolbar">
       <div class="btn-group">
         <a class="linkWI btn btn-mini btn-success">Link</a>
         <a class="btn btn-mini btn-info details">Details</a>
       </div>
     </div>
-    <h4 class="workItemTitle">{{ name }}</h4>
+    <h4 class="itemTitle">{{ name }}</h4>
     <a class="btn btn-mini {{ synchronizedClass }} wi-sync"><i class="icon-refresh"> </i></a>
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
-    <p class="description" placeholder="Type something here">{{ description }}</p>
     <div class="editing-div">
 	    <ul class="unstyled editing-list">
 	      {{#each usersEditing }}
@@ -22,12 +20,7 @@
 </template>
 
 <template name="workItemTitleEditor">
-<div id="work-item-title-editor">
-  <textarea class="expand" id="work-item-title-input" />
-  </div>
-</template>
-<template name="workItemDescriptionEditor">
-<div id="work-item-description-editor">
-  <textarea class="expand" id="work-item-description-input" />
+  <div id="work-item-title-editor">
+    <textarea class="expand" id="work-item-title-input" />
   </div>
 </template>
