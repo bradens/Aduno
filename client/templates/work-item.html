@@ -1,12 +1,12 @@
 <template name="workitem">
-  <div class="workItem" id="wi_{{ _id }}" data-item-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
+  <div class="workItem {{ state }}" id="wi_{{ _id }}" data-item-id="{{ _id }}" style="top: {{ top }}px; left: {{ left }}px; z-index: {{zIndex}};">
     <div class="btn-toolbar">
       <div class="btn-group">
         <a class="linkWI btn btn-mini btn-success">Link</a>
         <a class="btn btn-mini btn-info details">Details</a>
       </div>
     </div>
-    <h4 class="itemTitle">{{ name }}</h4>
+    <h4 class="itemTitle"><span class="item-number">#{{ number }}</span> {{ name }}</h4>
     <a class="btn btn-mini {{ synchronizedClass }} wi-sync"><i class="icon-refresh"> </i></a>
     <a class="btn btn-mini btn-danger wiDelete">×</a> 
     <div class="editing-div">

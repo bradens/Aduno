@@ -26,6 +26,9 @@ Template.wiDialog.events = {
     WorkItemDialog.clearDetailsDialogFields();
     $('#wiDetailsDialog').modal("hide");
   },
+  'focus #wiDescDetails, keyup #wiDescDetails' : function(e) {
+    WorkItemDialog.renderSidebar(defines.PREVIEW_TITLE, WorkItemDialog.$node.find("#wiDescDetails").val());
+  },
   'keyup #wiAssigneeInput' : function(e) {
     if (e.keyCode == '13') {
       // update the collection
@@ -60,6 +63,7 @@ Template.wiLinkItem.getOtherName = function() {
 
 WorkItemDialog = {
   currentWiId: null,
+  $node: null,
   clearDetailsDialogFields: function() {
     $('#wiDetailsDialog input, #wiDetailsDialog textarea').val('');
   },
@@ -88,6 +92,18 @@ WorkItemDialog = {
   removeAssignee: function(e) {
     WorkItems.update(WorkItemDialog.currentWiId, {$set: {assignee: null}});
     WorkItemDialog.renderAssignee();
+  },
+  renderSidebar: function(title, body) {
+    if (title === undefined || body === undefined) {
+      // Just clear the sidebar
+      this.$node.find("#sidebar-title, #sidebar-body").empty();
+      return;
+    }
+    var titlefrag = Meteor.render(Template.sidebarTitle({title: title}));
+    this.$node.find("#sidebar-title").empty().append(titlefrag);
+
+    var bodyfrag = Meteor.render(Template.sidebarPreview({body: body}));
+    this.$node.find("#sidebar-body").empty().append(bodyfrag);
   },
   renderWiLabels: function() {
     var wi = WorkItems.findOne(WorkItemDialog.currentWiId);
@@ -137,16 +153,25 @@ WorkItemDialog = {
     $("#workitem-status-wrapper").append(statusHtml);
     Template.wiDialogStatus.setupEvents();
   },
+  renderWorkItemNumber: function(wi) {
+    var number = wi.number;
+    if (typeof number == typeof Number()) 
+      this.$node.find("#workitem-dialog-number").html("#" + number);
+    else
+      return;
+  },
   showWiDialog: function(id) {
-    wi = WorkItems.findOne({_id: id});
+    this.$node = $("#wiDetailsDialog");
+    wi = WorkItems.findOne(id);
     WorkItemDialog.currentWiId = id;
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderWiLinks();
     WorkItemDialog.renderLabelLists();
     WorkItemDialog.renderStageAssigneeList();
     WorkItemDialog.renderStatus();
-    // WorkItemDialog.renderAssignee();
-    $wiDialog = $("#wiDetailsDialog");
+    WorkItemDialog.renderWorkItemNumber(wi);
+    WorkItemDialog.renderSidebar(defines.PREVIEW_TITLE, this.$node.find("#wiDescDetails").val());
+    WorkItemDialog.renderAssignee();
     $("#wiAssigneeInput").typeahead({
       source: function(query) {
         this.process(WorkItemDialog.getUsersTypeahead(query));
@@ -155,21 +180,21 @@ WorkItemDialog = {
     });
     $('#wiNameDetails').val(wi.name).autosize();
     $('#wiDescDetails').val(wi.description).autosize();
-    $wiDialog.attr('editing-wi-id', id);
-    $wiDialog.modal({dynamic: true, keyboard: true}).on("hidden", function() {
-      if ($("#wiDetailsDialog").css("display") === "none"){
+    this.$node.attr('editing-wi-id', id);
+    this.$node.modal({dynamic: true, keyboard: true}).on("hidden", $.proxy(function() {
+      if (this.$node.css("display") === "none"){
         workboard.userStopEditingItem(id);
         WorkItemDialog.currentWiId = null;
       }
-    });
+    }, this));
   },
   renderAssignee: function() { 
-      $("#wiDetailsDialog .wi-assignee-item").remove();
+      this.$node.find(".wi-assignee-item").remove();
       var assignee = WorkItems.findOne(WorkItemDialog.currentWiId).assignee;
       if (assignee != null) { 
         var frag = Meteor.render(Template.dialogAssigneePerson(assignee));
-        $("#wiDetailsDialog #wiAssigneeInput").after(frag);
-        $("#wiDetailsDialog .wi-assignee-item li a.delete").click(WorkItemDialog.removeAssignee);
+        this.$node.find("#wiAssigneeInput").after(frag);
+        this.$node.find(".wi-assignee-item li a.delete").click(WorkItemDialog.removeAssignee);
       }
   },
   labelClicked: function(e) {
