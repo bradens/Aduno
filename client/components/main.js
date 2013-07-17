@@ -27,7 +27,13 @@ Template.main.rendered = function() {
     window.workboard.draw();
 
   // Initialize our workboard if it's here.
-  $('#myCanvas').resizable();
+  $('#myCanvas').resizable({
+    resize: function(event, ui) {
+      $(ui.element.context).attr('width', ui.size.width);
+      $(ui.element.context).attr('height', ui.size.height);
+      workboard.draw();
+    }
+  });
 
   $('.tooltip').remove(); 
   // re-init our tooltip

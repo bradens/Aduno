@@ -44,7 +44,7 @@ Template.workitem.events = {
 
     // Get the position and title element
     $wiEditor = $("#work-item-title-editor");
-    $target = $(e.target);
+    $target = $(e.target).closest(".itemTitle");
     pos = $target.offset();
 
     $wiEditor.css({
