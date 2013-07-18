@@ -21,6 +21,14 @@ Template.main.repoID = function () {
     return Session.get('currentRepoId')
 };
 
+Template.main.getWorkboardTitle = function() {
+  if (Session.get("STORY_VIEW") !== undefined && Session.get("currentStoryId")) {
+    return Stories.findOne(Session.get("currentStoryId")).name;
+  }
+  else
+    return null;
+};
+
 Template.main.rendered = function() {
   // redraw our canvas
   if (window.workboard !== undefined)

@@ -395,9 +395,6 @@ ul {
   .item-number {
     color: grey;
   }
-  &.closed {
-    
-  }
   .itemTitle {
     margin-top:25px;
     font-size:14px;
@@ -629,7 +626,8 @@ a.wiDelete:hover, a.wi-sync:hover {
       font-weight: bold;
       -webkit-font-smoothing: antialiased;
       cursor: text;
-      position: relative; }
+      position: relative; 
+    }
      
     h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
       background: url("../../images/modules/styleguide/para.png") no-repeat 10px center;
@@ -1068,6 +1066,11 @@ ul.tags li a.delete:hover {
 }
 
 //--------------------------- Bootstrap Overrides ---------------------------// 
+
+h3, h4 {
+  font-weight:300;
+}
+
 .btn, .modal, .badge {
   .border-radius(0) !important;
 }

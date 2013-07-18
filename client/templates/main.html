@@ -58,6 +58,11 @@
             <a id="newLabel" rel="tooltip" title="New Label" class="btn"><i class="icon-tag"></i><i class="icon-plus"></i>  </a>
   		    </div>
   	    </div>
+        {{#if getWorkboardTitle }} 
+          <h4 class="workboard-title">
+            {{ getWorkboardTitle }}
+          </h4>
+        {{/if}}
   	  </div>
   	  <canvas width="1000px" height="1000px" id="myCanvas">          
   	  </canvas>

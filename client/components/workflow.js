@@ -65,7 +65,6 @@ $(function() {
         // Clear the notification
         workflow.hideNotification();
       }
-      console.log(Session.get("loadingQueueCount"));
     };
 
     this.loading = function() {
@@ -84,7 +83,6 @@ $(function() {
           subtext: "Hang tight" 
         });
       }
-      console.log(Session.get("loadingQueueCount"));
     };
 
     // Displays a notification which is rendered as 
