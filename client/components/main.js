@@ -21,9 +21,14 @@ Template.main.repoID = function () {
     return Session.get('currentRepoId')
 };
 
+Template.main.isWorkitemView = function() {
+  return Session.get("WORKITEM_VIEW");
+};
+
 Template.main.getWorkboardTitle = function() {
-  if (Session.get("STORY_VIEW") !== undefined && Session.get("currentStoryId")) {
-    return Stories.findOne(Session.get("currentStoryId")).name;
+  var story = Stories.findOne(Session.get("currentStoryId"));
+  if (story) {
+    return story.name;  
   }
   else
     return null;
@@ -98,6 +103,7 @@ Template.main.events = {
   },
   'click #back' : function() {
     Session.set("STORY_VIEW", true);
+    Session.set("WORKITEM_VIEW", false);
     Session.set("currentStoryId", null);
   },
   'click #synchronize' : function() {

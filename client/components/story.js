@@ -24,7 +24,7 @@ Template.storyItemTitleEditor.events = {
     'blur textarea' : function(e) {
       $wie = $("#story-item-title-editor");
       var id = $wie.attr('editing-id');
-      Stories.update($id, {$set : {
+      Stories.update(id, {$set : {
         name: $wie.find("textarea").val(),
         dirty: true
       }});
@@ -84,6 +84,7 @@ Template.story.events = {
   },
   'click .explore': function(e) {
     Session.set("STORY_VIEW", false);
+    Session.set("WORKITEM_VIEW", true);
     Session.set("currentStoryId", $(e.target).closest(".storyItem").attr("data-item-id"));
   },
   'click .storyItem' : function (e) {
