@@ -23,6 +23,11 @@ Template.workItemTitleEditor.events = {
     },
     'blur textarea' : function(e) {
       $wie = $("#work-item-title-editor");
+      $id = $(e.target).closest("#work-item-title-editor").attr('editing-id');
+      WorkItems.update($id, {$set : {
+        name: $wie.find("textarea").val(),
+        dirty: true
+      }});
       $wie.find('textarea').val("");
       $wie.hide();
       id = $wie.attr('editing-id');

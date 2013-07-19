@@ -419,7 +419,7 @@ ul {
 #work-item-title-editor, #story-item-title-editor{
   textarea {
     font-size:14px;
-    font-weight:bold;
+    font-weight:300;
   }
 }
 .workItem, .storyItem {
@@ -434,7 +434,8 @@ ul {
   .item-number {
     color: grey;
   }
-  &.closed { 
+  &.closed {
+  
   }
   .itemTitle {
     margin-top:25px;
@@ -503,9 +504,15 @@ a.wiDelete:hover, a.wi-sync:hover {
 .workboard-toolbar {
 	margin-bottom:10px;
   height: 40px;
+  display:inline-block;
+  margin-right:20px;
   .btn-toolbar {
     padding: 5px 0 0 10px;
   }
+}
+.workboard-title {
+  display:inline-block;
+  vertical-align: middle;
 }
 .canvas-container {
   margin:40px 0 0 0;
@@ -660,7 +667,8 @@ a.wiDelete:hover, a.wi-sync:hover {
       font-weight: bold;
       -webkit-font-smoothing: antialiased;
       cursor: text;
-      position: relative; }
+      position: relative; 
+    }
      
     h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
       background: url("../../images/modules/styleguide/para.png") no-repeat 10px center;
@@ -1092,6 +1100,11 @@ ul.tags li a.delete:hover {
 }
 
 //--------------------------- Bootstrap Overrides ---------------------------// 
+
+h3, h4 {
+  font-weight:300;
+}
+
 .btn, .modal, .badge {
   .border-radius(0) !important;
 }

@@ -23,10 +23,14 @@ Template.storyItemTitleEditor.events = {
     },
     'blur textarea' : function(e) {
       $wie = $("#story-item-title-editor");
+      var id = $wie.attr('editing-id');
+      Stories.update(id, {$set : {
+        name: $wie.find("textarea").val(),
+        dirty: true
+      }});
       $wie.find('textarea').val("");
       $wie.hide();
       id = $wie.attr('editing-id');
-      $id = $(e.target).closest('#story-item-title-editor').attr('editing-id');
       // add current user to editor of WI
       workboard.userStopEditingItem(id);
     }
@@ -80,6 +84,7 @@ Template.story.events = {
   },
   'click .explore': function(e) {
     Session.set("STORY_VIEW", false);
+    Session.set("WORKITEM_VIEW", true);
     Session.set("currentStoryId", $(e.target).closest(".storyItem").attr("data-item-id"));
   },
   'click .storyItem' : function (e) {

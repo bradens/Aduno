@@ -38,6 +38,7 @@ Template.topNav.events = {
                         [],
                         workflow.issuesLoaded);
             Session.set("STORY_VIEW", true);
+            Session.set("WORKITEM_VIEW", false);
           });
         }
       }

@@ -12,6 +12,7 @@ Template.storyListItem.events = {
 Template.tabStories.events = {
 	'click a.dangling-stories-btn' : function(e) {
 		Session.set("STORY_VIEW", false);
+		Session.set("WORKITEM_VIEW", true);
 		Session.set("currentStoryId", defines.DANGLING_WORKITEMS_STORY_ID);
 	}
 };
