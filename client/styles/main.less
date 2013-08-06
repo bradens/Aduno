@@ -20,7 +20,7 @@
 	position:absolute;
 	top:0;
 	left:0;
-}
+}background: #1AC7BA;
 .abspos-right {
 	position:absolute;
 	top:0;
@@ -79,10 +79,10 @@ body {
   color: #333;
 }
 ul {
+  margin:0;
   li {
     list-style-type:none;
   }
-  margin:0;
 }
 
 //--------------------------- Banner ---------------------------// 
@@ -276,7 +276,7 @@ ul {
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
-  padding: 100px 0 50px 0;
+  padding: 50px 0 80px 0;
   margin-bottom: 0;
   color: #fff;
 }
@@ -311,12 +311,43 @@ ul {
 }
 
 .button_subtext {
-  font-size: 12px;
+  font-size: 18px;
   color: #ccc;
+  text-shadow: none;
 }
 
 #user-create {
   display:none;
+}
+
+.github-login {
+  background: linear-gradient(#C4EBF1, #7CD1DD) !important;
+  box-shadow: inset 0px 1px rgba(255, 255, 255, 0.4) !important;
+  text-transform: uppercase;
+  font-weight: 600 !important;
+  border: 1px solid #787979 !important;
+  width: 250px;
+  padding-left: 15px !important;
+  border-radius: 4px !important;
+  span {
+    font-size: 18px;
+    margin: 0 0 0 10px;
+  }
+  .button_subtext {
+    color: #156571;
+    text-shadow: 0px 1px #B2E4EB;
+  }
+  &:hover {
+    background: linear-gradient(#CEEBF0, #9AC7CE) !important;
+  }
+}
+
+//--------------------------- Select Repo Page ---------------------------//
+
+#select-repo {
+  float: right;
+  margin: 40px 20px;
+  width: 315px;;
 }
 
 //--------------------------- Chat ---------------------------//
@@ -392,8 +423,19 @@ ul {
   }
 }
 .workItem, .storyItem {
+  .abspos-left;
+  .unselectable;
+  overflow: hidden;
+  .border-radius(0);
+  border: thin solid lightgrey;
+  background-color: #edeff1;
+  width: 215px;
+  padding: 1px 5px;
   .item-number {
     color: grey;
+  }
+  &.closed {
+  
   }
   .itemTitle {
     margin-top:25px;
@@ -429,14 +471,6 @@ ul {
       }
     }
   }
-	.abspos-left;
-  .unselectable;
-  overflow: hidden;
-  .border-radius(0);
-  border: thin solid lightgrey;
-  background-color: #edeff1;
-  width: 215px;
-  padding: 1px 5px;
 }
 .workItem:hover .btn-toolbar, .storyItem:hover .btn-toolbar {
   opacity:1;  
@@ -465,6 +499,7 @@ a.wi-sync {
 a.wiDelete:hover, a.wi-sync:hover {
   opacity:1;
 }
+
 //--------------------------- Workboard ---------------------------// 
 .workboard-toolbar {
 	margin-bottom:10px;
@@ -986,13 +1021,6 @@ ul.tags li a.delete:hover {
   }
   .github-label {
     padding-top:25px;
-  }
-  .github-login {
-    width:180px;
-    span {
-      font-size:14px;
-      color:#EEE;
-    }
   }
 } 
 

@@ -53,8 +53,37 @@ Template.main.rendered = function() {
   $('[rel=tooltip]').tooltip({container: "body"});
   $('[rel=popover]').popover({container: "body"});
 }
+/*
+Template.main.login = function() {
+    // Update Collection
+    $dlg = $("#login-dialog");
+
+    var user = $dlg.find("#login-username").val(),
+        pass = $dlg.find("#login-password").val();
+
+    Meteor.loginWithPassword(user, pass, function(res) {
+      console.log(res);
+    });
+    $('#login-dialog input').val("");
+    $dlg.modal("hide");
+}
+*/
 
 Template.main.events = {
+    'click .github-login' : function() { 
+      Meteor.loginWithGithub({requestPermissions: ['user', 'public_repo']});
+    },
+
+    /*,
+    'click .login-dialog-login' : function() {
+      Template.main.login();
+    },
+    'keyup form' : function(e) {
+      if (e.keyCode == 13) {
+        Template.main.login();
+      }
+    }*/
+
   'click #user-create a' : function() {
     $("#user-create-dialog").modal();
   },

@@ -4,38 +4,33 @@
       <span>Loading...</span>
     </div> 
   {{/if}}
-  {{#unless repoID}}
+  {{#unless userLogin}}
     <div class="jumbotron masthead">
       <div class="container">
         <h1><img src="/aduno-logo-white.png" alt="Aduno" /></h1>
-        <p>Open-source, real-time collaborative articulation and task creation tool.</p>
-        {{#if currentUser }}
+        <p>Real-time collaborative task management</p>
+        {{#if areServicesConfigured}}
+          <!--
+          <div id="user-login">
+            <p><a href="#" class="btn btn-danger btn-large">Login<br /><span class="button_subtext">Fetch your repositories</span></a></p>
+          </div>
+          <div id="user-create">
+            <p><a href="#" class="btn btn-warning btn-large">Create Account</a></p>
+          </div>
+          -->
+          <a href="#" class="github-login btn btn-full btn-large">
+            <img src="github_icon.png" width="40px"></img>
+            <span class='button_subtext'>Login with GitHub</span>
+          </a>
+        {{else}}
           {{#if loggingIn }}
             <div id="loading-aduno">
               <p><a href="#" class="btn btn-success btn-large" onclick="">Loading <br /><span class="button_subtext">Getting user information from GitHub</span></a></p>
             </div>
           {{else}}
-            {{#unless repoID}}
-              <div id="select-repo">
-                <p><a href="#" class="btn btn-inverse btn-large" onclick="">Select a repository<br /><span class="button_subtext">Show issues on the workboard</span></a></p>
-              </div>
-            {{/unless}}
-          {{/if}}
-        {{else}}
-          {{#unless areServicesConfigured }}
             <div id="configure-aduno">
               <p><a href="#" class="btn btn-danger btn-large" onclick="">Aduno Admin Configuration<br /><span class="button_subtext">Set up the application</span></a></p>
             </div>
-          {{/unless}}
-          {{#if areServicesConfigured}}
-            {{#unless userLogin}}
-              <div id="user-login">
-                <p><a href="#" class="btn btn-danger btn-large">Login<br /><span class="button_subtext">Fetch your repositories</span></a></p>
-              </div>
-              <div id="user-create">
-                <p><a href="#" class="btn btn-warning btn-large">Create Account</a></p>
-              </div>
-            {{/unless}}
           {{/if}}
         {{/if}}
       </div>
@@ -77,9 +72,15 @@
   	     {{ workItemRedraw }}
   	  {{/each}}
   	</div>
- {{/if}}
+  {{else}}
+    {{#if userLogin}}
+      <div id="select-repo">
+        Select a repo ^^^
+      </div>
+    {{/if}}
+  {{/if}}
 
-  {{#unless repoID}}
+  {{#unless userLogin}}
     {{> about}}
   {{/unless}}
 </template>
