@@ -27,7 +27,7 @@
                 <li><span class="loadingUser">Loading</span></li>
               {{else}}
                 {{#if currentUser}}
-                  <li class="dropdown">
+                  <li class="dropdown" id="repo-select-dd-wrapper">
                     <a href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       {{#each currentRepos }}

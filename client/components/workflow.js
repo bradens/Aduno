@@ -25,13 +25,18 @@ $(function() {
       if (Meteor.user())
         Meteor.call('keepalive', Meteor.user()._id);
       
-      Meteor.call('authenticated', Meteor.user()._id);
-      Meteor.methods({
-        authenticatedCallback: function() {
-          Session.set("user_id", Meteor.user()._id);
-        }
-      });
+      Meteor.call('authenticated', Meteor.user()._id, this.authenticatedCallback);
     };
+    this.authenticatedCallback = function() {
+      Session.set("user_id", Meteor.user()._id);
+      // Initialize the help popover 
+      if (Session.get("currentRepoId") === undefined || Session.get("currentRepoId") === null) {
+        $("#repo-select-dd-wrapper").popover({
+          content: "Select a repository to begin",
+          placement: "bottom"
+        }).popover('show');
+      } 
+    }
     this.createLabel = function() {
       $("#newLabelDialog").attr("editing", "false");
       $("#newLabelDialog input").val("");

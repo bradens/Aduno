@@ -46,7 +46,7 @@ Template.main.rendered = function() {
       $(ui.element.context).attr('height', ui.size.height);
       workboard.draw();
     }
-  });
+  });  
 
   $('.tooltip').remove(); 
   // re-init our tooltip
@@ -74,7 +74,7 @@ Template.main.events = {
       Meteor.loginWithGithub({requestPermissions: ['user', 'public_repo']});
     },
 
-    /*,
+    /*
     'click .login-dialog-login' : function() {
       Template.main.login();
     },

@@ -345,9 +345,15 @@ ul {
 //--------------------------- Select Repo Page ---------------------------//
 
 #select-repo {
-  float: right;
-  margin: 40px 20px;
-  width: 315px;;
+  width:500px;
+  margin:15% auto;
+  text-align: center;
+  img {
+    opacity:.2;
+  }
+  h3, span {
+    opacity: .5;
+  }
 }
 
 //--------------------------- Chat ---------------------------//
@@ -1191,6 +1197,16 @@ input[type="color"]:focus,
   z-index:1080;
   white-space:nowrap;
 }
+
+.popover {
+  opacity:.8;
+  color:white;
+  background-color:black;
+  .arrow:after {
+    border-bottom-color:black !important;
+  }
+}
+
 .navbar .btn-navbar {
   float:left;
 }
