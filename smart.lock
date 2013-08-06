@@ -7,7 +7,8 @@
   "dependencies": {
     "basePackages": {
       "github": {},
-      "jqbootstrapvalidation": {}
+      "jqbootstrapvalidation": {},
+      "font-awesome": {}
     },
     "packages": {
       "github": {
@@ -19,6 +20,11 @@
         "git": "https://github.com/nate-strauser/meteor-jqbootstrapvalidation.git",
         "tag": "v0.1.0",
         "commit": "2af4625d41a9b24311544a53790f14fa38c27b10"
+      },
+      "font-awesome": {
+        "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
+        "tag": "v3.2.0",
+        "commit": "2cba6f907a2579cae2d399b522f9544c13d5e091"
       }
     }
   }

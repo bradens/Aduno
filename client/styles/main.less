@@ -3,7 +3,6 @@
  * Aduno project (http://aduno.braden.in)
  * @author Braden Simpson (@bradensimpson)
  */
-
 //--------------------------- Mixins ---------------------------// 
 
 .border-radius (@radius) {
@@ -19,8 +18,8 @@
 .abspos-left {
 	position:absolute;
 	top:0;
-	left:0;
-}background: #1AC7BA;
+  left:0;
+}
 .abspos-right {
 	position:absolute;
 	top:0;
@@ -133,12 +132,12 @@ ul {
   color: @orange;
   text-shadow: 0 1px 0 white;
 }
-.logo-nav{
-  background: url('/aduno-logo-nav.png');
-}
 
 #aduno-logo {
   cursor:pointer;
+  img {
+    height:40px;
+  }
 }
 
 .mainBanner {
@@ -152,22 +151,29 @@ ul {
   margin-right:50px;
   min-width:660px;
 }
-.navbar .nav > li > a.btn {
-  float: none;
-  padding: 4px 15px;
-  text-decoration: none;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  display: inline-block;
-  margin-left: 15px;
-  vertical-align: baseline;
-}
-
-.navbar-inner {
-  border: 0;
-}
-
 #navbar {
   border-bottom: 1px solid #AAA;
+  .navbar-inner {
+    border:none;
+    // background-color: @orange;
+    // background-image: -moz-linear-gradient(top, @orange, darken(@orange, 10));
+    // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@orange), to(darken(@orange, 10)));
+    // background-image: -webkit-linear-gradient(top, @orange, darken(@orange, 10));
+    // background-image: -o-linear-gradient(top, @orange, darken(@orange, 10));
+    // background-image: linear-gradient(to bottom, @orange, darken(@orange, 10));
+    // background-repeat: repeat-x;
+    .nav > li {
+      a.btn {
+        float: none;
+        padding: 4px 15px;
+        text-decoration: none;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        display: inline-block;
+        margin-left: 15px;
+        vertical-align: baseline;
+      }
+    } 
+  }  
 }
 
 #user-count {
@@ -946,7 +952,7 @@ a.wiDelete:hover, a.wi-sync:hover {
     padding: 5px 5px;
   }
   .modal-body { 
-    max-height: 600px;
+    max-height: 500px;
   }
   #wiDescDetails {
     min-height:90px;
@@ -1099,6 +1105,7 @@ ul.tags li a.delete:hover {
     border-bottom: 1px solid #E74C3C;
     a {
       border: 0;
+      color: inherit;
       line-height: 30px;
       padding: 5px 15px;
     }
@@ -1143,7 +1150,6 @@ ul li.dropdown:hover ul.dropdown-menu{
 	background-image: -o-linear-gradient(top, @orange, @darkorange);
   background-image: -ms-linear-gradient(top, @orange, @darkorange);
   background-image: linear-gradient(to bottom, @orange, @darkorange);
-  /*background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);*/
   background-repeat: repeat-x;
 }
 
@@ -1215,7 +1221,4 @@ input[type="color"]:focus,
 }
 .nav {
   margin-bottom: 2px;
-}
-.icon-white, .nav-tabs > .active > a > [class^="icon-"], .nav-tabs > .active > a > [class*=" icon-"], .nav-pills > .active > a > [class^="icon-"], .nav-pills > .active > a > [class*=" icon-"], .nav-list > .active > a > [class^="icon-"], .nav-list > .active > a > [class*=" icon-"], .navbar-inverse .nav > .active > a > [class^="icon-"], .navbar-inverse .nav > .active > a > [class*=" icon-"], .dropdown-menu > li > a:hover > [class^="icon-"], .dropdown-menu > li > a:hover > [class*=" icon-"], .dropdown-menu > .active > a > [class^="icon-"], .dropdown-menu > .active > a > [class*=" icon-"] {
-	background-image: url("/packages/bootstrap/img/glyphicons-halflings-white.png");
 }

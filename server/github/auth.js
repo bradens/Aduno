@@ -16,7 +16,6 @@ Meteor.methods({
       token: user.services.github.accessToken
     });
     Meteor.call('loadRepos', user_id);
-    Meteor.call("authenticatedCallback");
   },
 
   loadAuth: function() {

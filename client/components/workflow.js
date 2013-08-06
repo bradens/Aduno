@@ -24,11 +24,6 @@ $(function() {
       this.IS_LOGGED_IN = true;
       if (Meteor.user())
         Meteor.call('keepalive', Meteor.user()._id);
-      
-      Meteor.call('authenticated', Meteor.user()._id, this.authenticatedCallback);
-    };
-    this.authenticatedCallback = function() {
-      Session.set("user_id", Meteor.user()._id);
       // Initialize the help popover 
       if (Session.get("currentRepoId") === undefined || Session.get("currentRepoId") === null) {
         $("#repo-select-dd-wrapper").popover({
@@ -36,6 +31,10 @@ $(function() {
           placement: "bottom"
         }).popover('show');
       } 
+      Meteor.call('authenticated', Meteor.user()._id, this.authenticatedCallback);
+    };
+    this.authenticatedCallback = function() {
+      Session.set("user_id", Meteor.user()._id);
     }
     this.createLabel = function() {
       $("#newLabelDialog").attr("editing", "false");
