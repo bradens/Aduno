@@ -13,6 +13,34 @@ Meteor.methods({
   closeWorkItem: function(workItemId) {
     WorkItems.update(workItemId, {$set: {dirty: true, state: defines.WI_CLOSED_STATE}});
   },
+  extractLinksFromWorkItem: function(workItemId) {
+    extractLinks = function(item) {
+      linkRegexp = /#\S*/g;
+      links = []
+      if ((desclinks = item.description.match(linkRegexp)) !== null)
+        links = links.concat(desclinks);
+      if ((namelinks = item.name.match(linkRegexp)) !== null)
+        links = links.concat(namelinks);    
+      return links
+    }
+    createLinks = function(links, item) {
+      _.each(links, function(link) {
+
+        wi = WorkItems.findOne({repo_id: item.repo_id, number: parseInt(link.substr(1))})
+        if (wi === undefined || !wi) return;
+        parms = {
+          repo_id: item.repo_id,
+          parentID: item._id,
+          childID: wi._id 
+        }
+        if (Links.find(parms).count() === 0) {
+          Links.insert(parms)
+        }
+      });
+    }
+    item = WorkItems.findOne(workItemId);
+    createLinks(extractLinks(item), item);
+  },
   // TODO @bradens need to embed the links into the workitems
   // SynchronizeWorkitem
   synchronizeWorkItem: function(workItemId) {
@@ -30,6 +58,8 @@ Meteor.methods({
       }
       labels.push(aLabel.name);
     });
+
+    Meteor.call("extractLinksFromWorkItem", workItemId);
 
     parms = {
       user: username,
@@ -206,6 +236,7 @@ Meteor.methods({
           number: item.number,
           repo_id: repoObj._id
         });
+        var workItemId;
         if (!wi) {
           // TODO @braden 
           // Somehow position these in a way that makes sense.  
@@ -240,7 +271,7 @@ Meteor.methods({
           else {
             milestone = defines.DANGLING_WORKITEMS_STORY_ID;
           }
-          WorkItems.insert({
+          workItemId = WorkItems.insert({
             state: item.state,
             story_id: milestone,
             name : item.title,
@@ -256,6 +287,7 @@ Meteor.methods({
         }
         else {
           // There is a work item here already
+          workItemId = wi._id;
           if (wi.dirty) {
             // it's dirty then it means someone on github updated theirs without us getting a pull.
             // Need to figure out a merge strategy, but in the mean time keep ours.  
@@ -291,6 +323,7 @@ Meteor.methods({
             });
           }
         }
+        Meteor.call("extractLinksFromWorkItem", workItemId);
       });
     }).run();
   }

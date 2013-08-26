@@ -15,6 +15,7 @@ Template.workItemTitleEditor.events = {
         name: e.target.value,
         dirty: true
       }});
+      Meteor.call("extractLinksFromWorkItem", $id);
       if (e.keyCode == 13 && !e.shiftKey){
         $(e.target).blur();
         e.stopPropagation();
