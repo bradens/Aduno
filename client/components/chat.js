@@ -8,16 +8,16 @@ Template.chatEntry.events = {
 };
 Template.chat.events = {
   'click #chat-header' : function(e) {
-    if (Session.get("CHAT_HEADER_OPEN")) {
-      Session.set("CHAT_HEADER_OPEN", false);
+    if (Session.get("CHAT_HEADER_CLOSED")) {
+      Session.set("CHAT_HEADER_CLOSED", false);
     }
     else {
-      Session.set("CHAT_HEADER_OPEN", true); 
+      Session.set("CHAT_HEADER_CLOSED", true); 
     }
   }
 }
-Template.chat.isOpen = function() {
-  return (Session.get("CHAT_HEADER_OPEN") ? "" : "chat-closed");
+Template.chat.isClosed = function() {
+  return (Session.get("CHAT_HEADER_CLOSED") ? "chat-closed" : "");
 }
 Template.chat.messages = function () {
     // fetch array of all the items
