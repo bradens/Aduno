@@ -1,0 +1,12 @@
+<template name="NotificationDropdownItem">
+  <li>
+    <span class="notification-title">
+      {{{getType}}}
+    </span>
+    {{#if this.unread }}
+      <span><a id="mark-as-read">Mark as read</a></span>
+    {{/if}}
+    <p class='body'> {{ body }} </p>
+    <span class="notification-date"> {{{ getDate }}}</span>
+  </li>
+</template>

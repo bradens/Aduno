@@ -15,7 +15,30 @@ Template.topNav.userLogin = function () {
     return Meteor.user()
 };
 
+/**
+ * NOTIFICATIONS 
+ */
+Template.topNav.notifications = function() {
+  return Notifications.find({unread: true});
+}
+Template.topNav.hasNotifications = function() {
+  return (Notifications.find({unread: true}).count() > 0);
+}
+Template.topNav.notificationCount = function() {
+  return Notifications.find({unread: true}).count();
+}
+Template.topNav.preserve(['.notifications-dd-menu']);
+
 Template.topNav.events = {
+    'click #view-notifications, click #notifications-dd-btn': function(e, t) {
+      var $drawer = $("#notifications-drawer");
+      Session.set("VIEWING_NOTIFICATIONS", !!!Session.get("VIEWING_NOTIFICATIONS"));
+      $drawer.stop().animate({
+        right: parseInt($drawer.css('right'),10) == (-1 * $drawer.outerWidth()) ?
+          0 :
+          (-1 * $drawer.outerWidth())
+      });
+    },
     'keyup #repo-search-input': function(e) {
       var value = e.target.value;
       var user = value.substring(0, value.indexOf("/"));

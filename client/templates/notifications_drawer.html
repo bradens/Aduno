@@ -1,0 +1,24 @@
+<template name="NotificationsDrawer">
+  <div id="notifications-drawer" style="right: -471px;">
+    <div class="row-fluid">
+      <div class="span8">
+        <h2>Notifications</h2>
+      </div>
+      <div class="span4">
+        <a class="hide-notifications btn pull-right">Hide</a>
+      </div>
+    </div>
+    <h3>Unread</h3>
+    <ul class="unread-nots">
+      {{# each unread }}
+        <li class="notification">
+          <span class="title">Title</span>
+          <p>this is the body</p>
+        </li>
+      {{/each}}
+    </ul>
+    <h3>Read</h3>
+    <ul class="read-nots">
+    </ul>
+  </div>
+</template>

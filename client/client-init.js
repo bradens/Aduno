@@ -87,6 +87,7 @@ Meteor.startup(function() {
   Meteor.autosubscribe(function() {
     Meteor.subscribe('workitems', Session.get("currentStoryId"), Session.get("currentRepoId"));
     Meteor.subscribe('users');
+    Meteor.subscribe('notifications');
     Meteor.subscribe('stories', Session.get("currentRepoId"))
     Meteor.subscribe('links', Session.get("currentRepoId"));
     Meteor.subscribe('storylinks', Session.get("currentRepoId"));

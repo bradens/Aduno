@@ -100,7 +100,7 @@ $(function() {
     //   subtext: String   
     // }
     this.showNotification = function(params) {
-      if (defines.notificationTypes.indexOf(params.type) === -1) {
+      if (defines.LOADING_TYPES.indexOf(params.type) === -1) {
         console.log("ERROR: Wrong notification type");
         return;
       }

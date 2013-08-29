@@ -72,15 +72,23 @@ a:hover {
 }
 
 //--------------------------- Main Styles ---------------------------// 
-
-body {
-  background-color: #f5f5f5;
-  color: #333;
-}
-ul {
-  margin:0;
-  li {
-    list-style-type:none;
+html {
+  overflow-x: hidden;
+  max-width:100%;
+  min-height:100%;
+  body {
+    background-color: #f5f5f5;
+    color: #333;
+    overflow-x: hidden;
+    max-width:100%;
+    min-height:100%;
+    position:relative;
+  }
+  ul {
+    margin:0;
+    li {
+      list-style-type:none;
+    }
   }
 }
 
@@ -152,16 +160,12 @@ ul {
   min-width:660px;
 }
 #navbar {
+  [class*=icon-] {
+    font-size: 120%;
+  }
   border-bottom: 1px solid #AAA;
   .navbar-inner {
     border:none;
-    // background-color: @orange;
-    // background-image: -moz-linear-gradient(top, @orange, darken(@orange, 10));
-    // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@orange), to(darken(@orange, 10)));
-    // background-image: -webkit-linear-gradient(top, @orange, darken(@orange, 10));
-    // background-image: -o-linear-gradient(top, @orange, darken(@orange, 10));
-    // background-image: linear-gradient(to bottom, @orange, darken(@orange, 10));
-    // background-repeat: repeat-x;
     .nav > li {
       a.btn {
         float: none;
@@ -173,7 +177,93 @@ ul {
         vertical-align: baseline;
       }
     } 
-  }  
+  }
+  #notifications-dd-wrapper {
+    .dropdown-toggle {
+      .notification-count-wrapper {
+        position:relative;
+        .notification-count {
+          text-shadow: none;
+          position: absolute;
+          right: 0;
+          bottom: -7px;
+          background-color: red;
+          padding: 0px 3px;
+          .border-radius(10px);
+          color: #eee;
+          font-size: 13px;
+          line-height: 1em;
+          font-weight: bold;
+        }
+      }
+    }
+    .notifications-dd-menu {
+      width: 400px;
+      padding:0;
+      .caught-up {
+        padding:5px;
+        text-align:center;
+        color:gray;
+      }
+      li {
+        min-height:55px;
+        padding:5px;
+        position:relative;
+        opacity:.7;
+        .transition-all(.25s);
+        &:hover {
+          background-color: fade(@darkblue, 10%) !important;
+          opacity:1;
+        }
+        &:nth-child(2n) {
+          background-color: rgba(0,0,0,.02);
+          border-top: 1px solid lightgrey;
+          border-bottom: 1px solid lightgrey;
+        }
+        &:nth-child(2n+1) {
+          border-top:1px solid white;
+          border-bottom:1px solid white;
+        }
+        &:last-child {
+          border-bottom:none;
+        }
+        & .repo {
+          display:block;
+          position:absolute;
+          top:5px;
+          right:5px;
+        }
+        & #mark-as-read {
+          width:80px;
+          text-align:center;
+          display:inline-block;
+          font-size:75%;
+          position:absolute;
+          bottom:15px;
+          right:5px;
+        }
+        & .notification-title {
+          font-weight:bold;
+          a {
+            color:inherit !important;
+          }
+        }
+        & .notification-date {
+          font-size:75%;
+          position:absolute;
+          bottom:0;
+          right:5px;
+        }
+        & .body {
+          font-size:90%;
+          margin:0;
+          width:300px;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+      }
+    }  
+  }
 }
 
 #user-count {
@@ -359,6 +449,33 @@ ul {
   }
   h3, span {
     opacity: .5;
+  }
+}
+
+//--------------------------- Notifications Drawer ---------------------------//
+@drawer-width : 450px;
+#notifications-drawer {
+  height:100%;
+  width:@drawer-width;
+  position:absolute;
+  right:-@drawer-width;
+  top:0;
+  padding:0 10px;
+  z-index: 999999;
+  background-color: whitesmoke;
+  border-left: thin solid lightgrey;
+  .hide-notifications {
+    margin-top:15px;
+  }
+  .notification {
+    background-color: rgba(255,255,255,.5);
+    border: 1px solid lightgrey;
+    border-right: solid 1px darken(lightgrey, 10);
+    border-bottom: solid 1px darken(lightgrey, 10);
+    box-shadow: 1px 1px 2px 0px lightgrey;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    padding: 10px;
   }
 }
 
@@ -1117,7 +1234,9 @@ ul.tags li a.delete:hover {
 h3, h4 {
   font-weight:300;
 }
-
+a {
+  cursor:pointer;
+}
 .form-horizontal {
   label.control-label {
     margin-left:10px;
@@ -1130,7 +1249,7 @@ h3, h4 {
   }
 }
 
-.btn, .modal, .badge {
+.btn, .modal {
   .border-radius(0) !important;
 }
 
@@ -1148,7 +1267,7 @@ a:focus, .btn:focus{
   visibility: hidden;
   opacity:0;
   .transition-all(.25s);
-  z-index:1051;
+  z-index:9999; /* For some reason this was being overriden by the canvas occaisonally */ 
 }
 ul li.dropdown:hover ul.dropdown-menu{
   visibility: visible;

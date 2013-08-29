@@ -13,22 +13,33 @@
                   <input type="text" rel='tooltip' title="Find a repository<br>For example. 'bradens/aduno'" placeholder="bradens/Aduno" id="repo-search-input" />
                 </div>
               </li>
-              {{#if getRepoID}}
-                <li class="dropdown">
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span id="user-count" style="border-left: 15px solid {{ otherUsersColor }};">{{ userCount }}</span> Current Users<span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    {{#each people }}
-                      {{> person }}
-                    {{/each}}
-                  </ul>
-                </li>
-              {{/if}}
               {{#if loggingIn }}
                 <li><span class="loadingUser">Loading</span></li>
               {{else}}
                 {{#if currentUser}}
+                  <li class="dropdown" id="notifications-dd-wrapper">
+                    <a id="notifications-dd-btn" class="dropdown-toggle" href="#">
+                    <span class="notification-count-wrapper"><i class="icon-flag"></i>
+                      {{#if hasNotifications}}
+                        <span class="notification-count"> {{{ notificationCount }}}</span>
+                      {{/if}}
+                    </span>
+                    </span>Notifications <span class="caret"></span></a>
+                    <ul class="notifications-dd-menu dropdown-menu">
+                      {{#if hasNotifications }}
+                        {{#each notifications}}
+                          {{> NotificationDropdownItem }}
+                        {{/each}}
+                      {{else}}
+                        <div class="caught-up">
+                          <h3><i class='icon-thumbs-up'></i> You're all caught up!</h3>
+                          <a id="view-notifications" class="btn">All notifications</a>
+                        </div>
+                      {{/if}}
+                    </ul>
+                  </li>
                   <li class="dropdown" id="repo-select-dd-wrapper">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
+                    <a class="dropdown-toggle" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       {{#each currentRepos }}
                         {{> currentRepo }}

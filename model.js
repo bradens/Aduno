@@ -15,11 +15,19 @@ this.ActiveUsers = new Meteor.Collection("activeusers");
 this.Issues = new Meteor.Collection("issues");
 this.Labels = new Meteor.Collection("labels");
 this.Messages = new Meteor.Collection("messages");
+this.Notifications = new Meteor.Collection("notifications");
 this.Stories = new Meteor.Collection("stories");
 
 // Publishing our collections
 if (Meteor.is_server)
 {
+    Meteor.publish("notifications", function(userId) {
+      return Notifications.find({
+        $query: {user_id: userId},
+        $sort: {created: 1},
+        $limit: 10
+      });
+    });
     Meteor.publish('workitems', function(storyId, repoId) {
       return WorkItems.find({
         story_id: storyId,
