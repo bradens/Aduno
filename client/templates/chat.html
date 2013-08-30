@@ -2,7 +2,7 @@
   <a id="chat-header" rel="tooltip" data-original-title="Click to toggle chat." class="nav-header">Chat</a>
   <div id="chat-content" class="{{{isClosed}}}">      
     {{#each messages}}
-      <div class="chat-message"><strong>{{ name }}</strong>: {{message}}</div>
+      <div class="chat-message"><strong>{{ name }} (<span class="username">{{getUniqueName}}</span>)</strong>: {{message}}</div>
     {{/each}}
   </div>
 </template>

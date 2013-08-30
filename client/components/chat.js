@@ -6,7 +6,8 @@ Template.chatEntry.events = {
             repo_id: Session.get('currentRepoId'), 
             name:Meteor.user().profile.name, 
             user_id: Meteor.user()._id,
-            message: val, 
+            message: val,
+            uniqueName: Meteor.user().uniqueName,
             at: new Date()
           });
           _.each(ParseMentions(val), function(item) {
@@ -41,6 +42,14 @@ Template.chat.events = {
       Session.set("CHAT_HEADER_CLOSED", true); 
     }
   }
+}
+Template.chat.getUniqueName = function() {
+  if (this.uniqueName)
+    return this.uniqueName
+  else if (this.fromId)
+    return Meteor.users.findOne(this.fromId).uniqueName;
+  else
+    return "upgrade";
 }
 Template.chat.isClosed = function() {
   return (Session.get("CHAT_HEADER_CLOSED") ? "chat-closed" : "");
