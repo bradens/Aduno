@@ -8,15 +8,7 @@ Template.NotificationDropdownItem.repo = function() {
   return Repos.findOne(this.repo_id).name;
 }
 Template.NotificationDropdownItem.getType = function() {
-  switch(this.type) {
-    case defines.NOTIFICATION_TYPES.CHAT_MENTION:
-      var frag = Meteor.render(Template.NotificationTitleMention({
-        source: this.sourceId,
-        fromUser: Meteor.users.findOne(this.fromId),
-        repo: Repos.findOne(this.repo_id)
-      }));
-      return frag.firstElementChild.innerHTML;
-  }
+  return NotificationsController.getTypeTitle(this);
 }
 Template.NotificationDropdownItem.events = {
   'click #mark-as-read': function(e, t) {

@@ -69,14 +69,14 @@
   deleteLabel : function (repoId, labelName) {
     Meteor.call("loadAuth");
     labelObj = Labels.findOne({repo_id: repoId, name: labelName});
-    repoObj = Repos.findOne(labelObj.repo_id); 
+    repoObj = Repos.findOne(repoId); 
 
     parms = {
       user: repoObj.owner,
-      repo: repoObj.name,
+      owner: repoObj.owner,
+      repo: repoObj.name.toLowerCase(),
       name: labelObj.name
     }
-    
     github.issues.deleteLabel(parms, function(err, res) {
       if (err) {
         log(err);
@@ -91,7 +91,7 @@
     });
   },
 
-  // Synch our labels with github 
+  // Sync our labels with github 
   updateLabels: function(repoId) {
     // var accessToken = Meteor.users.findOne(this.userId).services.github.accessToken;
     var labels = Labels.find({dirty: true, repo_id: repoId}).fetch();

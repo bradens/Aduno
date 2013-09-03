@@ -206,9 +206,5 @@ WorkItemDialog = {
     }
     WorkItemDialog.renderWiLabels();
     WorkItemDialog.renderLabelLists();
-  },
-  addLink: function() {
-    // TODO @bradensimpson
-    alert("Not supported yet.  Add links by clicking the 'link' button.");
   }
 }

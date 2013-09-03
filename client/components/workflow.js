@@ -4,9 +4,11 @@
  * @author Braden Simpson (@bradensimpson)
  * 
  */
+
 Template.workflowMenu.getLabelPaneActive = function() {
   return (Session.get("STORY_VIEW") ? "" : "active");
 }
+
 Template.workflowMenu.getStoryPaneActive = function() {
   return (Session.get("STORY_VIEW") ? "active" : "");
 }
@@ -84,8 +86,7 @@ $(function() {
         workflow.showNotification({ 
           type: 'loading', 
           imageHtml: "", 
-          title: "Loading...", 
-          subtext: "Hang tight" 
+          title: "Loading..."
         });
       }
     };

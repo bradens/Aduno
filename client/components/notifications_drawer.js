@@ -1,6 +1,9 @@
 Template.NotificationsDrawer.unread = function() {
   return Notifications.find({unread: true});
 }
+Template.NotificationsDrawer.getTypeTitle = function() {
+  return NotificationsController.getTypeTitle(this);
+}
 Template.NotificationsDrawer.events = {
   'click .hide-notifications' : function() {
     var $drawer = $("#notifications-drawer");
@@ -9,6 +12,6 @@ Template.NotificationsDrawer.events = {
       right: parseInt($drawer.css('right'),10) == (-1 * $drawer.outerWidth()) ?
         0 :
         (-1 * $drawer.outerWidth())
-    });
+    }, 'fast');
   }
 }

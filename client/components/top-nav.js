@@ -37,7 +37,7 @@ Template.topNav.events = {
         right: parseInt($drawer.css('right'),10) == (-1 * $drawer.outerWidth()) ?
           0 :
           (-1 * $drawer.outerWidth())
-      });
+      }, 'fast');
     },
     'keyup #repo-search-input': function(e) {
       var value = e.target.value;

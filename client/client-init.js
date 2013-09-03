@@ -65,11 +65,6 @@ Meteor.startup(function() {
       }
     }
   });
-  // WorkItems.find().observeChanges({
-  //   changed: function(id, item){
-  //     Meteor.call("extractLinksFromWorkItem", id);
-  //   }
-  // })
   WorkItems.find().observe({
     added: function(item) {
       if (item.left == -1 && item.top == -1) {

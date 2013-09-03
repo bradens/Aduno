@@ -17,6 +17,14 @@
                 <li><span class="loadingUser">Loading</span></li>
               {{else}}
                 {{#if currentUser}}
+                  <li class="dropdown" id="repo-select-dd-wrapper">
+                    <a class="dropdown-toggle" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      {{#each currentRepos }}
+                        {{> currentRepo }}
+                      {{/each}}
+                    </ul>
+                  </li>
                   <li class="dropdown" id="notifications-dd-wrapper">
                     <a id="notifications-dd-btn" class="dropdown-toggle" href="#">
                     <span class="notification-count-wrapper"><i class="icon-flag"></i>
@@ -36,14 +44,6 @@
                           <a id="view-notifications" class="btn">All notifications</a>
                         </div>
                       {{/if}}
-                    </ul>
-                  </li>
-                  <li class="dropdown" id="repo-select-dd-wrapper">
-                    <a class="dropdown-toggle" href="#"><i class="icon-th-large"></i> {{ currentRepoName }}<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      {{#each currentRepos }}
-                        {{> currentRepo }}
-                      {{/each}}
                     </ul>
                   </li>
                   <li class="dropdown">
